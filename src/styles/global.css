@@ -1,0 +1,363 @@
+/* src/styles/global.css — base resets + body styles + primitives
+ * Realization of DESIGN.md §6 (Small Primitives) + base body styles.
+ */
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex: 1;
+  /* Nav is fixed/transparent-until-scroll (Nav.astro) — reserve its height
+     here so page content doesn't render underneath it. Pages that want the
+     nav to float over their own hero art (e.g. the home page) opt out. */
+  padding-top: var(--nav-h);
+}
+main.main--overlay-nav {
+  padding-top: 0;
+}
+a { color: var(--text-primary); }
+img { max-width: 100%; display: block; }
+/* L tier of the copy scale (var(--copy-lg)) is meant to be the default
+ * reading size — it wasn't actually wired to <p> anywhere before this, so
+ * plain paragraphs were silently falling back to the 16px browser default
+ * instead of the documented 18/20px body size. */
+p { font-size: var(--copy-lg); }
+
+/* Headings — Geist (--font-headings), the full h1–h6 range, BIS convention
+ * (tight letter spacing, weight 500 stepping down to 400 at h5 — one step
+ * thinner across the board than the original 600/500).
+ * Averia is a separate concept: the display face for special occasions,
+ * opted into explicitly with .display — h1/h2/h3 only. h4/h5/h6 can never
+ * render in Averia, even if .display gets added by mistake (guard below,
+ * wins on specificity — h4.display beats .display alone). */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headings);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5em;
+  line-height: var(--leading-heading);
+}
+h1 { font-size: clamp(2.25rem, 4.5vw, var(--text-4xl)); letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.75rem, 3vw, var(--text-2xl)); letter-spacing: -0.015em; }
+h3 { font-size: clamp(1.5rem, 2.4vw, var(--text-xl)); }
+h4 { font-size: var(--text-lg); }
+h5 { font-size: var(--text-md); font-weight: 400; }
+/* h6 sits below body size — weight + caps + tracking carry the "this is a
+ * heading" signal instead of size, same move as .eyebrow elsewhere. */
+h6 {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+h4.display, h5.display, h6.display {
+  font-family: var(--font-headings);
+  font-weight: 500;
+  line-height: var(--leading-heading);
+}
+
+/* Eyebrow / Label (BIS pattern — mono caps + tracking). .eyebrow is the
+ * default (large) label size; .eyebrow--sm is the smaller tier for tighter
+ * UI contexts (dense tables, timestamps, micro-metadata). */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+.eyebrow--sm {
+  font-size: var(--text-2xs);
+  letter-spacing: 0.08em;
+}
+
+/* §6.1 BUTTON */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+  font-family: var(--sans);
+  font-size: var(--text-base);
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.btn[disabled], .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* Primary button runs on --btn-primary-* tokens, not raw --umber — a
+ * deliberate split from the brand accent (kept quieter/neutral for the
+ * everyday "do the thing" action) AND from any single surface, since
+ * .on-dark below repoints these same tokens to flip the button for a
+ * dark context with no change here. */
+.btn--primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+}
+.btn--primary:hover:not(:disabled) {
+  background: var(--btn-primary-bg-hover);
+}
+.btn--primary:active:not(:disabled) {
+  background: var(--btn-primary-bg-active);
+}
+.btn--secondary {
+  background: var(--surface-1);
+  color: var(--text-primary);
+  border-color: var(--border-default);
+}
+.btn--secondary:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+.btn--secondary:active:not(:disabled) {
+  background: var(--surface-2);
+  border-color: var(--text-primary);
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--text-primary);
+}
+.btn--ghost:hover:not(:disabled) {
+  background: var(--surface-1);
+}
+.btn--ghost:active:not(:disabled) {
+  background: var(--surface-2);
+}
+
+/* .btn__label wraps the slotted content (text + optional icon-left/
+ * icon-right slots) so icons sit inline with a consistent gap. */
+.btn__label { display: inline-flex; align-items: center; gap: 0.5em; }
+
+/* Size modifiers — .btn with no size class is medium (var(--text-base)),
+ * unchanged default. Added because every real button on the site was
+ * rendering at the same size regardless of context. */
+.btn--lg { font-size: var(--text-md); padding: var(--space-3) var(--space-6); }
+.btn--sm { font-size: var(--text-sm); padding: var(--space-1) var(--space-3); }
+
+/* FAB — icon-only, circular. No text label; pair with the ariaLabel prop
+ * on Button.astro. Sizes follow the same sm/md/lg modifiers as everything
+ * else, just changing the diameter instead of padding. */
+.btn--fab {
+  flex: none;
+  padding: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-full);
+  font-size: var(--text-md);
+}
+.btn--fab.btn--sm { width: 2.25rem; height: 2.25rem; font-size: var(--text-sm); }
+.btn--fab.btn--lg { width: 3.25rem; height: 3.25rem; font-size: var(--text-lg); }
+
+/* §6.2 INPUT */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.field__label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.field__input {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text-primary);
+  font-size: var(--text-base);
+  font-family: var(--sans);
+  transition: border-color var(--t-fast);
+}
+.field__input:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 0;
+  border-color: var(--primary);
+}
+.field__hint { font-size: var(--text-sm); color: var(--text-muted); }
+.field--error .field__input { border-color: var(--danger); }
+.field__error { font-size: var(--text-sm); color: var(--danger); }
+
+/* §6.3 CARD */
+.card {
+  background: var(--surface-1);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  transition: border-color var(--t-fast), background-color var(--t-fast);
+  display: flex;
+  flex-direction: column;
+}
+.card:hover {
+  border-color: var(--border-default);
+}
+.card__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+.card__body {
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+}
+.card__title {
+  font-family: var(--font-headings);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: var(--leading-heading);
+  margin: 0;
+}
+.card__text {
+  font-size: var(--copy-md);
+  color: var(--text-muted);
+  line-height: var(--leading-body);
+  flex: 1;
+}
+.card__action {
+  font-size: var(--text-sm);
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: none;
+  margin-top: auto;
+}
+.card__action:hover { text-decoration: underline; }
+
+/* §6.4 LINK */
+.link {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--t-fast);
+}
+.link:hover { color: var(--primary-hover); }
+.link:visited { color: color-mix(in srgb, var(--primary) 70%, var(--text-primary)); }
+.link--external::after {
+  content: " ↗";
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+/* §6.5 BADGE */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+.badge--success { background: var(--success); color: var(--success-foreground); border-color: var(--success); }
+.badge--warning { background: var(--warning); color: var(--warning-foreground); border-color: var(--warning); }
+.badge--danger  { background: var(--danger);  color: var(--danger-foreground);  border-color: var(--danger); }
+.badge--info    { background: var(--info);    color: var(--info-foreground);    border-color: var(--info); }
+
+/* Display — Averia/Fraunces hero face per active theme. Special-occasion
+ * use only: pair with h1/h2/h3 (or non-heading elements). Never h4+ — see
+ * the h4.display/h5.display/h6.display guard above. */
+.display {
+  font-family: var(--serif);
+  font-weight: var(--font-display-weight, 400);
+  line-height: var(--leading-display);
+  font-optical-sizing: auto;
+}
+
+/* Editorial helpers (BIS) — the 5-tier copy scale (reading prose, not
+ * headings or labels): XL .lede / L body default (no class needed) /
+ * M .copy-md / S .copy-sm / XS .copy-xs. See --copy-* in tokens.css. */
+
+/* XL — .lede is paragraph copy (taglines, intros), not a heading — it
+ * follows body text onto Geist, not Averia. Averia stays reserved for the
+ * h1–h3 .display case only. */
+.lede { font-family: var(--sans); font-size: var(--copy-xl); color: var(--text-muted); line-height: 1.5; }
+/* L — the default body/paragraph size (var(--copy-lg), 20px) needs no class;
+ * it's what <p> renders at already via var(--text-base). */
+/* M — .copy-md: a step down from body for denser or secondary reading copy
+ * that still shouldn't drop all the way to .copy-sm. */
+.copy-md { font-family: var(--sans); font-size: var(--copy-md); color: var(--text-muted); line-height: var(--leading-body); }
+/* S — .copy-sm: small supporting copy: card body text, captions, secondary
+ * descriptions. Not to be confused with .eyebrow (mono, all-caps,
+ * label-sized) — this is still reading prose, just smaller and quieter.
+ * .card__text uses this sizing directly; reach for the class anywhere else
+ * that needs the same "secondary copy" register. */
+.copy-sm { font-family: var(--sans); font-size: var(--copy-sm); color: var(--text-muted); line-height: var(--leading-body); }
+/* XS — .copy-xs: the smallest size still meant to be read as prose (not a
+ * label). Fine print, dense metadata lines. */
+.copy-xs { font-family: var(--sans); font-size: var(--copy-xs); color: var(--text-muted); line-height: var(--leading-body); }
+.rule-umber { border: 0; border-top: 1px solid var(--umber); }
+.dashed { border: 0; border-top: 1px dashed var(--rule); }
+
+/* Numbered section eyebrows (iteration 4) — mono index in primary */
+.eyebrow__num { color: var(--primary); margin-right: 0.6em; }
+
+/* Sleekness pass (iteration 4) — hover, focus, reveal.
+ * Motion durations come from tokens.css and collapse to 0ms under
+ * prefers-reduced-motion, so everything below degrades gracefully. */
+a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.btn {
+  transition: background-color var(--t-fast), color var(--t-fast),
+              border-color var(--t-fast), translate var(--t-fast),
+              box-shadow var(--t-fast);
+}
+.btn:hover:not(:disabled) {
+  translate: 0 -1px;
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--umber, var(--text-primary)) 18%, transparent);
+}
+.btn:active:not(:disabled) {
+  translate: 0 0;
+  box-shadow: none;
+}
+.card {
+  transition: border-color var(--t-fast), background-color var(--t-fast),
+              translate var(--t-med), box-shadow var(--t-med);
+}
+.card:hover {
+  translate: 0 -2px;
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--umber, var(--text-primary)) 12%, transparent);
+}
+.card__text--clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+}
+
+/* Scroll reveal — the Layout script adds .reveal + .reveal--in; without JS
+ * neither class exists and content renders normally. */
+.reveal { transition: opacity var(--t-slow), translate var(--t-slow); }
+.reveal:not(.reveal--in) { opacity: 0; translate: 0 14px; }
+.reveal--in { opacity: 1; translate: 0 0; }

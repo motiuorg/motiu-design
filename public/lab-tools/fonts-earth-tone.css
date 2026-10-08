@@ -1,0 +1,44 @@
+/*
+ * Earth Tone — optional; used on fonts-compare.html (archive).
+ * Font Book: ~/Library/Fonts/EarthTone-*.ttf · or bundled woff2/ttf in fonts/earth-tone/
+ */
+@font-face {
+  font-family: 'Earth Tone';
+  src:
+    local('EarthTone-Light'),
+    local('Earth Tone Light'),
+    url('fonts/earth-tone/EarthTone-Light.woff2') format('woff2'),
+    url('fonts/earth-tone/EarthTone-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Earth Tone';
+  src:
+    local('EarthTone-Regular'),
+    local('Earth Tone'),
+    local('Earth Tone Regular'),
+    url('fonts/earth-tone/EarthTone-Regular.woff2') format('woff2'),
+    url('fonts/earth-tone/EarthTone-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Earth Tone';
+  src:
+    local('EarthTone-Bold'),
+    local('Earth Tone Bold'),
+    url('fonts/earth-tone/EarthTone-Bold.woff2') format('woff2'),
+    url('fonts/earth-tone/EarthTone-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-display-alt: 'Earth Tone', var(--font-body);
+}

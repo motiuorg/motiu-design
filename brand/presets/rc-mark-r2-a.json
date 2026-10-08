@@ -1,0 +1,11 @@
+{
+  "name": "rc-mark-r2-a",
+  "format": "mark",
+  "palette": "tissue",
+  "field": { "seed": 33, "count": 16 },
+  "fill": "ramp",
+  "fillOpacity": 0.14,
+  "cornerRadius": 40,
+  "padRatio": 0.05,
+  "notes": "territorial cells, corrected framing"
+}

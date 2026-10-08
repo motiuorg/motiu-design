@@ -1,0 +1,19 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+import Aurora from "../../components/Aurora.astro";
+---
+<LabShell title="Image styles" current="image-styles"
+  intro="Background/atmosphere treatments — currently just Aurora, the grainy pillar-tinted gradient field. Split out from Motifs since it's a fill/background style, not a drawn motif.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Aurora — grainy gradient field</h2>
+    <p>Pure CSS radial-gradient mesh + inline SVG fractal-noise grain, per pillar. Zero assets, zero client-JS.</p>
+    <p class="lab-source">Used in: TeamCard (visual header), ProjectCard + .case-card (imageless media fallback), PageHero (aurora-* motif)</p>
+    <div class="lab-motif-row">
+      <div class="lab-motif-box"><Aurora pillar="neural" opacity={0.8} /></div>
+      <div class="lab-motif-box"><Aurora pillar="tissue" opacity={0.8} /></div>
+      <div class="lab-motif-box"><Aurora pillar="flow" opacity={0.8} /></div>
+    </div>
+  </div>
+</LabShell>

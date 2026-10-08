@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="fonts-google.css">
+  <title>ReFi BCN — Motifs exploration</title>
+  <link rel="icon" href="assets/favicons.png">
+  <link rel="stylesheet" href="tokens.css">
+  <script src="preview-persist.js"></script>
+  <link rel="stylesheet" href="primitives.css">
+  <style>
+    .page {
+      max-width: var(--container-xl);
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-6);
+    }
+    .page__nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      padding-bottom: var(--space-6);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: var(--space-8);
+    }
+    .page__nav a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: var(--text-sm);
+    }
+    .page__nav a:hover { color: var(--primary); }
+    .intro {
+      color: var(--text-muted);
+      max-width: 72ch;
+      margin-bottom: var(--space-8);
+    }
+    .intro code { font-size: 0.9em; }
+
+    .motif-grid {
+      display: grid;
+      gap: var(--space-8);
+    }
+    .motif {
+      padding: var(--space-6);
+      background: var(--surface-1);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      scroll-margin-top: var(--space-6);
+    }
+    .motif__head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: var(--space-3) var(--space-5);
+      margin-bottom: var(--space-5);
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: var(--space-4);
+    }
+    .motif__title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    .motif__role {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      max-width: 52ch;
+    }
+    .motif__role strong { color: var(--text-primary); }
+    .motif-note {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      margin: 0 0 var(--space-5);
+      padding: var(--space-3) var(--space-4);
+      background: var(--surface-2);
+      border-radius: var(--radius-md);
+    }
+    .inspo {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+    .inspo figure {
+      margin: 0;
+    }
+    .inspo img,
+    .inspo picture {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg);
+    }
+    .inspo figcaption {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-top: var(--space-2);
+      line-height: 1.35;
+    }
+
+    .inspo img[src$=".svg"],
+    .inspo img[src*="tissues-svgs"] {
+      background: var(--pillar-tissue-light);
+    }
+
+    .motif-playground {
+      min-height: 14rem;
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--border-default);
+      background: var(--bg);
+      box-sizing: border-box;
+    }
+
+    /* Tissues — procedural: sidebar + large canvas */
+    .motif-playground--tissue-proc {
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .tissue-proc__layout {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: var(--space-6);
+    }
+    @media (max-width: 980px) {
+      .tissue-proc__layout {
+        flex-direction: column-reverse;
+      }
+      .tissue-proc__panel {
+        flex: unset;
+        width: 100%;
+        max-width: none !important;
+      }
+    }
+    .tissue-proc__panel {
+      flex: 0 1 300px;
+      max-width: 320px;
+      min-width: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .tissue-proc__toolbar {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-4);
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+    }
+    .tissue-proc__toolbar label {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-1);
+      white-space: normal;
+      line-height: var(--leading-body);
+    }
+    .tissue-proc__toolbar input[type='number'],
+    .tissue-proc__toolbar input[type='range'] {
+      accent-color: var(--primary);
+    }
+    .tissue-proc__hint {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin: 0;
+      max-width: none;
+    }
+    .tissue-proc__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+    .tissue-proc__stage {
+      flex: 1 1 auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      background: var(--bg);
+      min-height: min(560px, 55vh);
+      line-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #tissue-proc-canvas {
+      width: 100%;
+      height: auto;
+      max-height: min(760px, 78vh);
+      display: block;
+      vertical-align: top;
+      image-rendering: auto;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .tissue-proc__below-toolbar {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-3);
+    }
+    .tissue-proc__hotspots-panel {
+      flex: none;
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      background: var(--surface-2);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+    .tissue-proc__hotspots-heading {
+      margin: 0 0 var(--space-2);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+    #tissue-proc-hotspot-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      max-height: 12rem;
+      overflow: auto;
+    }
+    .tissue-proc__hotspot-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .tissue-proc__hotspot-row--selected .tissue-proc__hotspot-label {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .tissue-proc__hotspot-label {
+      flex: 1;
+      text-align: left;
+      padding: var(--space-1) var(--space-2);
+      font-size: var(--text-xs);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      background: var(--surface-1);
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .tissue-proc__hotspot-label:hover {
+      border-color: var(--border-default);
+      color: var(--text-primary);
+    }
+    .tissue-proc__hotspot-remove {
+      flex: 0 0 auto;
+      width: 1.75rem;
+      height: 1.75rem;
+      padding: 0;
+      line-height: 1;
+      font-size: 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--surface-1);
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .tissue-proc__hotspot-remove:hover {
+      color: var(--text-primary);
+      border-color: var(--border-default);
+    }
+
+    /* Tissues archive — clipped-texture experiments (parked approaches) */
+    .motif-archive--tissues {
+      margin-top: var(--space-5);
+      padding: var(--space-4);
+      border: 1px dashed var(--border-default);
+      border-radius: var(--radius-md);
+      background: var(--surface-2);
+    }
+    .motif-archive__title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin: 0 0 var(--space-2);
+    }
+    .motif-archive__lead {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      max-width: 74ch;
+      margin: 0 0 var(--space-5);
+      line-height: var(--leading-body);
+    }
+    .motif-archive__grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+    @media (max-width: 900px) {
+      .motif-archive__grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .motif-archive__figure {
+      margin: 0;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--pillar-tissue-light);
+    }
+    .motif-archive__figure svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+    }
+    .motif-archive__figure figcaption {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      padding: var(--space-2) var(--space-3);
+      border-top: 1px solid var(--border-subtle);
+      background: var(--surface-1);
+    }
+
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-4);
+      margin-bottom: var(--space-8);
+      font-size: var(--text-sm);
+    }
+    .toc a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .toc a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<main class="page">
+  <header class="page__nav">
+    <a href="index.html">Landing</a>
+    <a href="styles.html">Styles</a>
+    <a href="colors-compare.html">Colors</a>
+    <a href="fonts-compare.html">Fonts</a>
+    <a href="motifs-explore.html"><strong>Motifs</strong></a>
+    <a href="../DESIGN.md">DESIGN.md ↗</a>
+  </header>
+
+  <h1>Motifs exploration</h1>
+  <p class="intro">
+    Andrea — four visual-language motifs from your canon canvas. Each block has a short <strong>role</strong>, reference <strong>inspo</strong>, and (for tissues) a <strong>working area</strong> with seeded procedural previews plus an <strong>archive</strong> for parked experiments.
+    Inspo thumbnails load from <code>assets/motif-inspo/</code> (copies of the canon files under <code>projects/branding/*/…</code>) so they still work when you run <code>python3 -m http.server</code> from <code>preview/</code>; see <a class="link" href="assets/motif-inspo/README.md"><code>assets/motif-inspo/README.md</code></a> for the source map.
+    Context: <a class="link" href="phase0-decisions.md">phase0-decisions</a> · <a class="link" href="../DESIGN.md">DESIGN.md §5</a> (spec may still describe older roles — this page is the working view).
+  </p>
+
+  <nav class="toc" aria-label="Motif sections">
+    <a href="#symbiotic">Symbiotic Organism</a>
+    <a href="#tissues">Tissues</a>
+    <a href="#tissues-archive">Tissues archive</a>
+    <a href="#neural">Neural Networks</a>
+    <a href="#flows">Flows</a>
+  </nav>
+
+  <div class="motif-grid">
+    <article class="motif" id="symbiotic">
+      <div class="motif__head">
+        <h2 class="motif__title">Symbiotic Organism</h2>
+        <p class="motif__role">
+          <strong>Role:</strong> A composite motif — it brings <strong>Neural Networks</strong> (relational structure),
+          <strong>Flows</strong> (movement and rhythm), and <strong>Tissues</strong> (organic, layered surface) together as one symbiotic whole.
+        </p>
+      </div>
+      <p class="motif-note">
+        Think “single living visual” that reads as network + motion + soft organic matter at once, not three separate decorations.
+      </p>
+      <div class="inspo">
+        <figure>
+          <img src="assets/motif-inspo/symbiotic-65342e84.jpg" alt="Symbiotic organism reference — head profile with inner ecosystem" loading="lazy" width="400" height="400">
+          <figcaption><code>symbiotic-organism/65342e84…jpg</code></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/motif-inspo/symbiotic-c977990b.jpg" alt="Symbiotic organism reference — stippled organic cluster" loading="lazy" width="400" height="400">
+          <figcaption><code>symbiotic-organism/c977990b…jpg</code></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/motif-inspo/symbiotic-pasted-20260520105131.png" alt="Symbiotic organism reference — graphic plate" loading="lazy" width="400" height="400">
+          <figcaption><code>symbiotic-organism/Pasted image 20260520105131.png</code></figcaption>
+        </figure>
+      </div>
+      <div class="motif-playground" id="playground-symbiotic" aria-label="Symbiotic Organism — add SVG shapes here"></div>
+    </article>
+
+    <article class="motif" id="tissues">
+      <div class="motif__head">
+        <h2 class="motif__title">Tissues</h2>
+        <p class="motif__role"><strong>Role:</strong> Organic, low-contrast texture and layering — soft surfaces, membranes, depth without hard geometry.</p>
+      </div>
+      <p class="motif-note">
+        Supportive background language; pairs with the network and flow reads inside the symbiotic composite.
+      </p>
+      <div class="inspo">
+        <figure>
+          <img src="assets/motif-inspo/tissues-2643eed4.jpg" alt="Tissues reference — pixelated organic vector texture" loading="lazy" width="400" height="400">
+          <figcaption><code>tissues/2643eed4…jpg</code></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/motif-inspo/tissues-df3c2bff.jpg" alt="Tissues reference — microscopic cellular cross-section" loading="lazy" width="400" height="400">
+          <figcaption><code>tissues/df3c2bff…jpg</code></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/tissues-svgs/tissue-explore-1.svg" alt="Tissue vector export 1" loading="lazy" width="850" height="850" decoding="async">
+          <figcaption>SVG · <code>tissues/image 1.svg</code></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/tissues-svgs/tissue-explore-2.svg" alt="Tissue vector export 2" loading="lazy" width="850" height="850" decoding="async">
+          <figcaption>SVG · <code>tissues/image 2.svg</code></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/tissues-svgs/tissue-explore-3.svg" alt="Tissue vector export 3" loading="lazy" width="850" height="850" decoding="async">
+          <figcaption>SVG · <code>tissues/image 3.svg</code></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/tissues-svgs/tissue-explore-4.svg" alt="Tissue vector export 4" loading="lazy" width="850" height="850" decoding="async">
+          <figcaption>SVG · <code>tissues/image 4.svg</code></figcaption>
+        </figure>
+      </div>
+
+      <div class="motif-playground motif-playground--tissue-proc" id="playground-tissues" aria-label="Tissues — procedural generator">
+        <div class="tissue-proc__layout">
+          <div class="tissue-proc__panel">
+            <div class="tissue-proc__toolbar">
+          <label title="Deterministic RNG seed">
+            Seed
+            <input type="number" id="tissue-proc-seed" value="20260520" step="1" min="1" />
+          </label>
+          <label title="Baseline grid — large parcels away from hotspots">
+            Baseline cells
+            <input type="range" id="tissue-proc-cols" min="5" max="20" value="10" />
+            <span id="tissue-proc-cols-val" aria-hidden="true">10</span>
+          </label>
+          <label title="Stroke width of interior cell walls">
+            Wall weight
+            <input type="range" id="tissue-proc-wall" min="0.4" max="3.2" step="0.1" value="1.2" />
+            <span id="tissue-proc-wall-val" aria-hidden="true">1.2</span>
+          </label>
+          <label title="Jitter within baseline grid cell">
+            Scatter
+            <input type="range" id="tissue-proc-jitter" min="10" max="55" value="38" />
+            <span id="tissue-proc-jitter-val" aria-hidden="true">38</span>
+          </label>
+          <label title="Extra sites with 2D Gaussian around each hotspot — small cells near centers, large cells far away">
+            Micro-sites
+            <input type="range" id="tissue-proc-fine" min="0" max="600" value="280" />
+            <span id="tissue-proc-fine-val" aria-hidden="true">280</span>
+          </label>
+          <label title="How strongly hotspots pack small cells in gaps (not a mask)">
+            Hotspot density
+            <input type="range" id="tissue-proc-density" min="0" max="100" value="58" />
+            <span id="tissue-proc-density-val" aria-hidden="true">58</span>
+          </label>
+          <label title="Size of large lumens around hotspots — suppresses grid sites in that zone">
+            Macro lumens
+            <input type="range" id="tissue-proc-macro" min="0" max="100" value="52" />
+            <span id="tissue-proc-macro-val" aria-hidden="true">52</span>
+          </label>
+          <label title="Gaussian σ for micro-site scatter in dense bands">
+            Micro-site σ
+            <input type="range" id="tissue-proc-sigma" min="10" max="120" value="42" />
+            <span id="tissue-proc-sigma-val" aria-hidden="true">42px</span>
+          </label>
+          <label title="How far the tissue grows from hotspots across the mesh (whole cells only)">
+            Patch size
+            <input type="range" id="tissue-proc-patch" min="0" max="100" value="48" />
+            <span id="tissue-proc-patch-val" aria-hidden="true">48</span>
+          </label>
+          <label title="Extra stroke on exposed outer mesh edges (where cells meet paper)">
+            Perimeter rim
+            <input type="range" id="tissue-proc-rim" min="0.5" max="3.5" step="0.05" value="1.65" />
+            <span id="tissue-proc-rim-val" aria-hidden="true">1.65</span>
+          </label>
+          <label title="Wobbly boundaries and varying line weight along edges (seeded noise)">
+            Edge organicness
+            <input type="range" id="tissue-proc-organic" min="0" max="100" value="35" />
+            <span id="tissue-proc-organic-val" aria-hidden="true">35</span>
+          </label>
+          <div class="tissue-proc__actions">
+            <button type="button" class="btn btn--secondary" id="tissue-proc-draw">Regenerate</button>
+            <button type="button" class="btn btn--ghost" id="tissue-proc-random">Random seed</button>
+            <button type="button" class="btn btn--ghost" id="tissue-proc-clear-centers">Reset hotspots</button>
+          </div>
+        </div>
+        <div class="tissue-proc__below-toolbar">
+          <div>
+            <p class="tissue-proc__hint" id="tissue-proc-centers-hint"></p>
+            <p class="motif-note" style="margin: 0; max-width: 72ch;">
+              <strong>Polygon mesh:</strong> Voronoi cells filled as lumens; walls stroked on mesh edges. Hotspots seed <strong>macro lumens</strong> + growth; patch extent = BFS on the cell graph (no hull mask). Outer boundary = exposed facets only. <strong>Click</strong> add hotspot · <strong>drag</strong> move · <strong>Shift+click</strong> remove. Colors from <a class="link" href="colors-compare.html">Colors</a>.
+            </p>
+          </div>
+          <aside class="tissue-proc__hotspots-panel" aria-label="Hotspot list">
+            <h3 class="tissue-proc__hotspots-heading">Hotspots</h3>
+            <div id="tissue-proc-hotspot-list"></div>
+          </aside>
+        </div>
+          </div>
+        <div class="tissue-proc__stage">
+          <canvas id="tissue-proc-canvas" width="640" height="640"></canvas>
+        </div>
+        </div>
+      </div>
+
+      <section id="tissues-archive" class="motif-archive motif-archive--tissues" aria-labelledby="tissues-archive-heading">
+        <h3 class="motif-archive__title" id="tissues-archive-heading">Archive — clipped texture blobs</h3>
+        <p class="motif-archive__lead">
+          Parked idea: rasterized texture inside <code>&lt;clipPath&gt;</code> blobs. Not the current direction — kept here for comparison. Single asset for production → merge clip + art in Illustrator/Figma.
+        </p>
+        <div class="motif-archive__grid">
+          <figure class="motif-archive__figure">
+            <svg viewBox="0 0 100 100" role="img" aria-label="Tissue texture 1 clipped to silhouette A (archive)" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <clipPath id="tissue-archive-silhouette-a" clipPathUnits="userSpaceOnUse">
+                  <path d="M18,52 C22,28 44,18 58,22 C78,26 88,42 86,62 C84,82 62,94 42,88 C26,84 14,72 18,52 Z" />
+                </clipPath>
+              </defs>
+              <rect width="100" height="100" fill="var(--pillar-tissue-light)" />
+              <g clip-path="url(#tissue-archive-silhouette-a)">
+                <image
+                  href="assets/tissues-svgs/tissue-explore-1.svg"
+                  x="0"
+                  y="0"
+                  width="100"
+                  height="100"
+                  preserveAspectRatio="xMidYMid slice"
+                />
+              </g>
+              <path
+                d="M18,52 C22,28 44,18 58,22 C78,26 88,42 86,62 C84,82 62,94 42,88 C26,84 14,72 18,52 Z"
+                fill="none"
+                stroke="var(--pillar-tissue-mid)"
+                stroke-opacity="0.4"
+                stroke-width="0.65"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+            <figcaption>Archive · <code>image 1.svg</code> · silhouette A</figcaption>
+          </figure>
+          <figure class="motif-archive__figure">
+            <svg viewBox="0 0 100 100" role="img" aria-label="Tissue texture 2 clipped to silhouette B (archive)" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <clipPath id="tissue-archive-silhouette-b" clipPathUnits="userSpaceOnUse">
+                  <path d="M48,12 C72,16 86,40 82,60 C78,82 56,92 36,88 C20,84 12,64 20,44 C26,28 38,14 48,12 Z" />
+                </clipPath>
+              </defs>
+              <rect width="100" height="100" fill="var(--pillar-tissue-light)" />
+              <g clip-path="url(#tissue-archive-silhouette-b)">
+                <image
+                  href="assets/tissues-svgs/tissue-explore-2.svg"
+                  x="-8"
+                  y="-4"
+                  width="116"
+                  height="108"
+                  preserveAspectRatio="xMidYMid slice"
+                />
+              </g>
+              <path
+                d="M48,12 C72,16 86,40 82,60 C78,82 56,92 36,88 C20,84 12,64 20,44 C26,28 38,14 48,12 Z"
+                fill="none"
+                stroke="var(--pillar-tissue-mid)"
+                stroke-opacity="0.35"
+                stroke-width="0.65"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+            <figcaption>Archive · <code>image 2.svg</code> · silhouette B</figcaption>
+          </figure>
+          <figure class="motif-archive__figure">
+            <svg viewBox="0 0 100 100" role="img" aria-label="Tissue texture 3 clipped to silhouette C (archive)" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <clipPath id="tissue-archive-silhouette-c" clipPathUnits="userSpaceOnUse">
+                  <path d="M15,50 C15,25 40,15 65,22 C90,28 92,58 72,76 C52,94 35,92 26,74 C18,58 15,55 15,50 Z" />
+                </clipPath>
+              </defs>
+              <rect width="100" height="100" fill="var(--pillar-tissue-light)" />
+              <g clip-path="url(#tissue-archive-silhouette-c)">
+                <image
+                  href="assets/tissues-svgs/tissue-explore-3.svg"
+                  x="-10"
+                  y="0"
+                  width="118"
+                  height="106"
+                  preserveAspectRatio="xMidYMid slice"
+                />
+              </g>
+              <path
+                d="M15,50 C15,25 40,15 65,22 C90,28 92,58 72,76 C52,94 35,92 26,74 C18,58 15,55 15,50 Z"
+                fill="none"
+                stroke="var(--pillar-tissue-mid)"
+                stroke-opacity="0.35"
+                stroke-width="0.65"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+            <figcaption>Archive · <code>image 3.svg</code> · silhouette C</figcaption>
+          </figure>
+        </div>
+      </section>
+    </article>
+
+    <article class="motif" id="neural">
+      <div class="motif__head">
+        <h2 class="motif__title">Neural Networks</h2>
+        <p class="motif__role"><strong>Role:</strong> Relational structure — nodes, edges, graphs, “who connects to whom” at a glance.</p>
+      </div>
+      <p class="motif-note">
+        Illustration and data-viz language for maps and dashboards; one ingredient inside the symbiotic composite.
+      </p>
+      <div class="inspo">
+        <figure>
+          <img src="assets/motif-inspo/neural-0390e720.jpg" alt="Neural networks reference — circular branching dendritic structure" loading="lazy" width="400" height="400">
+          <figcaption><code>neural-networks/0390e720…jpg</code></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/motif-inspo/neural-28199aca.jpg" alt="Neural networks reference — network graph with motion echoes" loading="lazy" width="400" height="400">
+          <figcaption><code>neural-networks/28199aca…jpg</code></figcaption>
+        </figure>
+      </div>
+      <div class="motif-playground" id="playground-neural" aria-label="Neural Networks — add SVG shapes here"></div>
+    </article>
+
+    <article class="motif" id="flows">
+      <div class="motif__head">
+        <h2 class="motif__title">Flows</h2>
+        <p class="motif__role"><strong>Role:</strong> Movement and rhythm — direction, transition, breath between regions; implied or animated motion over time.</p>
+      </div>
+      <p class="motif-note">
+        Section-to-section energy, not a static fill; another ingredient inside the symbiotic composite.
+      </p>
+      <div class="inspo">
+        <figure>
+          <img src="assets/motif-inspo/flows-2f28c74f.gif" alt="Flows reference — animated motion loops" loading="lazy" width="400" height="280">
+          <figcaption><code>flows/2f28c74f…gif</code></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/motif-inspo/flows-e08a705c.jpg" alt="Flows reference — river delta branching from above" loading="lazy" width="400" height="400">
+          <figcaption><code>flows/e08a705c…jpg</code></figcaption>
+        </figure>
+      </div>
+      <div class="motif-playground" id="playground-flows" aria-label="Flows — add SVG shapes here"></div>
+    </article>
+  </div>
+</main>
+<script src="tissue-procedural.js"></script>
+</body>
+</html>

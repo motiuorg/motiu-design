@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="fonts-google.css">
+  <title>motiu — Colors</title>
+  <link rel="stylesheet" href="tokens.css">
+  <script src="preview-persist.js"></script>
+  <link rel="stylesheet" href="primitives.css">
+  <style>
+    .page {
+      max-width: var(--container-xl);
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-6);
+    }
+    .page__nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      padding-bottom: var(--space-6);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: var(--space-8);
+    }
+    .page__nav a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: var(--text-sm);
+    }
+    .page__nav a:hover { color: var(--primary); }
+    .intro {
+      color: var(--text-muted);
+      max-width: 72ch;
+      margin-bottom: var(--space-6);
+    }
+    .intro ul {
+      margin: var(--space-3) 0 0;
+      padding-left: 1.25rem;
+    }
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .section__title {
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-2);
+    }
+    .section__lead {
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+      max-width: 65ch;
+      margin-bottom: var(--space-6);
+    }
+
+    .palette-refs {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+    .palette-ref {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      background: var(--surface-1);
+      overflow: hidden;
+    }
+    .palette-ref__inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .palette-ref__inner--with-image-open {
+      grid-template-columns: 1fr minmax(200px, 280px);
+    }
+    @media (max-width: 720px) {
+      .palette-ref__inner--with-image-open {
+        grid-template-columns: 1fr;
+      }
+    }
+    .palette-ref__body {
+      padding: var(--space-5);
+    }
+    .palette-ref__head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+    .palette-ref__head h3 {
+      margin: 0;
+      font-size: var(--text-md);
+    }
+    .palette-ref__toggle {
+      font-family: var(--font-body);
+      font-size: var(--text-xs);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-default);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .palette-ref__toggle:hover {
+      color: var(--text-primary);
+      border-color: var(--primary);
+    }
+    .palette-ref__source {
+      border-left: 1px solid var(--border-subtle);
+      background: var(--bg);
+      padding: var(--space-3);
+    }
+    .palette-ref__source[hidden] { display: none; }
+    .palette-ref__source img {
+      width: 100%;
+      display: block;
+      border-radius: var(--radius-sm);
+      object-fit: contain;
+      max-height: 420px;
+    }
+    .palette-ref__source figcaption {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-top: var(--space-2);
+    }
+    .ref-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    .ref-chip {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      padding: var(--space-1) var(--space-2);
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+    }
+    .ref-chip__swatch {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      flex-shrink: 0;
+    }
+    .style-vocab {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4) var(--space-6);
+      align-items: start;
+    }
+    @media (max-width: 640px) {
+      .style-vocab { grid-template-columns: 1fr; }
+    }
+    .style-vocab__group {
+      margin-bottom: 0;
+    }
+    .style-vocab__group h5 {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin: 0 0 var(--space-2);
+    }
+    .style-vocab__grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+    .style-chip {
+      width: 3.25rem;
+      text-align: center;
+    }
+    .style-chip__color {
+      height: 2.5rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid color-mix(in srgb, var(--paper-900) 12%, transparent);
+    }
+    .style-chip__label {
+      display: block;
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      margin-top: var(--space-1);
+      line-height: 1.2;
+    }
+    .style-chip__hex {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.5625rem;
+      color: var(--text-muted);
+      opacity: 0.85;
+    }
+    .palette-ref__sub {
+      margin-top: var(--space-5);
+      padding-top: var(--space-5);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .palette-ref__sub .palette-ref__head h4 {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: 600;
+    }
+
+    .swatch-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--space-4);
+    }
+    .swatch-edit {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--surface-1);
+    }
+    .swatch-edit__chip {
+      height: 4rem;
+      background: var(--swatch, #ccc);
+    }
+    .swatch-edit__meta {
+      padding: var(--space-3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .swatch-edit__meta strong {
+      font-size: var(--text-xs);
+      font-family: var(--font-mono);
+    }
+    .swatch-edit__meta span {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+    .swatch-edit input[type="color"] {
+      width: 100%;
+      height: 2rem;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .pillar-columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .pillar-columns { grid-template-columns: 1fr; }
+    }
+    .pillar-column__head {
+      margin-bottom: var(--space-4);
+    }
+    .pillar-column__head h3 {
+      margin: 0 0 var(--space-1);
+      font-size: var(--text-lg);
+    }
+    .pillar-column__head p {
+      margin: 0;
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+    }
+    .pillar-column__layout {
+      display: grid;
+      grid-template-columns: 1fr 3.5rem;
+      gap: var(--space-3);
+      min-height: 12rem;
+    }
+    .pillar-swatch-stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .pillar-swatch-bar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: var(--space-2);
+      min-height: 2.75rem;
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      border: 1px solid color-mix(in srgb, var(--paper-900) 10%, transparent);
+    }
+    .pillar-swatch-bar__text strong {
+      display: block;
+      font-size: var(--text-xs);
+      font-family: var(--font-mono);
+    }
+    .pillar-swatch-bar__text span {
+      font-size: 0.625rem;
+      opacity: 0.85;
+    }
+    .pillar-swatch-bar__text code {
+      display: block;
+      font-size: 0.625rem;
+      font-family: var(--font-mono);
+      margin-top: 0.125rem;
+      opacity: 0.9;
+    }
+    .pillar-swatch-bar input[type="color"] {
+      width: 2.25rem;
+      height: 1.75rem;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      background: transparent;
+      flex-shrink: 0;
+    }
+    .pillar-gradient-bar {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      min-height: 100%;
+    }
+
+    .lib-scales {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .lib-scale__row {
+      display: grid;
+      grid-template-columns: 7rem repeat(6, 1fr);
+      gap: var(--space-2);
+      align-items: stretch;
+    }
+    @media (max-width: 900px) {
+      .lib-scale__row {
+        grid-template-columns: 6rem repeat(6, minmax(2.5rem, 1fr));
+      }
+    }
+    .lib-scale__label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-2);
+      padding-right: var(--space-3);
+      min-width: 0;
+    }
+    .lib-scale__slug {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      font-family: var(--font-mono);
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+    .lib-scale__name {
+      font-size: 0.625rem;
+      font-weight: 400;
+      font-family: var(--font-body);
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .lib-scale__head {
+      display: grid;
+      grid-template-columns: 7rem repeat(6, 1fr);
+      gap: var(--space-2);
+      margin-bottom: var(--space-1);
+    }
+    @media (max-width: 900px) {
+      .lib-scale__head {
+        grid-template-columns: 6rem repeat(6, minmax(2.5rem, 1fr));
+      }
+    }
+    .lib-scale__head span {
+      font-size: 0.625rem;
+      font-weight: 600;
+      text-align: center;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+    .lib-scale__cell {
+      border-radius: var(--radius-sm);
+      padding: var(--space-2);
+      min-height: 3.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      font-size: 0.5625rem;
+      font-family: var(--font-mono);
+      line-height: 1.25;
+      border: 1px solid color-mix(in srgb, var(--paper-900) 8%, transparent);
+    }
+    .lib-scale__cell strong {
+      font-size: 0.5625rem;
+      font-weight: 600;
+    }
+    .lib-scale__cell--anchor strong {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .lib-scale__cell--editable {
+      position: relative;
+    }
+    .lib-scale__cell input[type="color"] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+
+    .ui-preview {
+      margin-top: var(--space-8);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+    .ui-preview__hero {
+      padding: var(--space-10) var(--space-8);
+      background: var(--bg);
+    }
+    .ui-preview__hero .display {
+      font-size: var(--text-3xl);
+      margin-bottom: var(--space-3);
+    }
+    .ui-preview__hero p {
+      color: var(--text-muted);
+      max-width: 42ch;
+      margin-bottom: var(--space-6);
+    }
+    .ui-preview__badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+      max-width: 42ch;
+    }
+    .pillar-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-pill);
+    }
+    .pillar-badge--tissue {
+      background: var(--pillar-tissue-light);
+      color: var(--pillar-tissue-dark);
+    }
+    .pillar-badge--neural {
+      background: var(--pillar-neural-light);
+      color: var(--pillar-neural-dark);
+    }
+    .pillar-badge--flow {
+      background: var(--pillar-flow-light);
+      color: var(--pillar-flow-dark);
+    }
+    .ui-preview__pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    @media (max-width: 700px) {
+      .ui-preview__pillars { grid-template-columns: 1fr; }
+    }
+    .ui-preview__pillar {
+      padding: var(--space-6);
+      min-height: 5.5rem;
+    }
+    .ui-preview__pillar h4 {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 var(--space-2);
+    }
+    .ui-preview__pillar p {
+      font-size: var(--text-sm);
+      margin: 0;
+      opacity: 0.92;
+    }
+
+    .paper-toolbar,
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-6);
+    }
+    .toolbar .btn--secondary,
+    .paper-toolbar .btn--secondary {
+      font-size: var(--text-sm);
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+<main class="page">
+
+  <header class="page__nav">
+    <a href="index.html">Landing</a>
+    <a href="styles.html">Styles</a>
+    <a href="colors-compare.html"><strong>Colors</strong></a>
+    <a href="fonts-compare.html">Fonts</a>
+    <a href="motifs-explore.html">Motifs</a>
+    <a href="../DESIGN.md">DESIGN.md ↗</a>
+  </header>
+
+  <h1>§2 Color — pick &amp; tune</h1>
+  <p class="intro">
+    Broad, flexible palette for many surfaces and complex data — still recognizably motiu.
+    Your canvas brief structures it in three layers:
+    <ul>
+      <li><strong>Paper neutrals</strong> — soft backgrounds and text</li>
+      <li><strong>Three pillar ranges</strong> — four steps each for Neural Networks, Tissues, and Flows</li>
+      <li><strong>Color library</strong> — extra hues for UI and data visualizations</li>
+    </ul>
+    Use the color inputs below; changes auto-save and apply on all preview pages after refresh. Copy blocks for <code>tokens.css</code> when ready.
+  </p>
+
+  <section class="section">
+    <h2 class="section__title">Palette references</h2>
+    <p class="section__lead">Inspiration gathered as a whole — not a menu of mutually exclusive options. Pull from these when tuning pillars and the library below. Source images are optional (hidden by default).</p>
+    <div class="palette-refs" id="palette-refs"></div>
+  </section>
+
+  <section class="section" id="s21">
+    <h2 class="section__title">§2.1 Paper neutrals</h2>
+    <p class="section__lead">
+      Tune with the pickers below — saves to this browser only. When happy, <strong>Download colors-locked.json</strong> + run the apply script (see footer), or use <strong>Copy paper block</strong>.
+    </p>
+    <div class="swatch-row" id="neutrals"></div>
+    <div class="paper-toolbar">
+      <button type="button" class="btn btn--secondary" id="save-paper">Copy paper block for tokens.css</button>
+    </div>
+  </section>
+
+  <section class="section" id="s22">
+    <h2 class="section__title">§2.2 Pillar color ranges</h2>
+    <p class="section__lead">
+      Three pillars side by side — four editable steps each (lightest → deepest) plus a vertical gradient preview.
+      Tune against the palette references above. Picks save to this browser only until you export.
+    </p>
+    <div class="pillar-columns" id="pillar-columns"></div>
+    <div class="paper-toolbar">
+      <button type="button" class="btn btn--secondary" id="save-pillar">Copy pillar block for tokens.css</button>
+    </div>
+  </section>
+
+  <section class="section" id="s23">
+    <h2 class="section__title">§2.3 Color library</h2>
+    <p class="section__lead">Six steps per hue (Tint → Shade). Only <strong>Core</strong> (step 4) is editable and maps to <code>tokens.css</code>; lighter and darker stops are mixed from each family’s tint and shade anchors. Tune against the palette references above — not locked to any single source.</p>
+    <div class="lib-scale__head" id="lib-scale-head"></div>
+    <div class="lib-scales" id="library-scales"></div>
+  </section>
+
+  <section class="section">
+    <h2 class="section__title">Live preview</h2>
+    <p class="section__lead">How neutrals + pillar gradients read together on a simple page strip.</p>
+    <div class="ui-preview">
+      <div class="ui-preview__hero">
+        <p class="display">Infrastructure for territorial regeneration</p>
+        <div class="ui-preview__badges" aria-label="What we do">
+          <span class="pillar-badge pillar-badge--tissue">Network coordination</span>
+          <span class="pillar-badge pillar-badge--neural">Collective intelligence</span>
+          <span class="pillar-badge pillar-badge--flow">Regenerative finance</span>
+        </div>
+        <p>Regeneration that doesn't reach the economic and social roots doesn't last. We build the coordination, shared knowledge, and financial architecture that let networks act coherently across their territory.</p>
+        <button type="button" class="btn btn--primary">Contact us</button>
+      </div>
+      <div class="ui-preview__pillars">
+        <div class="ui-preview__pillar" id="preview-tissue">
+          <h4>Tissues</h4>
+          <p>Organic texture, section backgrounds</p>
+        </div>
+        <div class="ui-preview__pillar" id="preview-neural">
+          <h4>Neural Networks</h4>
+          <p>Data, maps, ecosystem graphs</p>
+        </div>
+        <div class="ui-preview__pillar" id="preview-flow">
+          <h4>Flows</h4>
+          <p>Motion, transitions, CTAs</p>
+        </div>
+      </div>
+    </div>
+    <div class="toolbar">
+      <button type="button" class="btn btn--secondary" id="export-tokens">Copy tokens.css snippet</button>
+      <button type="button" class="btn btn--secondary" id="download-locked-json">Download colors-locked.json</button>
+    </div>
+    <p class="section__lead" style="margin-top: var(--space-4);">
+      <strong>Lock to repo:</strong> download JSON → save as <code>preview/colors-locked.json</code> →
+      <code>node scripts/apply-preview-colors.mjs</code> (from repo root). Browser-only picks in
+      <code>localStorage</code> are not permanent until you do this.
+    </p>
+  </section>
+
+</main>
+
+<script>
+  const NEUTRALS = [
+    { token: '--paper-50', label: 'paper-50', role: 'App background (--bg)' },
+    { token: '--paper-100', label: 'paper-100', role: 'Surface (--surface-1)' },
+    { token: '--paper-200', label: 'paper-200', role: 'Borders' },
+    { token: '--paper-700', label: 'paper-700', role: 'Muted text' },
+    { token: '--paper-900', label: 'paper-900', role: 'Body text (--text-primary)' },
+  ];
+
+  const STYLE_VOCABULARY = [
+    {
+      name: 'Depth & void',
+      colors: [
+        { hex: '#0A1420', label: 'Biolume void' },
+        { hex: '#12101C', label: 'Indigo black' },
+        { hex: '#181228', label: 'Night pool' },
+        { hex: '#2A1810', label: 'Espresso' },
+      ],
+    },
+    {
+      name: 'Blues & cyans (flow)',
+      colors: [
+        { hex: '#0C2848', label: 'Midnight' },
+        { hex: '#1E4A78', label: 'Deep cobalt' },
+        { hex: '#3B7AB5', label: 'Cobalt bloom' },
+        { hex: '#5A9FD4', label: 'Royal dot' },
+        { hex: '#7EC4E8', label: 'Cerulean cell' },
+        { hex: '#B4E4F4', label: 'Sky stipple' },
+      ],
+    },
+    {
+      name: 'Purples & magentas (neural)',
+      colors: [
+        { hex: '#3D2860', label: 'Deep plum' },
+        { hex: '#6E3898', label: 'Royal violet' },
+        { hex: '#A848B0', label: 'Magenta node' },
+        { hex: '#D858C0', label: 'Pink glow' },
+        { hex: '#C9D4EC', label: 'Periwinkle' },
+        { hex: '#E0C8F0', label: 'Lavender haze' },
+      ],
+    },
+    {
+      name: 'Earth & tissue',
+      colors: [
+        { hex: '#F4EDE4', label: 'Parchment' },
+        { hex: '#F2E6D8', label: 'Cream' },
+        { hex: '#E8D4C0', label: 'Warm sand' },
+        { hex: '#D4B088', label: 'Ochre' },
+        { hex: '#C87850', label: 'Terracotta' },
+        { hex: '#B86A48', label: 'Rust copper' },
+        { hex: '#8B5038', label: 'Sienna' },
+        { hex: '#3F261A', label: 'Umber' },
+      ],
+    },
+    {
+      name: 'Accents (stipple highlights)',
+      colors: [
+        { hex: '#2A4530', label: 'Forest' },
+        { hex: '#4A7048', label: 'Moss' },
+        { hex: '#B8D848', label: 'Lime dot' },
+        { hex: '#E87848', label: 'Coral node' },
+        { hex: '#F0A030', label: 'Amber glow' },
+      ],
+    },
+  ];
+
+  const POINTILLIST_VOCAB_CHIPS = [
+    { hex: '#B2E1D2', label: 'Menthe' },
+    { hex: '#FF8C00', label: 'Orange' },
+    { hex: '#E8E1D6', label: 'Sable' },
+    { hex: '#B8BBB5', label: 'Gris' },
+    { hex: '#CD9A62', label: 'Gingembre' },
+    { hex: '#945526', label: 'Chocolat' },
+    { hex: '#006922', label: 'Vert' },
+    { hex: '#F3C1AA', label: 'Melon' },
+    { hex: '#E54127', label: 'Rouge' },
+    { hex: '#D8EB27', label: 'Lime' },
+    { hex: '#007B82', label: 'Turquoise' },
+    { hex: '#78C5F8', label: 'Ciel' },
+    { hex: '#5E183B', label: 'Bourgogne' },
+    { hex: '#BDBDF7', label: 'Lilac' },
+    { hex: '#003C38', label: 'Forêt' },
+    { hex: '#F892C5', label: 'Rose' },
+    { hex: '#FFC20E', label: 'Mangue' },
+    { hex: '#B7274D', label: 'Framboise' },
+  ];
+
+  const CATEGORICAL_LIB_CHIPS = [
+    { hex: '#B8BBB5', label: 'Cool grey' },
+    { hex: '#476BFF', label: 'Ocean' },
+    { hex: '#7BD6DC', label: 'Turquoise blue' },
+    { hex: '#00C45B', label: 'Green' },
+    { hex: '#F2C200', label: 'Yellow' },
+    { hex: '#FF7500', label: 'Orange' },
+    { hex: '#F03D0E', label: 'Red' },
+    { hex: '#FF578B', label: 'Pink' },
+    { hex: '#8A5AED', label: 'Purple' },
+  ];
+
+  const PALETTE_REFS = [
+    {
+      id: 'pointillist-vocab',
+      title: 'Pointillist color vocabulary',
+      lead: 'Dominant hues from the French stipple reference — use as a whole when tuning pillars and the library below.',
+      image: 'assets/palette-refs/pointillist-vocab.png',
+      imageCaption: 'Menthe · Orange · Sable · Gris · Gingembre · Chocolat · Vert · Melon · Rouge · Lime · Turquoise · Ciel · Bourgogne · Lilac · Forêt · Rose · Mangue · Framboise',
+      chips: POINTILLIST_VOCAB_CHIPS,
+    },
+    {
+      id: 'categorical-library',
+      title: 'Categorical color library',
+      lead: 'Multi-hue reference sheet (shade · core · tint per family) — one starting point among several above. Library cores were seeded from here; grey uses our cool #B8BBB5.',
+      image: 'assets/palette-refs/tupperware.png',
+      imageCaption: 'Nine hue families with Pantone / CMYK / RGB / Hex',
+      chips: CATEGORICAL_LIB_CHIPS,
+    },
+    {
+      id: 'regenerant',
+      title: 'Regenerant Catalunya',
+      chips: [
+        { hex: '#214033', label: 'Forest' },
+        { hex: '#E6DFD7', label: 'Sand' },
+        { hex: '#092045', label: 'Navy' },
+        { hex: '#6B4EA3', label: 'Purple' },
+        { hex: '#E67E50', label: 'Orange' },
+      ],
+    },
+    {
+      id: 'bis',
+      title: 'BIS / bioregional',
+      chips: [
+        { hex: '#8B5A3C', label: 'Miceli terracotta' },
+        { hex: '#6B4EA3', label: 'Keras purple' },
+        { hex: '#F7F5F0', label: 'Paper-and-ink mute' },
+      ],
+    },
+    {
+      id: 'eco-electric',
+      title: 'Eco-Electric exploration',
+      image: 'assets/palette-refs/eco-electric.png',
+      imageCaption: 'Meeting Point of Nature and Innovation',
+      chips: [
+        { hex: '#5E4C3C', label: 'Earth' },
+        { hex: '#8987EC', label: 'Lavender' },
+        { hex: '#598FFD', label: 'Sky' },
+        { hex: '#C7CC10', label: 'Chartreuse' },
+        { hex: '#F0EDFA', label: 'Tint' },
+      ],
+    },
+    {
+      id: 'wayfinder',
+      title: 'Wayfinder',
+      image: 'assets/palette-refs/wayfinder.png',
+      chips: [
+        { hex: '#0E2E52', label: 'Navy' },
+        { hex: '#0E1E2E', label: 'Dark blue' },
+        { hex: '#1A92E8', label: 'Water' },
+        { hex: '#0093D0', label: 'Electric blue' },
+        { hex: '#3EB056', label: 'Growth green' },
+        { hex: '#ED7117', label: 'Energy orange' },
+        { hex: '#F5F1E1', label: 'Beige neutral' },
+        { hex: '#F6C8F4', label: 'Power pink' },
+      ],
+    },
+    {
+      id: 'lotus',
+      title: 'Lotus',
+      image: 'assets/palette-refs/lotus.png',
+      chips: [
+        { hex: '#203136', label: 'Royal' },
+        { hex: '#FE5E30', label: 'Phoenix' },
+        { hex: '#CDFF58', label: 'Chartreuse' },
+        { hex: '#D1FFA0', label: 'Celestial' },
+        { hex: '#BCADC8', label: 'Lavender' },
+        { hex: '#E2D5C5', label: 'Magnolia' },
+        { hex: '#19421F', label: 'Maiden' },
+        { hex: '#928364', label: 'Empress' },
+        { hex: '#3E1B0C', label: 'Umber' },
+        { hex: '#B8CCFF', label: 'Cornflower' },
+      ],
+    },
+    {
+      id: 'style-vocab',
+      title: 'Color vocabulary (pointillist references)',
+      lead: 'Dominant hues sampled from the pointillist landscapes below — use as a whole when tuning pillar ranges and the data-viz library.',
+      vocabulary: STYLE_VOCABULARY,
+      sources: [
+        {
+          id: 'reference-a',
+          title: 'Reference A — pointillist bio landscape',
+          image: 'assets/pillar-inspo/reference-a.jpg',
+          imageCaption: 'Blue blooms and magenta nodes',
+        },
+        {
+          id: 'reference-b',
+          title: 'Reference B — pointillist organic landscape',
+          image: 'assets/pillar-inspo/reference-b.jpg',
+          imageCaption: 'Purple stalk and earth tones',
+        },
+      ],
+    },
+  ];
+
+  const PILLAR_META = {
+    neural: {
+      title: 'Neural Networks',
+      desc: 'Water — Acid Cove palette',
+    },
+    tissue: {
+      title: 'Tissues',
+      desc: 'Land — Acid Cove palette',
+    },
+    flow: {
+      title: 'Flows',
+      desc: 'Accents — Acid Cove palette',
+    },
+  };
+
+  const PILLAR_STEPS = [
+    { step: 1, role: 'Step 1 — lightest' },
+    { step: 2, role: 'Step 2' },
+    { step: 3, role: 'Step 3' },
+    { step: 4, role: 'Step 4 — deepest' },
+  ];
+
+  const LIBRARY = [
+    { token: '--lib-gris', label: 'gris', name: 'Warm grey', tint: '#E5E5E2', shade: '#565D61' },
+    { token: '--lib-ocean', label: 'ocean', name: 'Soft ocean', tint: '#D5DFF2', shade: '#101F4D' },
+    { token: '--lib-blue', label: 'blue', name: 'Muted teal', tint: '#D6EAEB', shade: '#104944' },
+    { token: '--lib-green', label: 'green', name: 'Sage green', tint: '#E1F3D8', shade: '#1A4114' },
+    { token: '--lib-yellow', label: 'yellow', name: 'Warm yellow', tint: '#F6ECBE', shade: '#6A4D0C' },
+    { token: '--lib-orange', label: 'orange', name: 'Warm orange', tint: '#F4DAB0', shade: '#5F360C' },
+    { token: '--lib-red', label: 'red', name: 'Earth red', tint: '#F2CCBE', shade: '#6B1D0C' },
+    { token: '--lib-pink', label: 'pink', name: 'Soft coral', tint: '#EED7E0', shade: '#4D1D2F' },
+    { token: '--lib-purple', label: 'purple', name: 'Soft plum', tint: '#E3D2EE', shade: '#41205A' },
+  ];
+
+  const LIB_CORE_DEFAULTS = {
+    '--lib-gris': '#AEADA5',
+    '--lib-ocean': '#4C6BC1',
+    '--lib-blue': '#6BB5B4',
+    '--lib-green': '#39A659',
+    '--lib-yellow': '#D5AD1C',
+    '--lib-orange': '#DC7221',
+    '--lib-red': '#CC4727',
+    '--lib-pink': '#DC697F',
+    '--lib-purple': '#8161BF',
+  };
+
+  const LIB_STEPS = [
+    { step: 1, role: 'Tint' },
+    { step: 2, role: 'Light' },
+    { step: 3, role: 'Soft' },
+    { step: 4, role: 'Core' },
+    { step: 5, role: 'Dark' },
+    { step: 6, role: 'Shade' },
+  ];
+
+  const LIB_CORE_STEP = 4;
+
+  function mixHex(hexA, hexB, ratioB) {
+    const parse = (hex) => {
+      const n = normalizeHex(hex).slice(1);
+      return [0, 2, 4].map((i) => parseInt(n.slice(i, i + 2), 16));
+    };
+    const a = parse(hexA);
+    const b = parse(hexB);
+    const t = ratioB / 100;
+    const out = a.map((v, i) => Math.round(v * (1 - t) + b[i] * t));
+    return `#${out.map((x) => x.toString(16).padStart(2, '0')).join('')}`;
+  }
+
+  function familyStops(tint, core, shade) {
+    const c = normalizeHex(core);
+    return [
+      normalizeHex(tint),
+      mixHex(tint, c, 35),
+      mixHex(tint, c, 70),
+      c,
+      mixHex(c, shade, 55),
+      normalizeHex(shade),
+    ];
+  }
+
+  function readToken(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+      || '#888888';
+  }
+
+  function normalizeHex(hex) {
+    if (!hex.startsWith('#')) return '#888888';
+    if (hex.length === 4) {
+      return `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`;
+    }
+    return hex.slice(0, 7);
+  }
+
+  function textOnBg(hex) {
+    const h = normalizeHex(hex).replace('#', '');
+    const r = parseInt(h.slice(0, 2), 16);
+    const g = parseInt(h.slice(2, 4), 16);
+    const b = parseInt(h.slice(4, 6), 16);
+    const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return lum > 0.55 ? 'var(--paper-900)' : '#fff';
+  }
+
+  function swatchHtml({ token, label, role }) {
+    const val = readToken(token);
+    return `
+      <div class="swatch-edit">
+        <div class="swatch-edit__chip" style="--swatch: ${val}; background: var(--swatch)"></div>
+        <div class="swatch-edit__meta">
+          <strong>${label}</strong>
+          <span>${role}</span>
+          <code data-hex>${val.toUpperCase()}</code>
+          <input type="color" data-token="${token}" value="${normalizeHex(val)}" aria-label="${label}">
+        </div>
+      </div>`;
+  }
+
+  function renderRefChips(chips) {
+    if (!chips?.length) return '';
+    return `<div class="ref-row">${chips.map((c) => `
+      <span class="ref-chip">
+        <span class="ref-chip__swatch" style="background:${c.hex}"></span>
+        ${c.label} ${c.hex}
+      </span>
+    `).join('')}</div>`;
+  }
+
+  function renderVocabulary(groups) {
+    const groupsHtml = groups.map((group) => `
+      <div class="style-vocab__group">
+        <h5>${group.name}</h5>
+        <div class="style-vocab__grid">
+          ${group.colors.map((c) => `
+            <div class="style-chip" title="${c.label}">
+              <div class="style-chip__color" style="background:${c.hex}"></div>
+              <span class="style-chip__label">${c.label}</span>
+              <span class="style-chip__hex">${c.hex}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+    return `<div class="style-vocab">${groupsHtml}</div>`;
+  }
+
+  function renderRefSourcePanel(source) {
+    const hasImage = Boolean(source.image);
+    const toggle = hasImage
+      ? `<button type="button" class="palette-ref__toggle" data-ref-toggle="${source.id}" aria-expanded="false">Show source</button>`
+      : '';
+    const sourceAside = hasImage
+      ? `<aside class="palette-ref__source" id="ref-source-${source.id}" hidden>
+          <figure>
+            <img src="${source.image}" alt="${source.title}" loading="lazy" width="400" height="400">
+            ${source.imageCaption ? `<figcaption>${source.imageCaption}</figcaption>` : ''}
+          </figure>
+        </aside>`
+      : '';
+    return `
+      <div class="palette-ref__sub">
+        <div class="palette-ref__inner" id="ref-inner-${source.id}">
+          <div class="palette-ref__body">
+            <div class="palette-ref__head">
+              <h4>${source.title}</h4>
+              ${toggle}
+            </div>
+          </div>
+          ${sourceAside}
+        </div>
+      </div>`;
+  }
+
+  function renderPaletteRefs() {
+    const root = document.getElementById('palette-refs');
+    root.innerHTML = PALETTE_REFS.map((ref) => {
+      const hasImage = Boolean(ref.image);
+      const body = `
+        ${ref.lead ? `<p class="section__lead" style="margin-top:0;margin-bottom:var(--space-4)">${ref.lead}</p>` : ''}
+        ${ref.vocabulary ? renderVocabulary(ref.vocabulary) : ''}
+        ${ref.sources ? ref.sources.map(renderRefSourcePanel).join('') : ''}
+        ${!ref.vocabulary && !ref.sources ? renderRefChips(ref.chips) : ''}
+      `;
+      const toggle = hasImage
+        ? `<button type="button" class="palette-ref__toggle" data-ref-toggle="${ref.id}" aria-expanded="false">Show source</button>`
+        : '';
+      const source = hasImage
+        ? `<aside class="palette-ref__source" id="ref-source-${ref.id}" hidden>
+            <figure>
+              <img src="${ref.image}" alt="${ref.title}" loading="lazy" width="400" height="400">
+              ${ref.imageCaption ? `<figcaption>${ref.imageCaption}</figcaption>` : ''}
+            </figure>
+          </aside>`
+        : '';
+      return `
+        <article class="palette-ref" data-ref-id="${ref.id}">
+          <div class="palette-ref__inner" id="ref-inner-${ref.id}">
+            <div class="palette-ref__body">
+              <div class="palette-ref__head">
+                <h3>${ref.title}</h3>
+                ${toggle}
+              </div>
+              ${body}
+            </div>
+            ${source}
+          </div>
+        </article>`;
+    }).join('');
+
+    root.querySelectorAll('[data-ref-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.refToggle;
+        const aside = document.getElementById(`ref-source-${id}`);
+        const inner = document.getElementById(`ref-inner-${id}`);
+        const open = aside.hidden;
+        aside.hidden = !open;
+        inner.classList.toggle('palette-ref__inner--with-image-open', open);
+        btn.setAttribute('aria-expanded', String(open));
+        btn.textContent = open ? 'Hide source' : 'Show source';
+      });
+    });
+  }
+
+  function pillarBarHtml(pillar, step, role) {
+    const token = `--pillar-${pillar}-${step}`;
+    const val = readToken(token);
+    const fg = textOnBg(val);
+    return `
+      <div class="pillar-swatch-bar" style="background:${val};color:${fg}">
+        <div class="pillar-swatch-bar__text">
+          <strong>${pillar}-${step}</strong>
+          <span>${role}</span>
+          <code data-hex>${val.toUpperCase()}</code>
+        </div>
+        <input type="color" data-token="${token}" value="${normalizeHex(val)}" aria-label="${pillar} step ${step}">
+      </div>`;
+  }
+
+  function readPillarStop(pillar, step) {
+    const token = `--pillar-${pillar}-${step}`;
+    const input = document.querySelector(`input[data-token="${token}"]`);
+    if (input?.value) return normalizeHex(input.value);
+    return normalizeHex(readToken(token));
+  }
+
+  function pillarGradientCss(pillar) {
+    const stops = PILLAR_STEPS.map(({ step }) => readPillarStop(pillar, step));
+    return `linear-gradient(to bottom, ${stops.join(', ')})`;
+  }
+
+  function renderPillarColumns() {
+    const root = document.getElementById('pillar-columns');
+    root.innerHTML = ['neural', 'tissue', 'flow'].map((pillar) => {
+      const meta = PILLAR_META[pillar];
+      return `
+        <div class="pillar-column" data-pillar-column="${pillar}">
+          <div class="pillar-column__head">
+            <h3>${meta.title}</h3>
+            <p>${meta.desc}</p>
+          </div>
+          <div class="pillar-column__layout">
+            <div class="pillar-swatch-stack" data-pillar-swatches="${pillar}">
+              ${PILLAR_STEPS.map(({ step, role }) => pillarBarHtml(pillar, step, role)).join('')}
+            </div>
+            <div class="pillar-gradient-bar" data-pillar-gradient="${pillar}" aria-hidden="true"></div>
+          </div>
+        </div>`;
+    }).join('');
+    syncPillarGradients();
+  }
+
+  function syncPillarGradients() {
+    ['neural', 'tissue', 'flow'].forEach((p) => {
+      const el = document.querySelector(`[data-pillar-gradient="${p}"]`);
+      if (el) el.style.background = pillarGradientCss(p);
+    });
+  }
+
+  function readLibCore(token) {
+    const input = document.querySelector(`.lib-scale__cell--editable input[data-token="${token}"]`);
+    if (input?.value) return normalizeHex(input.value);
+    const fromDom = readToken(token);
+    if (fromDom && fromDom !== '#888888') return normalizeHex(fromDom);
+    return LIB_CORE_DEFAULTS[token] || '#888888';
+  }
+
+  function renderLibScaleHead() {
+    document.getElementById('lib-scale-head').innerHTML =
+      `<span></span>${LIB_STEPS.map(({ role }) => `<span>${role}</span>`).join('')}`;
+  }
+
+  function libCellMarkup({ token, label, step, role, hex, isCore }) {
+    const fg = textOnBg(hex);
+    const coreClass = isCore ? ' lib-scale__cell--anchor' : '';
+    if (isCore) {
+      return `<div class="lib-scale__cell lib-scale__cell--editable${coreClass}" data-lib-cell="${label}-${step}" data-lib-core-step="${step}" style="background:${hex};color:${fg}">
+          <strong>${label} · ${role}</strong>
+          <span data-hex>${hex}</span>
+          <input type="color" data-token="${token}" value="${hex}" aria-label="${label} core">
+        </div>`;
+    }
+    return `<div class="lib-scale__cell${coreClass}" data-lib-cell="${label}-${step}" style="background:${hex};color:${fg}">
+        <strong>${label} · ${role}</strong>
+        <span data-hex>${hex}</span>
+      </div>`;
+  }
+
+  function renderLibraryScales() {
+    const root = document.getElementById('library-scales');
+    root.innerHTML = LIBRARY.map(({ token, label, name, tint, shade }) => {
+      const core = readLibCore(token);
+      const stops = familyStops(tint, core, shade);
+      const cells = LIB_STEPS.map(({ step, role }, i) =>
+        libCellMarkup({
+          token,
+          label,
+          step,
+          role,
+          hex: stops[i],
+          isCore: step === LIB_CORE_STEP,
+        })
+      ).join('');
+      const labelHtml = `<span class="lib-scale__label">
+          <span class="lib-scale__slug">${label}</span>
+          ${name ? `<span class="lib-scale__name">${name}</span>` : ''}
+        </span>`;
+      return `<div class="lib-scale__row" data-lib-row="${label}" data-lib-tint="${tint}" data-lib-shade="${shade}">${labelHtml}${cells}</div>`;
+    }).join('');
+  }
+
+  function refreshLibraryScales() {
+    LIBRARY.forEach(({ token, label, tint, shade }) => {
+      const core = readLibCore(token);
+      const stops = familyStops(tint, core, shade);
+      LIB_STEPS.forEach(({ step, role }, i) => {
+        const cell = document.querySelector(`[data-lib-cell="${label}-${step}"]`);
+        if (!cell) return;
+        const hex = stops[i];
+        const fg = textOnBg(hex);
+        cell.style.background = hex;
+        cell.style.color = fg;
+        const hexEl = cell.querySelector('[data-hex]');
+        if (hexEl) hexEl.textContent = hex;
+        const input = cell.querySelector('input[data-token]');
+        if (input) input.value = hex;
+      });
+    });
+  }
+
+  function syncPreviewPillars() {
+    ['tissue', 'neural', 'flow'].forEach((p) => {
+      const el = document.getElementById(`preview-${p}`);
+      if (!el) return;
+      const stops = PILLAR_STEPS.map(({ step }) => readPillarStop(p, step));
+      el.style.background = `linear-gradient(135deg, ${stops.join(', ')})`;
+      el.style.color = textOnBg(stops[stops.length - 1]);
+    });
+  }
+
+  function onColorsUpdated() {
+    syncPillarGradients();
+    syncPreviewPillars();
+    refreshLibraryScales();
+    document.querySelectorAll('.pillar-swatch-bar').forEach((bar) => {
+      const input = bar.querySelector('input[data-token]');
+      if (!input) return;
+      const hex = input.value;
+      bar.style.background = hex;
+      bar.style.color = textOnBg(hex);
+      const hexEl = bar.querySelector('[data-hex]');
+      if (hexEl) hexEl.textContent = hex.toUpperCase();
+    });
+  }
+
+  function renderNeutrals() {
+    document.getElementById('neutrals').innerHTML = NEUTRALS.map((n) => swatchHtml(n)).join('');
+  }
+
+  renderPaletteRefs();
+  renderNeutrals();
+  renderPillarColumns();
+</script>
+<script src="colors-picker.js"></script>
+<script>
+  renderLibScaleHead();
+  renderLibraryScales();
+  window.RefiColors.initPickers();
+  refreshLibraryScales();
+  syncPreviewPillars();
+  document.addEventListener('refi-colors-updated', onColorsUpdated);
+</script>
+</body>
+</html>

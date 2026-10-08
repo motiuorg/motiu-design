@@ -1,0 +1,20 @@
+# How an engagement runs (ProcessStrip — what-we-do + contact).
+# Grounded in the existing intro-call copy and the "editable deliverables
+# the team owns" service voice. No invented commitments.
+steps:
+  - title: Intro call
+    body: >-
+      Free and short. Tell us what you're working on — a network, a territory,
+      a program — and we'll say honestly whether we can help.
+  - title: Short proposal
+    body: >-
+      A few days later you get options and a price, in plain language.
+      No obligation either way.
+  - title: Build together
+    body: >-
+      We work in tools your team owns — living databases, maps, and workflows,
+      not consultant decks that go stale.
+  - title: Handover
+    body: >-
+      You keep the systems and the practice to maintain them. Cooperative
+      governance stays in charge; the tooling serves it.

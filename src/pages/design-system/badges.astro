@@ -1,0 +1,153 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+import PillarBadge from "../../components/PillarBadge.astro";
+import Badge from "../../components/Badge.astro";
+---
+<LabShell title="Badges" current="badges"
+  intro="Proposal (2026-08-12), partly live as of the same day: PillarBadge is now a thin wrapper
+  around this component, so every real PillarBadge caller (project-tile/case-card badge slots,
+  who-we-serve.astro, what-we-do.astro pillar heads) already renders through Badge. The generic
+  .badge (solid fill, status-only) and bioregioning-earth-ui's old tag pills are the two treatments
+  still left to retire in favor of this one.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--proposal">proposal</span>
+    <h2>Sizes</h2>
+    <p>Same pill, three sizes — <code>sm</code>/<code>md</code>/<code>lg</code>. Padding is set in
+      <code>em</code>, so it scales with the font-size automatically; only <code>--text-2xs/xs/sm</code>
+      change between sizes. <code>md</code> matches PillarBadge and the generic <code>.badge</code>'s
+      current size, so nothing already at default size needs to change scale.</p>
+    <div class="lab-row" style="align-items: center;">
+      <Badge size="sm" tone="tissue">Small</Badge>
+      <Badge size="md" tone="tissue">Medium</Badge>
+      <Badge size="lg" tone="tissue">Large</Badge>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--proposal">proposal</span>
+    <h2>Shapes</h2>
+    <p><code>pill</code> (default) — fully round, for anything with real color meaning: pillar tones,
+      status, org-type/category-style labels. <code>square</code> — rounded corners short of a full
+      pill, <strong>neutral tone only for now</strong> — for themes/tags specifically, where a page
+      often shows many in a row and a full pill per tag reads heavier than the content needs. Radius
+      is set in <code>em</code> like the padding, so it scales with size rather than looking
+      proportionally sharper at <code>sm</code> or blobbier at <code>lg</code>.</p>
+    <div class="lab-row" style="align-items: center;">
+      <Badge shape="pill">Pill</Badge>
+      <Badge shape="square">Square</Badge>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--proposal">proposal</span>
+    <h2>Tones</h2>
+    <p>Pillar tones (tissue/neural/flow) and status tones (success/info/warning/danger) are
+      deliberately <em>different</em> colors, not aliases of each other — <code>--success</code>/
+      <code>--warning</code>/<code>--info</code> used to be literal aliases into the pillar system
+      (<code>success = tissue-dark</code>, etc.), which made a status badge and a pillar badge read
+      as the same color for an unrelated reason. New <code>--status-*</code> tokens in
+      <code>editorial-organic.css</code> fix that: same Color Library, same Soft/Dark/Shade steps,
+      but the <em>neighboring</em> hue family — green next to lime, blue next to cyan, yellow next
+      to orange — close enough to read as "the same kind of color system," distinct enough that
+      status and pillar never collide. <code>danger</code> gets a real red (was a standalone dark
+      brick, <code>#7A2618</code>, unrelated to the library). <code>neutral</code> is the
+      no-color-meant default.</p>
+    <div class="lab-row">
+      <Badge tone="neutral">Neutral</Badge>
+      <Badge tone="tissue">Tissue</Badge>
+      <Badge tone="neural">Neural</Badge>
+      <Badge tone="flow">Flow</Badge>
+    </div>
+    <div class="lab-row" style="margin-top: var(--space-3);">
+      <Badge tone="success">Success</Badge>
+      <Badge tone="info">Info</Badge>
+      <Badge tone="warning">Warning</Badge>
+      <Badge tone="danger">Danger</Badge>
+    </div>
+    <p class="lab-source">Top row: pillars (lime/cyan/orange). Bottom row: status (green/blue/yellow/red) — same shape, visibly different hues, not the top row repeated.</p>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--proposal">proposal</span>
+    <h2>Dot, icon, or plain</h2>
+    <p>A leading colored dot (<code>currentColor</code>, matches PillarBadge's existing dot exactly),
+      a leading emoji/icon character, or neither. <code>icon</code> takes precedence if both are
+      passed — pick one per call site, don't mix.</p>
+    <div class="lab-row">
+      <Badge tone="tissue" dot>With dot</Badge>
+      <Badge tone="flow" icon="🌾">With icon</Badge>
+      <Badge tone="neural">Plain</Badge>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--proposal">proposal</span>
+    <h2>What this replaces</h2>
+    <p>Same content, three current treatments side by side against their proposed replacement.</p>
+
+    <p class="lab-source">PillarBadge → now literally is Badge with <code>dot</code> underneath (both renders below go through the same component; PillarBadge just supplies the pillar-name-to-default-label lookup):</p>
+    <div class="lab-row" style="align-items: center;">
+      <PillarBadge pillar="tissue" />
+      <span aria-hidden="true">→</span>
+      <Badge tone="tissue" dot>Network coordination</Badge>
+    </div>
+
+    <p class="lab-source" style="margin-top: var(--space-6);">Generic <code>.badge</code> (solid fill) → Badge (light tint, matching every other tone):</p>
+    <div class="lab-row" style="align-items: center;">
+      <span class="old-badge old-badge--success">Active</span>
+      <span aria-hidden="true">→</span>
+      <Badge tone="success">Active</Badge>
+    </div>
+
+    <p class="lab-source" style="margin-top: var(--space-6);">bioregioning-earth-ui's tag pill (no dot, no border, its own accent palette) → Badge <code>sm</code>, <code>square</code>, real per-tag icon, its own neutral tone (not tinted by pillar):</p>
+    <div class="lab-row" style="align-items: center;">
+      <span class="bio-tag">Watershed_repair</span>
+      <span aria-hidden="true">→</span>
+      <Badge size="sm" shape="square" icon="💧">Watershed repair</Badge>
+    </div>
+  </div>
+
+  <div class="lab-note">
+    <strong>Done:</strong> <code>PillarBadge.astro</code> is now a thin wrapper around
+    <code>Badge</code>, passing the pillar through as <code>tone</code> with <code>dot</code> set, kept only for its
+    pillar-name-to-default-label lookup — every real caller (project-tile/case-card badge slots,
+    who-we-serve.astro, what-we-do.astro pillar heads) already renders through <code>Badge</code>
+    without having changed a single call site.
+    <br /><br />
+    <strong>Still open:</strong> retire the generic <code>.badge</code> (global.css §6.5, solid fill)
+    in favor of this one — nothing currently reads it outside this lab's own comparison example, so
+    it's a delete once confirmed. Bring the same component (or a matching implementation) to any
+    other refibcn surface that invents its own tag/status pill later, rather than a fourth one-off
+    appearing.
+    <br /><br />
+    <strong>Already live on bioregioning-earth-ui (2026-08-12), ahead of this proposal landing here:</strong>
+    the <code>square</code> shape shipped there first, since that's where the actual many-tags-in-a-row
+    case exists today — theme/ontology tags use <code>shape="square"</code>, everything else
+    (org-type/category, case study, source type, org cross-reference badges) stays <code>pill</code>.
+    Worth carrying that same pill/square split back here if a many-tags-in-a-row case shows up on
+    this site, rather than defaulting everything to pill just because that's what shipped first.
+  </div>
+</LabShell>
+
+<style>
+  /* Old treatments, recreated here only for the side-by-side comparison above — not the real
+     components/styles (those still exist untouched at PillarBadge.astro / global.css §6.5 / in
+     bioregioning-earth-ui). */
+  .old-badge {
+    display: inline-flex; align-items: center;
+    padding: 2px var(--space-2); border-radius: var(--radius-pill);
+    font-family: var(--mono); font-size: var(--text-xs); font-weight: 500;
+    border: 1px solid;
+  }
+  .old-badge--success { background: var(--success); color: var(--success-foreground); border-color: var(--success); }
+
+  .bio-tag {
+    /* Post-resync colors (2026-08-11) — bioregioning-earth-ui's --accent/--accent-fg/--border
+       now derive from the same pillar values refibcn uses, just with no dot, no tint-mixing,
+       and solid fill instead of a light tint. */
+    font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 9999px;
+    background: #4DEFFF; color: #000FA0; border: 1px solid #DDD7CF;
+    font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.02em;
+  }
+</style>

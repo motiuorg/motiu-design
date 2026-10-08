@@ -1,0 +1,13 @@
+---
+// CardGrid.astro — plain multi-column grid for card-shaped children. Content-agnostic: the caller
+// supplies fully-formed cards (any card, not just ProjectCard) via the default slot; this only owns
+// the grid layout — the wrapper index.astro and projects.astro each pasted their own copy of
+// (.project-gallery) before this existed.
+---
+<div class="card-grid">
+  <slot />
+</div>
+
+<style>
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: var(--space-8); }
+</style>

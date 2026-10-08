@@ -1,0 +1,8 @@
+{
+  "name": "org-os-tile-r1-a",
+  "format": "tile",
+  "palette": "rule-on-paper",
+  "field": { "seed": 7, "count": 14 },
+  "padRatio": 0.28,
+  "notes": "quiet structural field — org-os as infrastructure"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "rc-mark-r2-b",
+  "format": "mark",
+  "palette": "tissue",
+  "field": { "seed": 47, "count": 22 },
+  "stroke": 5,
+  "cornerRadius": 20,
+  "padRatio": 0.05,
+  "notes": "denser parcel field, corrected framing"
+}

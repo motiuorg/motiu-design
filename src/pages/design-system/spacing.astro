@@ -1,0 +1,67 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+const space = ["--space-1", "--space-2", "--space-3", "--space-4", "--space-5", "--space-6", "--space-8", "--space-10", "--space-12", "--space-16", "--space-20", "--space-24", "--space-32"];
+---
+<LabShell title="Spacing & effects" current="spacing"
+  intro="4px-base spacing scale, containers, and motion durations (src/styles/tokens.css), plus radius and shadow (src/styles/theme.css).">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Spacing scale</h2>
+    <p>4px base. No half-steps in the live scale (unlike the disconnected lab-tools fork, which has <code>--space-0.5</code>/<code>--space-1.5</code> — those never made it into <code>src/styles/tokens.css</code>).</p>
+    <div class="lab-row" style="align-items: flex-end;">
+      {space.map((t) => (
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-1);">
+          <div style={`width: var(${t}); height: var(${t}); background: var(--primary); min-width: 2px; min-height: 2px;`}></div>
+          <code style="font-size: var(--text-xs); font-family: var(--mono);">{t}</code>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Containers & gutter</h2>
+    <p><code>--gutter</code> (2rem) is the horizontal page padding almost every section uses. Two content widths:</p>
+    <ul>
+      <li><code>--container-default</code> — min(1280px, 100% − 2×gutter), most sections</li>
+      <li><code>--container-wide</code> — min(1440px, 100% − 2×gutter), hero + map-heavy layouts</li>
+      <li><code>--container-prose</code> — 65ch, long-form text measure</li>
+    </ul>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Radius</h2>
+    <p><code>--radius</code> and <code>--radius-sm</code> are both <code>0</code> (flat, BIS-straight), defined
+      in <code>src/styles/theme.css</code>. <code>--radius-pill</code> and <code>--radius-full</code> are
+      universal (tokens.css), used for badges and avatars.</p>
+    <div class="lab-row">
+      <div style="width: 5rem; height: 5rem; background: var(--surface-1); border: 1px solid var(--border-default); border-radius: var(--radius);"></div>
+      <div style="width: 5rem; height: 5rem; background: var(--surface-1); border: 1px solid var(--border-default); border-radius: var(--radius-sm);"></div>
+      <div style="width: 5rem; height: 5rem; background: var(--surface-1); border: 1px solid var(--border-default); border-radius: var(--radius-pill);"></div>
+      <div style="width: 5rem; height: 5rem; background: var(--surface-1); border: 1px solid var(--border-default); border-radius: var(--radius-full);"></div>
+    </div>
+    <p class="lab-source">--radius · --radius-sm · --radius-pill · --radius-full</p>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Shadow</h2>
+    <p>All three steps collapse to the same flat 1px shadow, on purpose — elevation reads through borders and
+      translate-on-hover, not drop shadow, in the flat BIS direction.</p>
+    <div class="lab-row">
+      <div style="width: 8rem; height: 4rem; background: var(--bg); box-shadow: var(--shadow-sm);"></div>
+      <div style="width: 8rem; height: 4rem; background: var(--bg); box-shadow: var(--shadow-md);"></div>
+      <div style="width: 8rem; height: 4rem; background: var(--bg); box-shadow: var(--shadow-lg);"></div>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Motion</h2>
+    <p><code>--t-fast</code> (120ms), <code>--t-med</code> (280ms), <code>--t-slow</code> (600ms, custom ease) —
+      all collapse to 0ms under <code>prefers-reduced-motion: reduce</code>, so hover/reveal transitions degrade
+      to instant rather than being disabled ad hoc per component.</p>
+  </div>
+</LabShell>

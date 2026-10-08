@@ -1,0 +1,79 @@
+---
+// ProjectCard.astro — the real .project-tile pattern, promoted to a component.
+// Previously this file had a different, broken prop shape (title/body/image/href/external)
+// that NetworkSection.astro didn't actually pass, while index.astro and projects.astro each
+// pasted their own copy of .project-tile markup+CSS instead of using this component at all.
+// This version *is* that markup — same classes, same CSS — now shared by all three callers:
+// index.astro (#projects), projects.astro (full grid), and NetworkSection.astro (cohort grid,
+// via a mapped title/subtitle/body/badges-slot).
+import Aurora from "./Aurora.astro";
+
+interface Props {
+  title: string;
+  subtitle?: string; // theme, or "locality · theme" for the cohort variant
+  body: string; // excerpt / summary
+  image?: string | null;
+  href?: string; // omit entirely when there's nowhere to link (e.g. a pending cohort project)
+  external?: boolean;
+  linkLabel?: string; // overrides the default "Visit site ↗" / "Read case study →"
+  mediaPillar?: "tissue" | "neural" | "flow"; // tint for the Aurora fallback when image is null
+  featured?: boolean; // image-left/content-right, larger heading — replaces the deleted FeatureGrid's
+                       // .feat--lg layout, but stays on this card's own visual language (paper/radius/
+                       // shadow) rather than reviving FeatureGrid's separate umber-bordered .feat family.
+                       // Heading just scales up in Geist — never reach for .display/Averia here, that
+                       // face is reserved for hero/page-opening moments (see the Typography page).
+}
+const { title, subtitle, body, image, href, external = false, linkLabel, mediaPillar = "neural", featured = false } = Astro.props;
+const label = linkLabel ?? (external ? "Visit site ↗" : "Read case study →");
+---
+
+<article class:list={["project-tile", { "project-tile--featured": featured }]}>
+  <div class="project-tile__media">
+    {image
+      ? <img src={image} alt="" loading="lazy" />
+      : <Aurora pillar={mediaPillar} opacity={0.7} />}
+  </div>
+  <div class="project-tile__body">
+    {Astro.slots.has("badges") && (
+      <div class="project-tile__badges"><slot name="badges" /></div>
+    )}
+    <h3 class="project-tile__heading">{title}</h3>
+    {subtitle && <p class="project-tile__name">{subtitle}</p>}
+    <p class="project-tile__excerpt">{body}</p>
+    {href && (
+      <a class="project-tile__link" href={href} {...(external ? { target: "_blank", rel: "noopener" } : {})}>
+        {label}
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .project-tile {
+    display: flex; flex-direction: column; overflow: hidden;
+    background: var(--paper); border-radius: 0.75rem;
+    box-shadow: var(--shadow-sm); transition: box-shadow var(--t-med), translate var(--t-med);
+  }
+  .project-tile:hover { box-shadow: var(--shadow-md); translate: 0 -2px; }
+  .project-tile__media { aspect-ratio: 16 / 10; background: var(--surface-2); min-height: 0; position: relative; }
+  .project-tile__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .project-tile__media :global(.aurora) { position: absolute; inset: 0; }
+  .project-tile__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
+  .project-tile__badges { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-2); }
+  .project-tile__heading { font-size: var(--text-lg); margin: 0; }
+  .project-tile__name { font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 0; }
+  .project-tile__excerpt { color: var(--text-muted); font-size: var(--copy-md); line-height: var(--leading-body); margin: var(--space-2) 0 0; flex: 1; }
+  .project-tile__link { font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); text-decoration: none; margin-top: var(--space-2); }
+  .project-tile__link:hover { text-decoration: underline; }
+
+  /* Featured: image left, content right — same card, bigger stage. Heading is still plain Geist,
+     just larger (--text-xl); no .display anywhere in here. */
+  .project-tile--featured { flex-direction: row; }
+  .project-tile--featured .project-tile__media { flex: 1.1; aspect-ratio: auto; min-height: 22rem; }
+  .project-tile--featured .project-tile__body { flex: 1; padding: var(--space-8); justify-content: center; }
+  .project-tile--featured .project-tile__heading { font-size: var(--text-xl); }
+  @media (max-width: 820px) {
+    .project-tile--featured { flex-direction: column; }
+    .project-tile--featured .project-tile__media { aspect-ratio: 16 / 9; min-height: 0; }
+  }
+</style>

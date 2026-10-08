@@ -1,0 +1,8 @@
+{
+  "name": "social-story-r1",
+  "format": "ig-story",
+  "palette": "neural",
+  "field": { "seed": 62, "count": 15 },
+  "padRatio": 0.28,
+  "notes": "ig-story backdrop"
+}

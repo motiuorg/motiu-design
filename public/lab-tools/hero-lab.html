@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="fonts-google-2026-06-04-experiment.css">
+  <link rel="stylesheet" href="tokens-2026-06-04-experiment.css">
+  <link rel="stylesheet" href="primitives-2026-06-04-experiment.css">
+  <link rel="stylesheet" href="hero-editor/hero-editor.css">
+  <title>Hero generative lab</title>
+  <link rel="icon" href="assets/favicons.png">
+</head>
+<body class="hero-lab-page">
+
+<div class="opening-voronoi">
+  <nav class="nav">
+    <a href="./" class="nav__brand">motiu</a>
+    <div class="nav__links">
+      <a href="#approach">Our approach</a>
+      <a href="index-2026-06-04-experiment.html#what-we-do">What we do</a>
+      <a href="index-2026-06-04-experiment.html#projects">Projects</a>
+      <a href="index-2026-06-04-experiment.html#who-we-work-with">Who we work with</a>
+      <a href="index-2026-06-04-experiment.html#who-we-are">Who we are</a>
+      <a class="btn btn--secondary" href="index-2026-06-04-experiment.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <div class="opening-voronoi__illustration">
+    <div class="hero__pattern" aria-hidden="true">
+      <canvas class="opening-voronoi__canvas" data-hero-canvas width="1600" height="1100" hidden></canvas>
+      <svg class="opening-voronoi__svg" data-voronoi-svg viewBox="0 0 1600 1100" preserveAspectRatio="xMidYMid slice">
+        <g data-voronoi-cells></g>
+        <g class="voronoi-protect-overlay" data-voronoi-protect-overlay></g>
+        <g class="voronoi-handles" data-voronoi-handles hidden></g>
+        <g class="voronoi-sub-handles" data-voronoi-sub-handles hidden></g>
+      </svg>
+    </div>
+
+    <section class="hero">
+      <div class="hero__content">
+      <h1 class="hero__title">Infrastructure for territorial regeneration</h1>
+      <div class="hero__badges" aria-label="What we do">
+        <span class="pillar-badge pillar-badge--tissue">Network coordination</span>
+        <span class="pillar-badge pillar-badge--neural">Collective intelligence</span>
+        <span class="pillar-badge pillar-badge--flow">Regenerative finance</span>
+      </div>
+      <p class="hero__tagline">
+        Regeneration that doesn't reach the economic and social roots doesn't last. We build the
+        coordination, shared knowledge, and financial architecture that let networks of initiatives
+        act coherently across their territory.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="index-2026-06-04-experiment.html#contact">Contact us</a>
+      </div>
+      </div>
+    </section>
+
+    <section class="section-block" id="approach">
+      <h2 class="section-block__title">Our approach</h2>
+      <p class="section-block__intro">
+        There's a gap at the heart of most regenerative work: between the ambition and the infrastructure
+        needed to realize it. Projects that should reinforce each other operate in isolation. Ecological
+        and social goals run on separate tracks. Financial systems designed for a different era can't
+        sustain transitions that take decades. We work in that gap — the connective tissue between
+        initiatives, the conditions beneath the visible work.
+      </p>
+    </section>
+  </div>
+</div>
+
+<aside class="voronoi-editor voronoi-editor--lab" data-voronoi-editor aria-label="Hero generative editor">
+  <div class="voronoi-editor__header" data-voronoi-panel-drag>
+    <span class="voronoi-editor__drag-handle" aria-hidden="true">⋮⋮</span>
+    <span class="voronoi-editor__title">
+      Hero lab
+      <span class="voronoi-editor__editing-badge" data-voronoi-editing-badge hidden> · editing geometry</span>
+    </span>
+    <button type="button" class="voronoi-editor__minimize" data-voronoi-panel-toggle aria-expanded="true" aria-label="Minimize panel">−</button>
+  </div>
+  <div class="voronoi-editor__body">
+    <div class="voronoi-editor__export-row">
+      <button type="button" data-hero-export-png>Export PNG</button>
+      <button type="button" data-voronoi-copy>Copy JSON</button>
+      <button type="button" data-hero-load-preset>Load file</button>
+      <button type="button" data-hero-paste-preset>Paste JSON</button>
+      <input type="file" accept="application/json,.json" data-hero-load-input>
+    </div>
+
+    <div class="voronoi-editor__zone">
+      <div class="voronoi-editor__zone-head">
+        <span class="voronoi-editor__zone-title">Tissue</span>
+      </div>
+      <div class="voronoi-editor__zone-params">
+        <div class="voronoi-editor__row">
+          <label for="layer-tissue-style">Render</label>
+          <select id="layer-tissue-style" data-layer-tissue-style>
+            <option value="outline">Outline (walls only)</option>
+            <option value="filled">Filled lumens</option>
+          </select>
+        </div>
+        <p class="voronoi-editor__hint">Voronoi cell scaffold. Edit geometry unlocks pink handles on the pattern behind the text.</p>
+        <div class="voronoi-editor__actions">
+          <button type="button" data-voronoi-edit-toggle>Edit geometry</button>
+          <button type="button" data-voronoi-add-point>Add point</button>
+          <button type="button" data-voronoi-remove-point>Remove point</button>
+          <button type="button" data-voronoi-reset>Reset</button>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="voronoi-corner">Corner radius <output data-voronoi-corner-out>25</output></label>
+          <input id="voronoi-corner" type="range" min="0" max="120" step="1" value="25" data-voronoi-corner>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="voronoi-stroke">Wall weight <output data-voronoi-stroke-out>4</output></label>
+          <input id="voronoi-stroke" type="range" min="2" max="24" step="1" value="4" data-voronoi-stroke>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="voronoi-scale">Scale <output data-voronoi-scale-out>1</output></label>
+          <input id="voronoi-scale" type="range" min="0.4" max="2.5" step="0.01" value="1" data-voronoi-scale>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="voronoi-stretch-x">Width <output data-voronoi-stretch-x-out>0.93</output></label>
+          <input id="voronoi-stretch-x" type="range" min="0.4" max="2.5" step="0.01" value="0.93" data-voronoi-stretch-x>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="voronoi-stretch-y">Height <output data-voronoi-stretch-y-out>1</output></label>
+          <input id="voronoi-stretch-y" type="range" min="0.4" max="2.5" step="0.01" value="1" data-voronoi-stretch-y>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="voronoi-rotation">Rotation <output data-voronoi-rotation-out>0</output>°</label>
+          <input id="voronoi-rotation" type="range" min="-180" max="180" step="1" value="0" data-voronoi-rotation>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="voronoi-offset-x">Pan X <output data-voronoi-offset-x-out>34</output></label>
+          <input id="voronoi-offset-x" type="range" min="-600" max="600" step="1" value="34" data-voronoi-offset-x>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="voronoi-offset-y">Pan Y <output data-voronoi-offset-y-out>185</output></label>
+          <input id="voronoi-offset-y" type="range" min="-600" max="600" step="1" value="185" data-voronoi-offset-y>
+        </div>
+        <div class="voronoi-editor__section is-collapsed" data-voronoi-section="tissueNesting">
+          <div class="voronoi-editor__section-head">
+            <button type="button" class="voronoi-editor__section-toggle" data-voronoi-section-toggle aria-expanded="false">
+              <span>Nesting</span>
+              <span class="voronoi-editor__section-chevron" aria-hidden="true">▸</span>
+            </button>
+          </div>
+          <div class="voronoi-editor__section-body">
+            <p class="voronoi-editor__hint" data-voronoi-sub-selection>Select a cell outline to nest sub-cells.</p>
+            <div class="voronoi-editor__actions">
+              <button type="button" data-voronoi-sub-up hidden>Go up</button>
+              <button type="button" data-voronoi-sub-toggle>Toggle sub</button>
+              <button type="button" data-voronoi-sub-add>Add sub point</button>
+              <button type="button" data-voronoi-sub-remove>Remove sub point</button>
+              <button type="button" data-voronoi-sub-clear-all>Clear all subs</button>
+            </div>
+            <div class="voronoi-editor__row">
+              <label for="voronoi-sub-corner">Sub corner <output data-voronoi-sub-corner-out>20</output></label>
+              <input id="voronoi-sub-corner" type="range" min="0" max="80" step="1" value="20" data-voronoi-sub-corner>
+            </div>
+            <div class="voronoi-editor__row">
+              <label for="voronoi-sub-stroke">Sub outline <output data-voronoi-sub-stroke-out>4</output></label>
+              <input id="voronoi-sub-stroke" type="range" min="1" max="16" step="1" value="4" data-voronoi-sub-stroke>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="voronoi-editor__zone">
+      <div class="voronoi-editor__zone-head">
+        <span class="voronoi-editor__zone-title">Protect content</span>
+        <label class="voronoi-editor__toggle"><input type="checkbox" data-voronoi-protect-toggle> On</label>
+      </div>
+      <div class="voronoi-editor__zone-params">
+        <p class="voronoi-editor__hint">Prototype: pins the nearest point to the logo, nav, hero, and approach copy, then pushes every other point clear so no cell edge crosses them. Resize the window to test — the pins re-measure from the live layout.</p>
+        <p class="voronoi-editor__status" data-voronoi-protect-status aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="voronoi-editor__zone">
+      <div class="voronoi-editor__zone-head">
+        <span class="voronoi-editor__zone-title">Networks</span>
+        <label class="voronoi-editor__toggle"><input type="checkbox" data-layer-networks> On</label>
+      </div>
+      <div class="voronoi-editor__zone-params" data-layer-network-params>
+        <div class="voronoi-editor__row">
+          <label for="layer-network-seed">Seed <output data-layer-network-seed-out>42</output></label>
+          <input id="layer-network-seed" type="range" min="1" max="999" step="1" value="42" data-layer-network-seed>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="layer-network-coverage">Edge coverage <output data-layer-network-coverage-out>42</output>%</label>
+          <input id="layer-network-coverage" type="range" min="10" max="80" step="1" value="42" data-layer-network-coverage>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="layer-network-depth">Branch depth <output data-layer-network-depth-out>5</output></label>
+          <input id="layer-network-depth" type="range" min="2" max="8" step="1" value="5" data-layer-network-depth>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="layer-network-chaos">Randomness <output data-layer-network-chaos-out>24</output></label>
+          <input id="layer-network-chaos" type="range" min="0" max="100" step="1" value="24" data-layer-network-chaos>
+        </div>
+      </div>
+    </div>
+
+    <div class="voronoi-editor__zone">
+      <div class="voronoi-editor__zone-head">
+        <span class="voronoi-editor__zone-title">Flows</span>
+        <label class="voronoi-editor__toggle"><input type="checkbox" data-layer-flows> On</label>
+      </div>
+      <div class="voronoi-editor__zone-params" data-layer-flow-params>
+        <div class="voronoi-editor__row">
+          <label for="layer-flow-seed">Seed <output data-layer-flow-seed-out>7</output></label>
+          <input id="layer-flow-seed" type="range" min="1" max="999" step="1" value="7" data-layer-flow-seed>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="layer-flow-particles">Streamlines <output data-layer-flow-particles-out>64</output></label>
+          <input id="layer-flow-particles" type="range" min="18" max="120" step="2" value="64" data-layer-flow-particles>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="layer-flow-curl">Field curl <output data-layer-flow-curl-out>40</output></label>
+          <input id="layer-flow-curl" type="range" min="5" max="100" step="1" value="40" data-layer-flow-curl>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="layer-flow-trail">Trail length <output data-layer-flow-trail-out>88</output></label>
+          <input id="layer-flow-trail" type="range" min="24" max="140" step="2" value="88" data-layer-flow-trail>
+        </div>
+      </div>
+    </div>
+
+    <p class="voronoi-editor__status" data-voronoi-status aria-live="polite"></p>
+    <p class="voronoi-editor__hint"><a href="index-2026-06-04-experiment.html">Full site</a> — paste JSON to validate.</p>
+  </div>
+</aside>
+
+<script type="module">
+import { initHeroEditor } from './hero-editor/hero-editor.mjs';
+initHeroEditor({
+  mode: 'lab',
+  storageKey: 'refi-hero-lab-v4',
+  sectionCollapseKey: 'refi-hero-lab-sections-v4',
+  panelPosKey: 'refi-hero-lab-panel-v4',
+  startExpanded: true,
+  autoEdit: false,
+});
+</script>
+
+<script>
+(function () {
+  var nav = document.querySelector('.nav');
+  if (!nav) return;
+  function updateNavScroll() {
+    nav.classList.toggle('is-scrolled', window.scrollY > 8);
+  }
+  updateNavScroll();
+  window.addEventListener('scroll', updateNavScroll, { passive: true });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Proof numbers for StatBand (landing + about). Every figure must be
+# verifiable in existing org copy — source noted per entry.
+stats:
+  - value: "€27K+"
+    label: pooled through Regenerant Catalunya
+    # source: about theory-of-change / case study
+  - value: "10+"
+    label: local regenerative projects funded
+    # source: about theory-of-change
+  - value: "3"
+    label: operators at Bloc4, Barcelona
+    # source: landing team section
+  - value: "2"
+    label: local networks facilitated end-to-end
+    # source: Regenerant Catalunya case study

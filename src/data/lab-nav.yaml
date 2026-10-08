@@ -1,0 +1,9 @@
+# src/data/lab-nav.yaml — side-nav structure for /lab/*, the experimental playground (distinct
+# from /design-system/*, the docs). One entry per tool. `slug` must match the folder name under
+# src/pages/lab/ (slug "" = the /lab/ index itself).
+groups:
+  - label: Experiments
+    items:
+      - { slug: "", label: "Overview" }
+      - { slug: voronoi, label: "Voronoi hero editor" }
+      - { slug: voronoi-letters, label: "Voronoi letter-logo" }

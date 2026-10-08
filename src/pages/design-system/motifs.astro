@@ -1,0 +1,26 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+---
+<LabShell title="Motifs" current="motifs"
+  intro="The Voronoi tissue pattern used behind the homepage hero. Docs pages are static reference —
+  the live, tunable editor now lives over in Lab, not embedded here.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <p class="lab-source">Source: projects/branding/preview/hero-lab.html (org-os repo) · copied into public/lab-tools/hero-lab.html</p>
+    <div class="lab-frame">
+      <img src="/images/design-system/voronoi-preview.jpg" alt="Voronoi tissue pattern behind the homepage hero — cell outlines in a light umber-on-paper wash." style="display: block; width: 100%;" />
+    </div>
+    <p class="lab-source" style="margin-top: var(--space-3);">
+      <a class="link" href="/lab/voronoi/">Open the live editor in Lab →</a>
+    </p>
+  </div>
+
+  <div class="lab-note">
+    <strong>Note:</strong> the editable tool moved to <a class="link" href="/lab/voronoi/">/lab/voronoi</a>
+    (2026-08-12) as part of splitting this area into Design System (docs, this page) and Lab
+    (experiments) — this page now just shows what it currently produces. Still copied by hand from
+    the org-os monorepo, not symlinked — if the hero lab changes over there, both the tool and this
+    preview image need re-syncing manually. Worth automating if it turns out to churn a lot.
+  </div>
+</LabShell>

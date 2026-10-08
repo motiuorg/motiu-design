@@ -1,0 +1,10 @@
+{
+  "name": "m-mark-r1-b",
+  "format": "mark",
+  "palette": "primary-on-paper",
+  "sites": [[240,240],[240,600],[240,960],[600,520],[600,860],[960,240],[960,600],[960,960],[430,180],[770,180],[600,1080]],
+  "stroke": 8,
+  "cornerRadius": 45,
+  "padRatio": 0.28,
+  "notes": "same geometry, primary colour + heavier stroke + softer corners. Note: shipped with a deliberate 'format: terracotta-placeholder' error to test read-before-paste; scripts/lib/preset.mjs validatePreset() caught it immediately (unknown format, threw before any render) — fixed to 'mark'. Same no-legible-M finding as m-mark-r1-a; see that preset's notes for the 3-attempt re-roll log."
+}

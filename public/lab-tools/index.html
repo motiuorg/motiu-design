@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="fonts-google.css">
+  <link rel="stylesheet" href="fonts-earth-tone.css">
+  <title>Branding test</title>
+  <link rel="icon" href="assets/favicons.png">
+  <link rel="stylesheet" href="tokens.css">
+  <script src="preview-persist.js"></script>
+  <link rel="stylesheet" href="primitives.css">
+  <style>
+    /* Landing-specific layout (not part of design system tokens) */
+    .nav {
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: var(--space-3) var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      z-index: 10;
+    }
+    .nav__brand {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: var(--text-md);
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav__brand:hover { color: var(--paper-700); }
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+    .nav__links a:not(.btn) {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: var(--text-sm);
+    }
+    .nav__links a:not(.btn):hover { color: var(--paper-700); }
+    .nav__links .btn {
+      font-size: var(--text-sm);
+      padding: var(--space-2) var(--space-4);
+    }
+
+    .hero {
+      padding: calc(var(--space-24) + var(--space-4)) var(--space-6) var(--space-20);
+      max-width: var(--container-xl);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: var(--space-12);
+      align-items: center;
+    }
+    .hero__title {
+      font-family: var(--font-display);
+      font-weight: var(--font-display-weight);
+      font-size: var(--text-5xl);
+      line-height: var(--leading-display);
+      margin-bottom: var(--space-4);
+      letter-spacing: -0.02em;
+    }
+    .hero__badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+      max-width: 42ch;
+    }
+    .hero__badges .pillar-badge {
+      margin-bottom: 0;
+      width: fit-content;
+    }
+    .hero__tagline {
+      font-size: var(--text-md);
+      color: var(--text-muted);
+      margin-bottom: var(--space-8);
+      max-width: 42ch;
+    }
+    .hero__actions {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    .hero__visual {
+      aspect-ratio: 3 / 4;
+      width: min(420px, 100%);
+      max-height: min(560px, 70vh);
+      margin-inline: auto;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg);
+    }
+    .hero__visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .section-block {
+      padding: var(--space-24) var(--space-6);
+      max-width: var(--container-xl);
+      margin: 0 auto;
+    }
+    .section-block--alt {
+      background: var(--surface-1);
+      max-width: none;
+      margin: 0;
+      padding-left: max(var(--space-6), calc((100% - var(--container-xl)) / 2));
+      padding-right: max(var(--space-6), calc((100% - var(--container-xl)) / 2));
+    }
+    .section-block--alt > * {
+      max-width: var(--container-xl);
+      margin-left: 0;
+      margin-right: 0;
+      width: 100%;
+    }
+    .section-block__intro {
+      text-align: left;
+    }
+    .section-block__title {
+      font-size: var(--text-3xl);
+      margin-bottom: var(--space-4);
+      letter-spacing: -0.02em;
+    }
+    .section-block__intro {
+      font-size: var(--text-md);
+      color: var(--text-muted);
+      margin-bottom: var(--space-12);
+      max-width: 60ch;
+    }
+    .pillar-rows {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-20);
+    }
+    .pillar-row {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      column-gap: var(--space-10);
+      align-items: start;
+    }
+    .pillar-row__content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+      max-width: 52ch;
+    }
+    .pillar-row__content .pillar-badge {
+      margin-bottom: 0;
+    }
+    .pillar-row__media {
+      margin-top: calc(var(--text-xs) * 1.5 + var(--space-1) * 2 + var(--space-4));
+    }
+    .pillar-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-pill);
+      margin-bottom: var(--space-4);
+    }
+    .pillar-badge--tissue {
+      background: var(--pillar-tissue-light);
+      color: var(--pillar-tissue-dark);
+    }
+    .pillar-badge--neural {
+      background: var(--pillar-neural-light);
+      color: var(--pillar-neural-dark);
+    }
+    .pillar-badge--flow {
+      background: var(--pillar-flow-light);
+      color: var(--pillar-flow-dark);
+    }
+    .pillar-row__title {
+      font-family: var(--font-display);
+      font-weight: var(--font-display-weight);
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-3);
+      letter-spacing: -0.02em;
+      line-height: var(--leading-heading);
+    }
+    .pillar-row__intro {
+      color: var(--text-muted);
+      font-size: var(--text-md);
+      margin-bottom: var(--space-5);
+      line-height: var(--leading-body);
+      max-width: 48ch;
+    }
+    .pillar-row__services {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .pillar-row__services li h4 {
+      font-size: var(--text-md);
+      margin-bottom: var(--space-1);
+      font-family: var(--font-body);
+      font-weight: 600;
+    }
+    .pillar-row__services li p {
+      color: var(--text-muted);
+      font-size: var(--text-base);
+      margin: 0;
+      line-height: var(--leading-body);
+      max-width: 48ch;
+    }
+    .pillar-row__media {
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+    }
+    .pillar-row__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .callout {
+      margin-top: var(--space-20);
+      padding: var(--space-10) var(--space-8);
+      background: var(--text-primary);
+      border-radius: var(--radius-lg);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+    }
+    .callout__text {
+      margin: 0;
+      font-size: var(--text-md);
+      color: var(--paper-100);
+      max-width: 52ch;
+      line-height: var(--leading-body);
+    }
+    .callout__text strong {
+      color: var(--paper-50);
+      font-weight: 600;
+    }
+    .callout .btn--primary {
+      background: var(--paper-50);
+      color: var(--text-primary);
+    }
+    .callout .btn--primary:hover:not(:disabled) {
+      background: var(--paper-100);
+      color: var(--text-primary);
+    }
+    .audience-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0 var(--space-12);
+    }
+    .audience-list__item {
+      padding: var(--space-5) 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .audience-list__item:nth-last-child(-n+2) {
+      border-bottom: none;
+    }
+    .audience-list__label {
+      display: block;
+      font-size: var(--text-md);
+      font-weight: 600;
+      margin-bottom: var(--space-1);
+    }
+    .audience-list__desc {
+      color: var(--text-muted);
+      font-size: var(--text-base);
+      margin: 0;
+      line-height: var(--leading-body);
+    }
+
+    .project-gallery {
+      border: none;
+      background: transparent;
+      overflow: visible;
+    }
+    .project-gallery__nav {
+      display: flex;
+      align-items: flex-end;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-3) 0;
+      background: var(--surface-1);
+      border-bottom: none;
+      position: relative;
+      z-index: 2;
+    }
+    .project-gallery__nav.is-tabs-fit .project-gallery__btn {
+      display: none;
+    }
+    .project-gallery__tabs {
+      display: flex;
+      flex: 1;
+      flex-wrap: nowrap;
+      align-items: flex-end;
+      gap: var(--space-1);
+      min-height: 2.75rem;
+      overflow-x: auto;
+      overflow-y: visible;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .project-gallery__tabs::-webkit-scrollbar {
+      display: none;
+    }
+    .project-gallery__tab {
+      flex-shrink: 0;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--text-muted);
+      background: color-mix(in srgb, var(--paper-200) 30%, var(--surface-1));
+      border: 1px solid var(--border-subtle);
+      border-bottom: none;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      padding: var(--space-3) var(--space-4);
+      margin: 0;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 150ms, color 150ms, border-color 150ms;
+    }
+    .project-gallery__tab:hover {
+      color: var(--text-primary);
+      background: color-mix(in srgb, var(--paper-200) 15%, var(--surface-1));
+    }
+    .project-gallery__tab.is-active {
+      color: var(--text-primary);
+      font-weight: 600;
+      background: var(--paper-50);
+      border-color: var(--border-subtle);
+      border-bottom: none;
+      margin-bottom: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .project-gallery__tab:focus-visible {
+      outline: 2px solid var(--text-primary);
+      outline-offset: 2px;
+    }
+    .project-gallery__viewport {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: var(--space-10) var(--space-8) var(--space-8);
+      background: var(--paper-50);
+      border: 1px solid var(--border-subtle);
+      border-top: none;
+      border-radius: var(--radius-lg);
+    }
+    .project-gallery__rule {
+      position: absolute;
+      top: 0;
+      height: 1px;
+      background: var(--border-subtle);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .project-gallery__rule--left {
+      left: 0;
+      width: var(--tab-rule-start, 0px);
+    }
+    .project-gallery__rule--right {
+      left: var(--tab-rule-end, 100%);
+      right: 0;
+    }
+    .project-slide {
+      position: relative;
+      z-index: 1;
+      grid-area: 1 / 1;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: var(--space-10);
+      align-items: start;
+      align-content: start;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 280ms ease, visibility 280ms;
+    }
+    .project-slide.is-active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .project-slide__content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      align-self: start;
+    }
+    .project-slide__badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+    .project-slide__badges .pillar-badge {
+      margin-bottom: 0;
+    }
+    .project-slide__heading {
+      font-family: var(--font-display);
+      font-weight: var(--font-display-weight);
+      font-size: var(--text-2xl);
+      line-height: var(--leading-heading);
+      margin: 0 0 var(--space-3);
+      letter-spacing: -0.02em;
+      max-width: 38ch;
+    }
+    .project-slide__byline {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-3) var(--space-5);
+      margin: 0 0 var(--space-5);
+    }
+    .project-byline-person {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .project-byline-person__photo {
+      width: 2rem;
+      height: 2rem;
+      border-radius: var(--radius-full);
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--border-subtle);
+    }
+    .project-byline-person__photo--placeholder {
+      display: block;
+      background: var(--surface-2);
+      box-sizing: border-box;
+    }
+    .project-byline-person__name {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+    }
+    .project-slide__text {
+      color: var(--text-muted);
+      font-size: var(--text-md);
+      line-height: var(--leading-body);
+      margin: 0 0 var(--space-6);
+      max-width: 52ch;
+    }
+    .project-slide__media {
+      margin-top: calc(var(--text-xs) * 1.5 + var(--space-1) * 2 + var(--space-4));
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      align-self: start;
+    }
+    .project-slide__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .project-slide__media--placeholder {
+      border: 2px dashed var(--border-default);
+      background: var(--bg);
+    }
+    .project-gallery__btn {
+      flex-shrink: 0;
+      align-self: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-default);
+      background: color-mix(in srgb, var(--paper-200) 30%, var(--surface-1));
+      color: var(--text-primary);
+      cursor: pointer;
+      font-size: var(--text-lg);
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 150ms, background-color 150ms;
+    }
+    .project-gallery__btn:hover {
+      border-color: var(--text-primary);
+      background: var(--paper-50);
+    }
+    .project-gallery__btn:focus-visible {
+      outline: 2px solid var(--text-primary);
+      outline-offset: 2px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-8);
+    }
+    .team-member {
+      text-align: center;
+    }
+    .team-member__photo {
+      width: 12rem;
+      height: 12rem;
+      border-radius: var(--radius-lg);
+      object-fit: cover;
+      display: block;
+      margin: 0 auto var(--space-5);
+      border: 1px solid var(--border-subtle);
+    }
+    .team-member__photo--placeholder {
+      background: var(--surface-2);
+      border: 2px dashed var(--border-default);
+      box-sizing: border-box;
+    }
+    .team-member__name {
+      font-family: var(--font-display);
+      font-weight: var(--font-display-weight);
+      font-size: var(--text-lg);
+      margin-bottom: var(--space-1);
+      letter-spacing: -0.01em;
+    }
+    .team-member__role {
+      font-size: var(--text-base);
+      color: var(--text-muted);
+      margin: 0 0 var(--space-3);
+    }
+    .team-member__bio {
+      font-size: var(--text-base);
+      color: var(--text-muted);
+      line-height: var(--leading-body);
+      margin: 0 0 var(--space-4);
+    }
+    .team-member__link {
+      font-size: var(--text-sm);
+      font-weight: 500;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: var(--space-12);
+      align-items: start;
+    }
+    .contact-layout__title {
+      font-size: var(--text-3xl);
+      margin-bottom: var(--space-4);
+      letter-spacing: -0.02em;
+    }
+    .contact-layout__text {
+      font-size: var(--text-base);
+      color: var(--text-muted);
+      line-height: var(--leading-body);
+      margin: 0 0 var(--space-4);
+      max-width: 42ch;
+    }
+    .contact-layout__email {
+      font-size: var(--text-base);
+      margin-top: var(--space-2);
+    }
+    .contact-form {
+      padding: var(--space-8);
+      background: var(--bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+    .contact-form .field__label {
+      font-size: var(--text-base);
+    }
+    .contact-form .field__input {
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+    }
+    .contact-form textarea.field__input {
+      min-height: 9rem;
+      resize: vertical;
+    }
+    .contact-form__submit {
+      align-self: flex-start;
+      margin-top: var(--space-1);
+    }
+
+    #contact.section-block--alt {
+      padding-bottom: var(--space-24);
+      margin-bottom: 0;
+    }
+    .footer {
+      background: var(--text-primary);
+      color: var(--paper-100);
+      padding: var(--space-24) var(--space-6);
+      margin-top: 0;
+    }
+    .footer__grid {
+      max-width: var(--container-xl);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-8);
+    }
+    .footer__col h4 {
+      font-size: var(--text-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--paper-200);
+      margin-bottom: var(--space-3);
+      font-family: var(--font-body);
+    }
+    .footer__col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .footer__col a {
+      color: var(--paper-50);
+      text-decoration: none;
+      font-size: var(--text-sm);
+    }
+    .footer__col a:hover { color: var(--paper-100); }
+    .footer__col p,
+    .footer__tagline {
+      color: var(--paper-100);
+      font-size: var(--text-sm);
+      max-width: 32ch;
+      margin: 0;
+      line-height: var(--leading-body);
+    }
+    .footer .link {
+      color: var(--paper-100);
+      font-weight: 700;
+    }
+    .footer .link:hover {
+      color: var(--paper-50);
+    }
+    .footer__legal {
+      max-width: var(--container-xl);
+      margin: var(--space-12) auto 0;
+      padding-top: var(--space-6);
+      border-top: 1px solid color-mix(in srgb, var(--paper-200) 35%, transparent);
+      color: var(--paper-200);
+      font-size: var(--text-sm);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    .footer__roots {
+      font-style: italic;
+      color: var(--paper-200);
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: calc(var(--space-16) + var(--space-3)) var(--space-5) var(--space-12);
+        gap: var(--space-8);
+      }
+      .hero__visual {
+        order: -1;
+      }
+      .hero__title { font-size: var(--text-4xl); }
+      .footer__grid { grid-template-columns: 1fr 1fr; }
+      .section-block { padding: var(--space-16) var(--space-5); }
+      .footer { padding: var(--space-16) var(--space-5); }
+      .nav { padding: var(--space-3) var(--space-4); gap: var(--space-3); }
+      .audience-list { grid-template-columns: 1fr; }
+      .audience-list__item:nth-last-child(-n+2) { border-bottom: 1px solid var(--border-subtle); }
+      .audience-list__item:last-child { border-bottom: none; }
+      .project-slide {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+      .project-slide__media {
+        order: -1;
+        margin-top: 0;
+      }
+      .project-gallery__nav {
+        gap: var(--space-1);
+        padding: var(--space-2) var(--space-2) 0;
+      }
+      .project-gallery__tab {
+        font-size: var(--text-xs);
+        padding: var(--space-2) var(--space-3);
+      }
+      .project-gallery__viewport {
+        padding: var(--space-8) var(--space-5) var(--space-6);
+      }
+      .pillar-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+      .pillar-row__content {
+        order: -1;
+      }
+      .pillar-row__media {
+        margin-top: 0;
+      }
+      .callout {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .team-grid { grid-template-columns: 1fr; gap: var(--space-10); }
+      .contact-layout { grid-template-columns: 1fr; gap: var(--space-8); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="nav">
+  <a href="./" class="nav__brand">refi bcn</a>
+  <div class="nav__links">
+    <a href="#approach">Our approach</a>
+    <a href="#what-we-do">What we do</a>
+    <a href="#projects">Projects</a>
+    <a href="#who-we-work-with">Who we work with</a>
+    <a href="#who-we-are">Who we are</a>
+    <a class="btn btn--secondary" href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div>
+    <h1 class="hero__title">Infrastructure for territorial regeneration</h1>
+    <div class="hero__badges" aria-label="What we do">
+      <span class="pillar-badge pillar-badge--tissue">Network coordination</span>
+      <span class="pillar-badge pillar-badge--neural">Collective intelligence</span>
+      <span class="pillar-badge pillar-badge--flow">Regenerative finance</span>
+    </div>
+    <p class="hero__tagline">
+      Regeneration that doesn't reach the economic and social roots doesn't last. We build the
+      coordination, shared knowledge, and financial architecture that let networks of initiatives
+      act coherently across their territory.
+    </p>
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="#contact">Contact us</a>
+    </div>
+  </div>
+  <div class="hero__visual">
+    <img src="assets/motif-inspo/brand-motif-hero-organism.png" alt="Symbiotic organism — brand motif">
+  </div>
+</section>
+
+<!-- ===== OUR APPROACH ===== -->
+<section class="section-block" id="approach">
+  <h2 class="section-block__title">Our approach</h2>
+  <p class="section-block__intro">
+    There's a gap at the heart of most regenerative work: between the ambition and the infrastructure
+    needed to realize it. Projects that should reinforce each other operate in isolation. Ecological
+    and social goals run on separate tracks. Financial systems designed for a different era can't
+    sustain transitions that take decades. We work in that gap — the connective tissue between
+    initiatives, the conditions beneath the visible work.
+  </p>
+</section>
+
+<!-- ===== WHAT WE DO ===== -->
+<section class="section-block" id="what-we-do">
+  <h2 class="section-block__title">What we do</h2>
+  <p class="section-block__intro">
+    We work at the substrate level — building the coordination, shared knowledge, and financial
+    architecture that allow networks of initiatives to act coherently across their territory.
+  </p>
+  <div class="pillar-rows">
+    <article class="pillar-row">
+      <div class="pillar-row__media">
+        <img src="assets/motif-inspo/brand-motif-territory-fields.png" alt="Tissues motif — network coordination">
+      </div>
+      <div class="pillar-row__content">
+        <span class="pillar-badge pillar-badge--tissue">Network coordination</span>
+        <div class="pillar-row__body">
+        <h3 class="pillar-row__title">Build the trust and rhythms that let networks move together</h3>
+        <p class="pillar-row__intro">
+          Regenerative transitions are, above all, coordination problems. We build the relational
+          and organizational infrastructure that makes sustained collaboration possible.
+        </p>
+        <ul class="pillar-row__services">
+          <li>
+            <h4>Program facilitation &amp; network accompaniment</h4>
+            <p>We facilitate multi-stakeholder processes, governance design, and network convenings — the shared rhythms that keep decisions moving, newcomers oriented, and friction from turning into fracture when too many relationships sit on one group.</p>
+          </li>
+          <li>
+            <h4>Process alignment &amp; automation</h4>
+            <p>We map and align workflows across a network — funding pipelines, application tracking, governance handoffs — and automate only where it actually cuts coordination tax instead of adding another layer.</p>
+          </li>
+        </ul>
+        </div>
+      </div>
+    </article>
+    <article class="pillar-row">
+      <div class="pillar-row__media">
+        <img src="assets/motif-inspo/brand-motif-blue-network.png" alt="Neural networks motif — collective intelligence">
+      </div>
+      <div class="pillar-row__content">
+        <span class="pillar-badge pillar-badge--neural">Collective intelligence</span>
+        <div class="pillar-row__body">
+        <h3 class="pillar-row__title">Make the territory legible so actors can see the whole</h3>
+        <p class="pillar-row__intro">
+          Networks can't align around what they can't see. Through research, mapping, and visualization
+          we build the shared understanding that lets actors recognize themselves as part of something larger.
+        </p>
+        <ul class="pillar-row__services">
+          <li>
+            <h4>Complex research &amp; visualizations</h4>
+            <p>Place-based research, social systems mapping, and visualization that make a territory legible — living outputs partners can revise together, not a report that goes stale the moment it's delivered.</p>
+          </li>
+          <li>
+            <h4>Collective knowledge infrastructure</h4>
+            <p>Linked knowledge bases, dashboards, and repositories the whole network can build on — designed for collective editing and complex decisions, not one drive or one person's memory.</p>
+          </li>
+        </ul>
+        </div>
+      </div>
+    </article>
+    <article class="pillar-row">
+      <div class="pillar-row__media">
+        <img src="assets/motif-inspo/brand-motif-flower-field.png" alt="Flows motif — regenerative finance">
+      </div>
+      <div class="pillar-row__content">
+        <span class="pillar-badge pillar-badge--flow">Regenerative finance</span>
+        <div class="pillar-row__body">
+        <h3 class="pillar-row__title">Finance transitions at the pace and scale regeneration needs</h3>
+        <p class="pillar-row__intro">
+          The financial systems that exist weren't built to sustain territorial regeneration. We design
+          and operate alternatives that reward systemic outcomes, not isolated outputs.
+        </p>
+        <ul class="pillar-row__services">
+          <li>
+            <h4>Grant programs &amp; collaborative funding</h4>
+            <p>We design and run grant rounds and collaborative treasuries — from local pools to multi-sig funds — so more capital reaches more projects, with governance anyone in the network can verify.</p>
+          </li>
+          <li>
+            <h4>Landscape-scale finance strategy</h4>
+            <p>Portfolio development, fundraising support, and experiments in network-level financial infrastructure — for when you're ready to move beyond one-off grants toward capital that can follow regeneration over time.</p>
+          </li>
+        </ul>
+        </div>
+      </div>
+    </article>
+  </div>
+  <aside class="callout">
+    <p class="callout__text">
+      <strong>Working across a territory or network?</strong>
+      We help initiatives move from isolated projects to shared infrastructure — coordination, sensemaking, and finance designed for the scale of regeneration.
+    </p>
+    <a class="btn btn--primary" href="#contact">Contact us</a>
+  </aside>
+</section>
+
+<!-- ===== PROJECTS (CASE STUDIES) ===== -->
+<section class="section-block section-block--alt" id="projects">
+  <h2 class="section-block__title">Projects</h2>
+  <p class="section-block__intro">
+    Work we've done at the connective layer — funding programs, network coordination, and territorial
+    sensemaking across Catalonia and beyond.
+  </p>
+  <div class="project-gallery" data-project-gallery>
+    <div class="project-gallery__nav" data-project-nav>
+      <button type="button" class="project-gallery__btn" data-project-prev aria-label="Previous project">‹</button>
+      <div class="project-gallery__tabs" role="tablist" aria-label="Project case studies">
+        <button type="button" role="tab" class="project-gallery__tab is-active" data-project-tab aria-selected="true" aria-controls="project-panel-0" id="project-tab-0">Regenerant Catalunya</button>
+        <button type="button" role="tab" class="project-gallery__tab" data-project-tab aria-selected="false" aria-controls="project-panel-1" id="project-tab-1">ReFi DAO</button>
+        <button type="button" role="tab" class="project-gallery__tab" data-project-tab aria-selected="false" aria-controls="project-panel-2" id="project-tab-2">Bioregional Weaving Labs</button>
+        <button type="button" role="tab" class="project-gallery__tab" data-project-tab aria-selected="false" aria-controls="project-panel-3" id="project-tab-3">Bioregional Intelligence</button>
+        <button type="button" role="tab" class="project-gallery__tab" data-project-tab aria-selected="false" aria-controls="project-panel-4" id="project-tab-4">Altiplano Estepario</button>
+      </div>
+      <button type="button" class="project-gallery__btn" data-project-next aria-label="Next project">›</button>
+    </div>
+    <div class="project-gallery__viewport">
+      <div class="project-gallery__rule project-gallery__rule--left" aria-hidden="true"></div>
+      <div class="project-gallery__rule project-gallery__rule--right" aria-hidden="true"></div>
+      <article class="project-slide is-active" id="project-panel-0" role="tabpanel" aria-labelledby="project-tab-0" aria-hidden="false">
+        <div class="project-slide__content">
+          <div class="project-slide__badges">
+            <span class="pillar-badge pillar-badge--tissue">Network coordination</span>
+            <span class="pillar-badge pillar-badge--flow">Regenerative finance</span>
+          </div>
+          <h3 class="project-slide__heading">Territorial grantmaking locals can trust — and verify</h3>
+          <div class="project-slide__byline">
+            <span class="project-byline-person">
+              <img class="project-byline-person__photo" src="assets/luiz_fernando.jpg" alt="" width="32" height="32">
+              <span class="project-byline-person__name">Luiz Fernando Gomez Segala</span>
+            </span>
+            <span class="project-byline-person">
+              <img class="project-byline-person__photo" src="assets/giulio_quarta.jpg" alt="" width="32" height="32">
+              <span class="project-byline-person__name">Giulio Quarta</span>
+            </span>
+          </div>
+          <p class="project-slide__text">Regenerant Catalunya is a territorial funding program we designed and operated for Gitcoin Grants Round 24 — pooling more than €27K from Catalan donors and global matchers, then distributing it to ten-plus regenerative projects through a cooperative multi-sig treasury. We held the connective layer: partner onboarding, bilingual communications, application flows, evaluation criteria, and the weekly rhythms that kept funders, stewards, and grantees aligned across the round. Phase 2 extends that infrastructure with clearer reporting and longer-term accompaniment. The program proved that place-based regeneration can run on transparent, Web3-native rails without losing the social trust ESS networks depend on.</p>
+          <a class="btn btn--secondary" href="#">Read case study</a>
+        </div>
+        <div class="project-slide__media">
+          <img src="assets/projects/regenerant-catalunya-montserrat-dusk.png" alt="Regenerant Catalunya program">
+        </div>
+      </article>
+      <article class="project-slide" id="project-panel-1" role="tabpanel" aria-labelledby="project-tab-1" aria-hidden="true">
+        <div class="project-slide__content">
+          <div class="project-slide__badges">
+            <span class="pillar-badge pillar-badge--tissue">Network coordination</span>
+          </div>
+          <h3 class="project-slide__heading">Keeping global federations aligned when the round ends</h3>
+          <div class="project-slide__byline">
+            <span class="project-byline-person">
+              <img class="project-byline-person__photo" src="assets/luiz_fernando.jpg" alt="" width="32" height="32">
+              <span class="project-byline-person__name">Luiz Fernando Gomez Segala</span>
+            </span>
+          </div>
+          <p class="project-slide__text">As a local node in the ReFi DAO federation, we contribute operational design and coordination support to network-wide programs — from funding-round architecture and evaluation frameworks to the governance patterns that let distributed contributors move together without centralizing power. Our work with Regen Coordination extends that bridge: translating between cooperative practice in Catalonia and the tooling, treasuries, and reporting rhythms global regenerative finance expects. We document what works, surface friction early, and design processes teams can maintain between grant cycles — clear mandates, shared metrics, and handoffs that respect both ESS relationships and on-chain accountability. The aim is infrastructure networks renew, not one-off consulting.</p>
+          <a class="btn btn--secondary" href="#">Read case study</a>
+        </div>
+        <div class="project-slide__media">
+          <img src="assets/projects/refi-dao-knowledge-graph.png" alt="ReFi DAO knowledge graph">
+        </div>
+      </article>
+      <article class="project-slide" id="project-panel-2" role="tabpanel" aria-labelledby="project-tab-2" aria-hidden="true">
+        <div class="project-slide__content">
+          <div class="project-slide__badges">
+            <span class="pillar-badge pillar-badge--neural">Collective intelligence</span>
+            <span class="pillar-badge pillar-badge--tissue">Network coordination</span>
+          </div>
+          <h3 class="project-slide__heading">A portfolio view the whole network can orient around</h3>
+          <div class="project-slide__byline">
+            <span class="project-byline-person">
+              <span class="project-byline-person__photo project-byline-person__photo--placeholder" role="img" aria-label="Andrea Farias"></span>
+              <span class="project-byline-person__name">Andrea Farias</span>
+            </span>
+          </div>
+          <p class="project-slide__text">Bioregional Weaving Labs brings together place-based labs across continents; the network needed a shared view of who was doing what, where, and with what resources. We structured their Notion portfolio — relationships, programs, geographies, funding status, and maturity signals — then built portfolio views and maps that let stewards compare initiatives without collapsing local context. Workshops with lab leads shaped the taxonomy so categories reflected how practitioners actually describe their work. The result sits at the intersection of sensemaking and coordination: a legible network surface labs can use to learn from each other, spot gaps, and weave collaborations that respect bioregional difference.</p>
+          <a class="btn btn--secondary" href="#">Read case study</a>
+        </div>
+        <div class="project-slide__media">
+          <img src="assets/projects/bioregional-weaving-labs-map.png" alt="Bioregional Weaving Labs map">
+        </div>
+      </article>
+      <article class="project-slide" id="project-panel-3" role="tabpanel" aria-labelledby="project-tab-3" aria-hidden="true">
+        <div class="project-slide__content">
+          <div class="project-slide__badges">
+            <span class="pillar-badge pillar-badge--neural">Collective intelligence</span>
+          </div>
+          <h3 class="project-slide__heading">Making a bioregion legible for collective decisions</h3>
+          <div class="project-slide__byline">
+            <span class="project-byline-person">
+              <span class="project-byline-person__photo project-byline-person__photo--placeholder" role="img" aria-label="Andrea Farias"></span>
+              <span class="project-byline-person__name">Andrea Farias</span>
+            </span>
+            <span class="project-byline-person">
+              <img class="project-byline-person__photo" src="assets/luiz_fernando.jpg" alt="" width="32" height="32">
+              <span class="project-byline-person__name">Luiz Fernando Gomez Segala</span>
+            </span>
+          </div>
+          <p class="project-slide__text">The Bioregional Intelligence System is our research and visualization surface for territorial sensemaking — interactive maps and dashboards that show how initiatives, institutions, and landscapes relate across a bioregion such as the Fluvià watershed. Built for complex, collective decision-making, it turns qualitative fieldwork, interviews, and structured datasets into living views rather than static PDFs. Stakeholders can explore actors, capital flows, and gaps; project teams can update sources as conditions shift. We share components with sibling surfaces so sensemaking stays consistent across the ReFi BCN ecosystem while remaining editable by the people who know the territory. Findings can feed public maps and the Bioregional Garden when partners are ready to publish.</p>
+          <a class="btn btn--secondary" href="#">Read case study</a>
+        </div>
+        <div class="project-slide__media">
+          <img src="assets/projects/bioregional-intelligence-map.png" alt="Bioregional Intelligence map">
+        </div>
+      </article>
+      <article class="project-slide" id="project-panel-4" role="tabpanel" aria-labelledby="project-tab-4" aria-hidden="true">
+        <div class="project-slide__content">
+          <div class="project-slide__badges">
+            <span class="pillar-badge pillar-badge--neural">Collective intelligence</span>
+            <span class="pillar-badge pillar-badge--tissue">Network coordination</span>
+          </div>
+          <h3 class="project-slide__heading">Stewarded knowledge for a high-steppe landscape</h3>
+          <div class="project-slide__byline">
+            <span class="project-byline-person">
+              <span class="project-byline-person__photo project-byline-person__photo--placeholder" role="img" aria-label="Andrea Farias"></span>
+              <span class="project-byline-person__name">Andrea Farias</span>
+            </span>
+          </div>
+          <p class="project-slide__text">Altiplano Estepario is a stewarded knowledge commons for one of Europe's largest semi-arid landscapes — documenting regeneration practice, local actors, water stewardship, and learning across the Iberian southeast. We designed and maintain the site as a durable reference for researchers, funders, and practitioners working in dryland social-ecological systems where climate pressure and rural depopulation intersect. Pages link cases, maps, and bibliographies so visitors can follow threads across scale. The project demonstrates how collective intelligence can stay rooted in territory: curated narratives and contribution paths for people who know the land — not a generic platform imposed from outside.</p>
+          <a class="btn btn--secondary" href="#">Read case study</a>
+        </div>
+        <div class="project-slide__media">
+          <img src="assets/projects/altiplano-estepario-reservoir.png" alt="Altiplano Estepario landscape">
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHO WE WORK WITH ===== -->
+<section class="section-block" id="who-we-work-with">
+  <h2 class="section-block__title">Who we work with</h2>
+  <p class="section-block__intro">
+    Organizations, networks, and institutions that see ecological and social health as inseparable —
+    and understand that their work needs to operate systemically to affect real change.
+  </p>
+  <ul class="audience-list">
+    <li class="audience-list__item">
+      <span class="audience-list__label">Cooperatives &amp; solidarity economies</span>
+      <p class="audience-list__desc">You build through cooperative and solidarity structures — and need connective infrastructure that fits democratic ownership, not tools designed for extractive scale.</p>
+    </li>
+    <li class="audience-list__item">
+      <span class="audience-list__label">Bioeconomy &amp; regenerative agriculture</span>
+      <p class="audience-list__desc">Your work crosses landscapes and supply chains, and you need coordination that links rural stewards and urban food actors without flattening either context.</p>
+    </li>
+    <li class="audience-list__item">
+      <span class="audience-list__label">Nature restoration initiatives</span>
+      <p class="audience-list__desc">Your restoration only holds when the communities on the land shape governance and livelihoods — we work with initiatives that treat ecology and social fabric as one problem.</p>
+    </li>
+    <li class="audience-list__item">
+      <span class="audience-list__label">Local &amp; regional governments</span>
+      <p class="audience-list__desc">You steward public institutions watching a regenerative transition take shape — and want to align programs and partners around it without smothering what's already emerging.</p>
+    </li>
+    <li class="audience-list__item">
+      <span class="audience-list__label">Institutions at territory scale</span>
+      <p class="audience-list__desc">You work at watershed or bioregional scale, where place, social fabric, and ecological health have to be designed together — not handed off to separate silos.</p>
+    </li>
+    <li class="audience-list__item">
+      <span class="audience-list__label">Global networks &amp; researchers</span>
+      <p class="audience-list__desc">You're part of a federation or research community testing regenerative finance and governance — and need a local node that can bridge cooperative practice on the ground with network-scale infrastructure.</p>
+    </li>
+  </ul>
+</section>
+
+<!-- ===== WHO WE ARE ===== -->
+<section class="section-block" id="who-we-are">
+  <h2 class="section-block__title">Who we are</h2>
+  <p class="section-block__intro">
+    Three operators building the cooperative at Bloc4, Barcelona — working across coordination,
+    sensemaking, and regenerative finance.
+  </p>
+  <div class="team-grid">
+    <article class="team-member">
+      <div class="team-member__photo team-member__photo--placeholder" role="img" aria-label="Andrea Farias"></div>
+      <h3 class="team-member__name">Andrea Farias</h3>
+      <p class="team-member__role">Program design &amp; communications</p>
+      <p class="team-member__bio">Research, mapping, program design, and brand — from territorial sensemaking to the communications that hold networks together.</p>
+      <a class="team-member__link link link--external" href="#">LinkedIn</a>
+    </article>
+    <article class="team-member">
+      <img class="team-member__photo" src="assets/giulio_quarta.jpg" alt="Giulio Quarta" width="192" height="192">
+      <h3 class="team-member__name">Giulio Quarta</h3>
+      <p class="team-member__role">Operations, partnerships &amp; community</p>
+      <p class="team-member__bio">Partnership development, community coordination, and the operational backbone that keeps programs and networks running.</p>
+      <a class="team-member__link link link--external" href="#">LinkedIn</a>
+    </article>
+    <article class="team-member">
+      <img class="team-member__photo" src="assets/luiz_fernando.jpg" alt="Luiz Fernando Gomez Segala" width="192" height="192">
+      <h3 class="team-member__name">Luiz Fernando Gomez Segala</h3>
+      <p class="team-member__role">Strategy &amp; regenerative finance</p>
+      <p class="team-member__bio">Ecosystem coordination, funding operations, knowledge systems, and federation alignment — bridging ESS practice and regenerative finance tooling.</p>
+      <a class="team-member__link link link--external" href="#">LinkedIn</a>
+    </article>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="section-block section-block--alt" id="contact">
+  <div class="contact-layout">
+    <div class="contact-layout__copy">
+      <h2 class="contact-layout__title">Contact us</h2>
+      <p class="contact-layout__text">
+        Tell us about your network, territory, or program — whether you're exploring coordination,
+        collective intelligence, or regenerative finance. We'll get back to you within a few days.
+      </p>
+      <p class="contact-layout__text">
+        Prefer email directly? Write to
+        <a class="link" href="mailto:hello@refibcn.cat">hello@refibcn.cat</a>.
+      </p>
+    </div>
+    <form class="contact-form" action="mailto:hello@refibcn.cat" method="post" enctype="text/plain">
+      <div class="field">
+        <label class="field__label" for="contact-name">Name</label>
+        <input class="field__input" type="text" id="contact-name" name="name" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label class="field__label" for="contact-email">Email</label>
+        <input class="field__input" type="email" id="contact-email" name="email" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label class="field__label" for="contact-message">Message</label>
+        <textarea class="field__input" id="contact-message" name="message" required placeholder="What are you working on?"></textarea>
+      </div>
+      <button type="submit" class="btn btn--primary contact-form__submit">Send message</button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer__grid">
+    <div class="footer__col">
+      <img src="assets/refi-bcn-logo.png" alt="ReFi BCN" style="height: 40px; margin-bottom: var(--space-3);">
+      <p class="footer__tagline">
+        A cooperative building the infrastructure for territorial regeneration.
+      </p>
+    </div>
+    <div class="footer__col">
+      <h4>Sibling surfaces</h4>
+      <ul>
+        <li><a class="link--external" href="https://bioregional.refibcn.cat">Bioregional Intelligence</a></li>
+        <li><a class="link--external" href="https://bioregional.garden">Bioregional Garden</a></li>
+        <li><a class="link--external" href="https://regenerant-catalunya.refibcn.cat">Regenerant Catalunya</a></li>
+        <li><a class="link--external" href="https://mapa.refibcn.cat">Ecosystem Map</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h4>Federation</h4>
+      <ul>
+        <li><a class="link--external" href="https://refi.dao">ReFi DAO</a></li>
+        <li><a class="link--external" href="https://regen.build">Regen Coordination</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hello@refibcn.cat">hello@refibcn.cat</a></li>
+        <li><a class="link--external" href="https://github.com/refibcn">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__legal">
+    <span>© 2026 ReFi BCN</span>
+    <em class="footer__roots">Rooted in: Barcelona · Catalunya · Iberia · Mediterranean</em>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var gallery = document.querySelector('[data-project-gallery]');
+  if (!gallery) return;
+
+  var nav = gallery.querySelector('[data-project-nav]');
+  var tabsEl = gallery.querySelector('.project-gallery__tabs');
+  var slides = Array.prototype.slice.call(gallery.querySelectorAll('.project-slide'));
+  var tabs = Array.prototype.slice.call(gallery.querySelectorAll('[data-project-tab]'));
+  var index = 0;
+
+  var viewport = gallery.querySelector('.project-gallery__viewport');
+
+  function updateTabRule() {
+    var activeTab = gallery.querySelector('.project-gallery__tab.is-active');
+    if (!viewport || !activeTab) return;
+    var vRect = viewport.getBoundingClientRect();
+    var tRect = activeTab.getBoundingClientRect();
+    var start = Math.max(0, Math.round(tRect.left - vRect.left) - 2);
+    var end = Math.min(Math.round(vRect.width), Math.round(tRect.right - vRect.left) + 2);
+    gallery.style.setProperty('--tab-rule-start', start + 'px');
+    gallery.style.setProperty('--tab-rule-end', Math.max(start, end) + 'px');
+  }
+
+  function goTo(next) {
+    index = (next + slides.length) % slides.length;
+    slides.forEach(function (slide, i) {
+      var active = i === index;
+      slide.classList.toggle('is-active', active);
+      slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+    });
+    tabs.forEach(function (tab, i) {
+      var active = i === index;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      if (active) {
+        tab.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+      }
+    });
+    requestAnimationFrame(function () {
+      requestAnimationFrame(updateTabRule);
+    });
+  }
+
+  function updateNavFit() {
+    if (!nav || !tabsEl) return;
+    var fits = tabsEl.scrollWidth <= tabsEl.clientWidth + 1;
+    nav.classList.toggle('is-tabs-fit', fits);
+    updateTabRule();
+  }
+
+  gallery.querySelector('[data-project-prev]').addEventListener('click', function () { goTo(index - 1); });
+  gallery.querySelector('[data-project-next]').addEventListener('click', function () { goTo(index + 1); });
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { goTo(i); });
+  });
+
+  if (tabsEl) {
+    tabsEl.addEventListener('scroll', function () {
+      requestAnimationFrame(updateTabRule);
+    }, { passive: true });
+  }
+
+  updateNavFit();
+  window.addEventListener('resize', updateNavFit);
+  updateTabRule();
+})();
+</script>
+
+</body>
+</html>

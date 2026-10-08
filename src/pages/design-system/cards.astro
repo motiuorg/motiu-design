@@ -1,0 +1,142 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+import Aurora from "../../components/Aurora.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import PillarBadge from "../../components/PillarBadge.astro";
+import TeamCard from "../../components/TeamCard.astro";
+---
+<LabShell title="Cards" current="cards"
+  intro="ProjectCard (one component, three shapes — marketing grid, cohort grid, and featured) and the
+  .case-card mini card it pairs with on the Services page. See Divider lists for the row/column patterns
+  .case-card and others like it belong to — those aren't cards, so they live on their own page now.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Project cards</h2>
+    <p><code>ProjectCard</code> was two separate things until this pass: a <code>.project-tile</code>
+      markup+CSS block pasted identically into <code>index.astro</code> and <code>projects.astro</code>
+      (marketing variant, left), plus an unrelated, broken <code>ProjectCard.astro</code> that
+      <code>NetworkSection</code> called with the wrong props (<code>project</code>/<code>networkMeta</code>
+      instead of the <code>title</code>/<code>body</code> it actually read) — every card on the network
+      pages rendered blank. Now one component with a named <code>badges</code> slot, mapped two ways:
+      the marketing shape (<code>heading/name/excerpt</code> + <code>PillarBadge</code>) and the
+      Regenerant Catalunya cohort shape (<code>name/locality·theme/summary</code> + a status pill,
+      middle) — the first real use of the generic <code>.badge</code> pattern from the Badges page,
+      previously defined but unused anywhere. Link falls back through
+      <code>links.web → links.rc_page → links.karma</code> for the cohort variant; a project with
+      none of the three just renders without a footer link.
+      Alongside it, the smaller <code>.case-card</code> (right) — sized to its own content here rather
+      than stretched to match the taller project cards. On the real page it's paired with a
+      <code>.pillar-service</code> divider row; see <a class="link" href="/design-system/divider-lists/">Divider
+      lists</a> for that pairing.</p>
+    <p class="lab-source">Used in: index.astro (#projects), projects.astro (full grid), NetworkSection.astro
+      → projects/regenerant-catalunya (index + article, both networks), what-we-do.astro (case-card)</p>
+    <div class="lab-grid">
+      <ProjectCard image="/images/projects/mixite.png" title="Project heading" subtitle="Theme / category"
+        body="Excerpt copy, trimmed to the first paragraph of the case-study body or a hand-curated line from landing.yaml."
+        href="#">
+        <Fragment slot="badges"><PillarBadge pillar="tissue" /></Fragment>
+      </ProjectCard>
+      <ProjectCard image={null} title="Cooperativa Exemple" subtitle="Sant Cugat · agroecology"
+        body="One- or two-sentence project summary from the cohort data." href="#"
+        external linkLabel="Visit site ↗" mediaPillar="flow">
+        <span slot="badges" class="badge badge--success">Confirmed</span>
+      </ProjectCard>
+      <a class="case-card" href="#">
+        <div class="case-card__media">
+          <Aurora pillar="tissue" opacity={0.7} />
+        </div>
+        <div class="case-card__body">
+          <div class="case-card__head">
+            <span class="case-card__label">Case study</span>
+            <span class="case-card__arrow" aria-hidden="true">↗</span>
+          </div>
+          <span class="case-card__title">Case title</span>
+          <p class="case-card__excerpt">Short excerpt of the linked case study.</p>
+        </div>
+      </a>
+    </div>
+    <p class="lab-source" style="margin-top: var(--space-6);"><code>featured</code> variant — image
+      left, content right, larger heading. Replaces the deleted <code>FeatureGrid</code>'s
+      <code>.feat--lg</code> layout; used for the first card in <code>NetworkSection</code>'s grid (see
+      Content sections). Same card, same visual language (paper/radius/shadow) — only the layout and
+      heading size change. No <code>.display</code>/Averia here: that face is reserved for hero and
+      page-opening moments, not card titles, however large — see Typography.</p>
+    <ProjectCard featured image="/images/projects/laurel-31.png" title="Featured project heading" subtitle="Theme / category"
+      body="Excerpt copy for the featured slot — same fields as the grid variant, just laid out wider with a bigger heading."
+      href="#">
+      <Fragment slot="badges"><PillarBadge pillar="flow" /></Fragment>
+    </ProjectCard>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live — fixed</span>
+    <h2>TeamCard</h2>
+    <p>Redesigned 2026-08-12: was a 21/9 cinematic-banner crop — built for the abstract Aurora
+      placeholder, before real portraits existed — in a flat-bordered, square-cornered shell that
+      predated <code>ProjectCard</code>/<code>.case-card</code>'s rounded, shadowed card language. Both
+      real portraits on file (Giulio, Luiz) are square source images, so the visual is now
+      <code>1/1</code> — the shape that actually fits what this card holds, not just a stylistic pick —
+      and the shell matches <code>ProjectCard</code>'s radius, shadow, and hover lift. The two examples
+      below have no photo, so they still show the Averia-monogram-over-Aurora fallback at the new
+      square ratio.</p>
+    <p class="lab-source">Used in: about.astro and index.astro (team roster)</p>
+    <div class="lab-grid">
+      <TeamCard name="Jane Doe" role="Coordination" pillar="tissue" bio="Short bio line, one or two sentences." />
+      <TeamCard name="Alex Roig" role="Finance" pillar="flow" />
+    </div>
+  </div>
+
+  <div class="lab-note">
+    <strong>Done this pass:</strong> <code>ProjectCard</code> now <em>is</em> the real <code>.project-tile</code>
+    pattern (index.astro and projects.astro both use it), and its second real caller, <code>NetworkSection</code>,
+    was fixed to pass matching props instead of silently rendering blank cards — and restyled featured-first
+    (see Content sections), using a new <code>featured</code> variant on this same component rather than
+    reviving <code>FeatureGrid</code>'s separate card family. <code>ServiceCard</code> and
+    <code>FeatureGrid</code> — both dead code, zero real callers — have been deleted. Divider-row patterns
+    (<code>.pillar-service</code>, <code>.audiences</code>, <code>.theory</code>, <code>ProcessStrip</code>)
+    moved to their own <a class="link" href="/design-system/divider-lists/">Divider lists</a> page — they aren't
+    cards, and were crowding this one. <code>Tile</code> moved to <a class="link" href="/design-system/sections/">Content
+    sections</a> — closer in kind to the other organisms there than to these card molecules.
+    <code>TeamCard</code> was reshot from a 21/9 flat-bordered banner to a 1/1 rounded, shadowed tile
+    matching <code>ProjectCard</code>'s card language — the aspect ratio now fits the square portraits
+    actually on file instead of a crop chosen for the abstract placeholder.
+  </div>
+</LabShell>
+
+<style>
+  /* .case-card — from what-we-do.astro, paired there with a .pillar-service row (see Divider lists). */
+  .case-card {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: translate var(--t-med), box-shadow var(--t-med);
+  }
+  .case-card:hover { translate: 0 -2px; box-shadow: var(--shadow-md); }
+  .case-card__media { position: relative; background: var(--surface-2); }
+  .case-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .case-card__media :global(.aurora) { position: absolute; inset: 0; }
+  .case-card__body { padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+  .case-card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+  .case-card__label { font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); }
+  .case-card__arrow {
+    width: 1.375rem; height: 1.375rem; border-radius: 50%;
+    background: var(--umber); color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; flex-shrink: 0;
+  }
+  .case-card__title { font-size: var(--text-md); }
+  .case-card__excerpt { font-size: var(--text-sm); color: var(--text-muted); line-height: var(--leading-body); margin: 0; }
+
+  /* In the .case-card grid item specifically: size to its own content, don't stretch to match
+     the taller ProjectCards it sits next to in the lab grid. */
+  .lab-grid .case-card { align-self: start; }
+
+  .lab-grid :global(.project-tile) { max-width: 22rem; }
+</style>

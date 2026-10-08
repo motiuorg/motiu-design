@@ -1,0 +1,29 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+---
+<LabShell title="Nav & footer" current="chrome"
+  intro="Site chrome — rendered on every page via Layout.astro. Previewed here inside a scroll frame so the sticky nav doesn't fight this page's own nav.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Nav</h2>
+    <p>Topbar IA (2026-07-23 decision): About · Projects · Services · Knowledge · Contact. "Services" =
+      /what-we-do, "Knowledge" = /commons (Atlas folded in there). who-we-serve stays reachable from Services,
+      off the topbar. Includes <code>LangSwitch</code> (EN/CA/ES).</p>
+    <div class="lab-frame lab-frame--chrome" style="max-height: 12rem;">
+      <Nav current="home" />
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Footer</h2>
+    <p>Sibling surfaces, federation links, and contact — all YAML-driven from
+      <code>src/data/sibling-surfaces.yaml</code> and <code>src/data/site.yaml</code>.</p>
+    <div class="lab-frame" style="max-height: 24rem;">
+      <Footer />
+    </div>
+  </div>
+</LabShell>

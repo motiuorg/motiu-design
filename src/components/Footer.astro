@@ -1,0 +1,140 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import yaml from "js-yaml";
+const data = yaml.load(
+    fs.readFileSync(
+        path.join(process.cwd(), "src/data/sibling-surfaces.yaml"),
+        "utf8",
+    ),
+) as {
+    siblings: { label: string; url: string }[];
+    contact: { label: string; url: string }[];
+};
+const site = yaml.load(
+    fs.readFileSync(path.join(process.cwd(), "src/data/site.yaml"), "utf8"),
+) as {
+    name: string;
+    legalNote: string;
+    url: string;
+};
+const siteHost = new URL(site.url).host;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+    <div class="cols">
+        <div class="col col--name">
+            <span class="lockup">{site.name}</span>
+            <p>{site.legalNote}</p>
+        </div>
+        <div class="col-group">
+            <div class="col">
+                <span class="eyebrow">Surfaces</span><ul>
+                    {
+                        data.siblings.map((s) => (
+                            <li>
+                                <a href={s.url}>{s.label}</a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+            <div class="col">
+                <span class="eyebrow">Contact</span><ul>
+                    {
+                        data.contact.map((s) => (
+                            <li>
+                                <a href={s.url}>{s.label}</a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="meta">
+        <span>{site.name} · {siteHost} · {year}</span>
+        <span>Code · MIT</span>
+        <span>Content · CC BY-SA 4.0</span>
+    </div>
+</footer>
+<style>
+    .site-footer {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        border-top: 1px solid var(--umber);
+        padding: var(--space-12) var(--gutter) var(--space-8);
+        background: var(--paper);
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        color: var(--rule);
+    }
+    .cols,
+    .meta {
+        position: relative;
+        z-index: 1;
+    }
+    .cols {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-8);
+        max-width: var(--container-default);
+        margin: 0 auto;
+    }
+    .col-group {
+        display: flex;
+        gap: var(--space-24);
+    }
+    .col--name {
+        flex-shrink: 0;
+    }
+    .lockup {
+        font-family: var(--sans);
+        font-size: 1.25rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        text-transform: lowercase;
+        color: var(--umber);
+        display: block;
+    }
+    .col p {
+        margin: var(--space-2) 0 0;
+        font-family: var(--sans);
+        font-size: var(--copy-sm);
+    }
+    .col ul {
+        list-style: none;
+        margin: var(--space-2) 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+    }
+    .col a {
+        color: var(--rule);
+        text-decoration: none;
+        font-family: var(--sans);
+    }
+    .col a:hover {
+        color: var(--umber);
+    }
+    .meta {
+        display: flex;
+        gap: var(--space-6);
+        flex-wrap: wrap;
+        max-width: var(--container-default);
+        margin: var(--space-10) auto 0;
+        padding-top: var(--space-4);
+        border-top: 1px dashed var(--rule);
+    }
+    @media (max-width: 720px) {
+        .cols {
+            flex-direction: column;
+        }
+        .col-group {
+            flex-wrap: wrap;
+        }
+    }
+</style>

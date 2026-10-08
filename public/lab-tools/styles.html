@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="fonts-google.css">
+  <link rel="stylesheet" href="fonts-earth-tone.css">
+  <title>ReFi BCN — Design System (v0 Styles)</title>
+  <link rel="icon" href="assets/favicons.png">
+  <link rel="stylesheet" href="tokens.css">
+  <script src="preview-persist.js"></script>
+  <link rel="stylesheet" href="primitives.css">
+  <style>
+    /* Page-specific layout (not part of design system) */
+    .page {
+      max-width: var(--container-lg);
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-6);
+    }
+    .page__nav {
+      display: flex;
+      gap: var(--space-4);
+      padding: var(--space-4) 0 var(--space-8);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: var(--space-8);
+    }
+    .page__nav a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: var(--text-sm);
+    }
+    .page__nav a:hover { color: var(--primary); }
+    .section {
+      padding: var(--space-8) 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .section:last-child { border-bottom: none; }
+    .section__title {
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-4);
+    }
+    .grid {
+      display: grid;
+      gap: var(--space-4);
+    }
+    .grid--2 { grid-template-columns: repeat(2, 1fr); }
+    .grid--3 { grid-template-columns: repeat(3, 1fr); }
+    .grid--4 { grid-template-columns: repeat(4, 1fr); }
+    .grid--5 { grid-template-columns: repeat(5, 1fr); }
+    .color-lead {
+      color: var(--text-muted);
+      margin-bottom: var(--space-6);
+      max-width: 65ch;
+    }
+    .color-lead a.link { font-weight: 600; }
+    .paper-card .card__body {
+      color: var(--text-primary);
+    }
+    .paper-card .card__meta {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+    .pillar-scale__head {
+      font-size: var(--text-sm);
+      margin-bottom: var(--space-2);
+    }
+    .pillar-scale__desc {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin: 0 0 var(--space-3);
+    }
+    .pillar-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .pillar-scale__steps {
+      display: flex;
+      gap: 3px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      width: 100%;
+    }
+    .pillar-scale__steps > div {
+      flex: 1;
+      min-height: 2.25rem;
+    }
+    .pillar-scale__gradient {
+      width: 100%;
+      min-height: 1.75rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+    }
+    .pillar-scale__legend {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.625rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+    .lib-scales-styles {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .lib-scale-styles__row {
+      display: grid;
+      grid-template-columns: 7rem repeat(6, 1fr);
+      gap: var(--space-2);
+      align-items: stretch;
+    }
+    .lib-scale-styles__label {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      font-size: var(--text-xs);
+    }
+    .lib-scale-styles__slug {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .lib-scale-styles__name {
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+    .lib-scale-styles__head {
+      display: grid;
+      grid-template-columns: 7rem repeat(6, 1fr);
+      gap: var(--space-2);
+      margin-bottom: var(--space-1);
+      font-size: 0.625rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    .lib-scale-styles__head span:first-child { text-align: left; }
+    .lib-scale-styles__cell {
+      border-radius: var(--radius-sm);
+      min-height: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--space-1);
+      font-size: 0.5625rem;
+      font-family: var(--font-mono);
+      line-height: 1.2;
+      border: 1px solid color-mix(in srgb, var(--paper-900) 8%, transparent);
+    }
+    .lib-scale-styles__cell--core strong {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .pillar-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-pill);
+    }
+    .pillar-badge--tissue {
+      background: var(--pillar-tissue-light);
+      color: var(--pillar-tissue-dark);
+    }
+    .pillar-badge--neural {
+      background: var(--pillar-neural-light);
+      color: var(--pillar-neural-dark);
+    }
+    .pillar-badge--flow {
+      background: var(--pillar-flow-light);
+      color: var(--pillar-flow-dark);
+    }
+    .semantic-pillar-accents {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+    .semantic-grid code {
+      font-size: var(--text-xs);
+    }
+    .motif-intro-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) min(20rem, 38%);
+      gap: var(--space-12);
+      align-items: start;
+      margin-bottom: var(--space-8);
+    }
+    .motif-intro-split__text {
+      max-width: 40rem;
+      padding-right: var(--space-6);
+    }
+    .motif-intro-split__text h3:first-child {
+      margin-top: 0;
+    }
+    .motif-intro-split__text h3:not(:first-child) {
+      margin-top: var(--space-6);
+    }
+    .motif-intro-split__visual {
+      aspect-ratio: 3 / 4;
+      width: 100%;
+      max-height: min(32rem, 75vh);
+      justify-self: end;
+      margin-left: var(--space-4);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg);
+    }
+    .motif-intro-split__visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    @media (max-width: 768px) {
+      .grid--2, .grid--3, .grid--4, .grid--5 { grid-template-columns: 1fr; }
+      .lib-scale-styles__row,
+      .lib-scale-styles__head {
+        grid-template-columns: 5rem repeat(6, minmax(2rem, 1fr));
+      }
+      .motif-intro-split {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+      }
+      .motif-intro-split__text {
+        max-width: none;
+        padding-right: 0;
+      }
+      .motif-intro-split__visual {
+        max-width: 18rem;
+        justify-self: center;
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<main class="page">
+
+  <header class="page__nav">
+    <a href="index.html">Landing</a>
+    <a href="styles.html"><strong>Styles</strong></a>
+    <a href="colors-compare.html">Colors</a>
+    <a href="fonts-compare.html">Fonts</a>
+    <a href="motifs-explore.html">Motifs</a>
+    <a href="../DESIGN.md">DESIGN.md ↗</a>
+  </header>
+
+  <h1>ReFi BCN — Design System (v0)</h1>
+  <p style="color: var(--text-muted); margin-top: var(--space-2);">
+    Styles-listing page. Demonstrates every token + primitive from DESIGN.md.<br>
+    <strong>v0 starting proposals</strong> — pending Andrea's review.
+  </p>
+
+  <!-- ===== §1 BRAND FOUNDATIONS ===== -->
+  <section class="section">
+    <h2 class="section__title">1. Brand Foundations</h2>
+
+    <div class="grid grid--2">
+      <div>
+        <h3>Identity</h3>
+        <p>
+          <img src="assets/refi-bcn-logo.png" alt="ReFi BCN" style="height: 64px; vertical-align: middle;">
+        </p>
+        <p style="color: var(--text-muted); font-size: var(--text-sm);">
+          Wordmark: <strong>ReFi BCN</strong> · Cooperative-in-formation · "como" naming in flight
+        </p>
+      </div>
+      <div>
+        <h3>Voice traits</h3>
+        <ul>
+          <li><strong>Plain &amp; grounded</strong> — clear, no hype</li>
+          <li><strong>Bridge-building</strong> — ESS ↔ Web3 language</li>
+          <li><strong>Operationally useful</strong> — concrete next steps</li>
+          <li><strong>Respectful &amp; inclusive</strong> — people first</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== §2 COLOR TOKENS ===== -->
+  <section class="section" id="s2">
+    <h2 class="section__title">2. Color Tokens</h2>
+    <p class="color-lead">
+      Three layers — same structure as <a class="link" href="colors-compare.html">Color — pick &amp; tune</a>:
+      paper neutrals, pillar ranges (Neural · Tissue · Flow), and a data-viz library.
+      Tune live in Colors; tokens below reflect <code>tokens.css</code> defaults.
+    </p>
+
+    <h3 id="s21">§2.1 Paper neutrals</h3>
+    <p class="color-lead" style="margin-bottom: var(--space-4);">
+      Soft backgrounds and text ink. <code>--bg</code> and surfaces map from these steps.
+    </p>
+    <div class="grid grid--5">
+      <div class="card paper-card"><div style="background: var(--paper-50); aspect-ratio: 4/3;"></div><div class="card__body"><strong class="card__title" style="font-size: var(--text-sm);">--paper-50</strong><span class="card__meta"> · --bg</span></div></div>
+      <div class="card paper-card"><div style="background: var(--paper-100); aspect-ratio: 4/3;"></div><div class="card__body"><strong class="card__title" style="font-size: var(--text-sm);">--paper-100</strong><span class="card__meta"> · --surface-1</span></div></div>
+      <div class="card paper-card"><div style="background: var(--paper-200); aspect-ratio: 4/3;"></div><div class="card__body"><strong class="card__title" style="font-size: var(--text-sm);">--paper-200</strong><span class="card__meta"> · borders</span></div></div>
+      <div class="card paper-card"><div style="background: var(--paper-700); aspect-ratio: 4/3;"></div><div class="card__body"><strong class="card__title" style="font-size: var(--text-sm);">--paper-700</strong><span class="card__meta"> · --text-muted</span></div></div>
+      <div class="card paper-card"><div style="background: var(--paper-900); aspect-ratio: 4/3;"></div><div class="card__body"><strong class="card__title" style="font-size: var(--text-sm);">--paper-900</strong><span class="card__meta"> · --text-primary · --primary</span></div></div>
+    </div>
+
+    <h3 id="s22" style="margin-top: var(--space-8);">§2.2 Pillar color ranges</h3>
+    <p class="color-lead" style="margin-bottom: var(--space-4);">
+      Four steps per pillar (1 lightest → 4 deepest). Acid Cove palette: neural = water, tissue = land, flow = accents.
+      Aliases: <code>--pillar-*-light</code> = step 1, <code>-mid</code> = step 3, <code>-dark</code> = step 4.
+    </p>
+    <div class="grid grid--3">
+      <div class="pillar-scale">
+        <h4 class="pillar-scale__head">Neural Networks</h4>
+        <p class="pillar-scale__desc">Data, maps, ecosystem graphs, network viz</p>
+        <div class="pillar-showcase">
+          <div class="pillar-scale__steps">
+            <div style="background:var(--pillar-neural-1)"></div>
+            <div style="background:var(--pillar-neural-2)"></div>
+            <div style="background:var(--pillar-neural-3)"></div>
+            <div style="background:var(--pillar-neural-4)"></div>
+          </div>
+          <div class="pillar-scale__gradient" id="pillar-gradient-neural" aria-hidden="true"></div>
+          <div class="pillar-scale__legend"><span>1</span><span>4</span></div>
+        </div>
+      </div>
+      <div class="pillar-scale">
+        <h4 class="pillar-scale__head">Tissues</h4>
+        <p class="pillar-scale__desc">Organic texture, section backgrounds, soft depth</p>
+        <div class="pillar-showcase">
+          <div class="pillar-scale__steps">
+            <div style="background:var(--pillar-tissue-1)"></div>
+            <div style="background:var(--pillar-tissue-2)"></div>
+            <div style="background:var(--pillar-tissue-3)"></div>
+            <div style="background:var(--pillar-tissue-4)"></div>
+          </div>
+          <div class="pillar-scale__gradient" id="pillar-gradient-tissue" aria-hidden="true"></div>
+          <div class="pillar-scale__legend"><span>1</span><span>4</span></div>
+        </div>
+      </div>
+      <div class="pillar-scale">
+        <h4 class="pillar-scale__head">Flows</h4>
+        <p class="pillar-scale__desc">Motion, transitions, CTAs, bridge gradients</p>
+        <div class="pillar-showcase">
+          <div class="pillar-scale__steps">
+            <div style="background:var(--pillar-flow-1)"></div>
+            <div style="background:var(--pillar-flow-2)"></div>
+            <div style="background:var(--pillar-flow-3)"></div>
+            <div style="background:var(--pillar-flow-4)"></div>
+          </div>
+          <div class="pillar-scale__gradient" id="pillar-gradient-flow" aria-hidden="true"></div>
+          <div class="pillar-scale__legend"><span>1</span><span>4</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="s23" style="margin-top: var(--space-8);">§2.3 Color library</h3>
+    <p class="color-lead" style="margin-bottom: var(--space-4);">
+      Nine hue families for UI and data visualizations. Each has six steps (Tint → Shade); only the
+      <strong>Core</strong> stop is stored in <code>tokens.css</code>.
+    </p>
+    <div class="lib-scale-styles__head" id="lib-scale-styles-head"></div>
+    <div class="lib-scales-styles" id="library-scales-full"></div>
+
+    <h3 style="margin-top: var(--space-8);">Semantic tokens (light theme)</h3>
+    <p class="color-lead" style="margin-bottom: var(--space-4);">
+      Wired from §2.1–§2.3. <code>--primary</code> is darkest paper (<code>--paper-900</code>).
+      Motif accents use all three pillar light/dark pairs (badges); <code>--accent</code> aliases neural for single-slot APIs.
+    </p>
+    <p style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Pillar accents (all three)</p>
+    <div class="semantic-pillar-accents">
+      <span class="pillar-badge pillar-badge--tissue">Network coordination</span>
+      <span class="pillar-badge pillar-badge--neural">Collective intelligence</span>
+      <span class="pillar-badge pillar-badge--flow">Regenerative finance</span>
+    </div>
+    <p style="font-size: var(--text-xs); color: var(--text-muted); margin: 0 0 var(--space-4);">
+      <code>--pillar-tissue-light</code> / <code>-dark</code> ·
+      <code>--pillar-neural-light</code> / <code>-dark</code> (<code>--accent</code>) ·
+      <code>--pillar-flow-light</code> / <code>-dark</code>
+    </p>
+    <div class="grid grid--3 semantic-grid">
+      <div style="padding: var(--space-4); background: var(--bg); border: 1px solid var(--border-default); border-radius: var(--radius-md);">
+        <code>--bg</code> ← <code>--paper-50</code>
+      </div>
+      <div style="padding: var(--space-4); background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);">
+        <code>--surface-1</code> ← <code>--paper-100</code>
+      </div>
+      <div style="padding: var(--space-4); background: var(--primary); color: var(--primary-foreground); border-radius: var(--radius-md);">
+        <code>--primary</code> ← <code>--paper-900</code>
+      </div>
+      <div style="padding: var(--space-4); color: var(--text-primary); border: 1px solid var(--border-default); border-radius: var(--radius-md);">
+        <code>--text-primary</code> ← <code>--paper-900</code>
+      </div>
+      <div style="padding: var(--space-4); color: var(--text-muted); border: 1px solid var(--border-default); border-radius: var(--radius-md);">
+        <code>--text-muted</code> ← <code>--paper-700</code>
+      </div>
+    </div>
+
+    <h3 style="margin-top: var(--space-8);">Status colors</h3>
+    <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+      <span class="badge badge--success">Success</span>
+      <span class="badge badge--warning">Warning</span>
+      <span class="badge badge--danger">Danger</span>
+      <span class="badge badge--info">Info</span>
+    </div>
+  </section>
+
+  <!-- ===== §3 TYPOGRAPHY ===== -->
+  <section class="section">
+    <h2 class="section__title">3. Typography</h2>
+    <p style="color: var(--text-muted);">
+      Display: <strong>Averia Serif Libre</strong> (Andrea lock) · Body + headings: <strong>Geist</strong> · Mono: <strong>Geist Mono</strong>.
+      Scale ratio 1.250. <a class="link" href="fonts-compare.html">Fonts compare →</a>
+    </p>
+
+    <h3>Type ladder</h3>
+    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+      <div>
+        <span class="display" style="font-size: var(--text-5xl); letter-spacing: -0.02em;">Display 5xl · Averia Serif Libre</span>
+        <code style="display: block; font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-1);">.display · --text-5xl · Averia 400 · hero / brand moments only</code>
+      </div>
+      <div>
+        <span style="font-size: var(--text-3xl); font-weight: 600;">Page title (h1) 3xl · Geist</span>
+        <code style="display: block; font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-1);">h1 · --text-3xl · Geist 600</code>
+      </div>
+      <div>
+        <span style="font-size: var(--text-2xl); font-weight: 600;">Section heading (h2) 2xl · Geist</span>
+        <code style="display: block; font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-1);">h2 · --text-2xl · Geist 600</code>
+      </div>
+      <div>
+        <span style="font-size: var(--text-xl); font-weight: 600;">Subsection (h3) xl · Geist</span>
+        <code style="display: block; font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-1);">h3 · --text-xl · Geist 600</code>
+      </div>
+      <div>
+        <span style="font-size: var(--text-md);">Lead paragraph md — slightly larger body for emphasis.</span>
+        <code style="display: block; font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-1);">--text-md · 20px · Geist 400 · line-height 1.55</code>
+      </div>
+      <div>
+        <span style="font-size: var(--text-base);">Body text — the default reading size. A longer line that wraps shows line-height behavior across multiple lines for readability assessment. Cooperative governance with on-chain transparency, never the other way around.</span>
+        <code style="display: block; font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-1);">--text-base · 16px · Geist 400</code>
+      </div>
+      <div>
+        <span style="font-size: var(--text-sm); color: var(--text-muted);">Small helper text — used for captions, metadata.</span>
+        <code style="display: block; font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-1);">--text-sm · 12.8px · UI labels line-height 1.4</code>
+      </div>
+      <div>
+        <code class="mono">0x6D181a968d8cDd2D · multisig · for code + addresses</code>
+        <code style="display: block; font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--space-1);">Geist Mono · line-height 1.45</code>
+      </div>
+    </div>
+
+    <h3 style="margin-top: var(--space-8);">Weight pairings</h3>
+    <div class="grid grid--2">
+      <div style="padding: var(--space-4); background: var(--surface-1); border-radius: var(--radius-md);">
+        <div style="font-size: var(--text-2xl);" class="display">Hero · display face</div>
+        <div style="font-family: var(--font-body); font-size: var(--text-base); color: var(--text-muted); margin-top: var(--space-2);">Geist 400 body copy underneath the hero headline.</div>
+      </div>
+      <div style="padding: var(--space-4); background: var(--surface-1); border-radius: var(--radius-md);">
+        <div style="font-size: var(--text-xl); font-weight: 600;">Section title · Geist 600</div>
+        <div style="font-family: var(--font-body); font-size: var(--text-base); color: var(--text-muted); margin-top: var(--space-2);">Geist 400 body. Headings use Geist; display face is reserved for hero / brand moments.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== §4 SPATIAL SYSTEM ===== -->
+  <section class="section">
+    <h2 class="section__title">4. Spatial System</h2>
+
+    <h3>Spacing scale</h3>
+    <div style="display: flex; align-items: flex-end; gap: var(--space-3); flex-wrap: wrap;">
+      <div style="text-align: center;"><div style="width: var(--space-1); height: var(--space-1); background: var(--primary);"></div><code style="font-size: var(--text-xs); color: var(--text-muted); display: block; margin-top: var(--space-1);">1<br>4px</code></div>
+      <div style="text-align: center;"><div style="width: var(--space-2); height: var(--space-2); background: var(--primary);"></div><code style="font-size: var(--text-xs); color: var(--text-muted); display: block; margin-top: var(--space-1);">2<br>8px</code></div>
+      <div style="text-align: center;"><div style="width: var(--space-3); height: var(--space-3); background: var(--primary);"></div><code style="font-size: var(--text-xs); color: var(--text-muted); display: block; margin-top: var(--space-1);">3<br>12px</code></div>
+      <div style="text-align: center;"><div style="width: var(--space-4); height: var(--space-4); background: var(--primary);"></div><code style="font-size: var(--text-xs); color: var(--text-muted); display: block; margin-top: var(--space-1);">4<br>16px</code></div>
+      <div style="text-align: center;"><div style="width: var(--space-6); height: var(--space-6); background: var(--primary);"></div><code style="font-size: var(--text-xs); color: var(--text-muted); display: block; margin-top: var(--space-1);">6<br>24px</code></div>
+      <div style="text-align: center;"><div style="width: var(--space-8); height: var(--space-8); background: var(--primary);"></div><code style="font-size: var(--text-xs); color: var(--text-muted); display: block; margin-top: var(--space-1);">8<br>32px</code></div>
+      <div style="text-align: center;"><div style="width: var(--space-12); height: var(--space-12); background: var(--primary);"></div><code style="font-size: var(--text-xs); color: var(--text-muted); display: block; margin-top: var(--space-1);">12<br>48px</code></div>
+      <div style="text-align: center;"><div style="width: var(--space-16); height: var(--space-16); background: var(--primary);"></div><code style="font-size: var(--text-xs); color: var(--text-muted); display: block; margin-top: var(--space-1);">16<br>64px</code></div>
+      <div style="text-align: center;"><div style="width: var(--space-24); height: var(--space-24); background: var(--primary);"></div><code style="font-size: var(--text-xs); color: var(--text-muted); display: block; margin-top: var(--space-1);">24<br>96px</code></div>
+    </div>
+
+    <h3 style="margin-top: var(--space-8);">Border radius</h3>
+    <div class="grid grid--4">
+      <div style="background: var(--surface-1); padding: var(--space-4); border-radius: var(--radius-sm);"><code>--radius-sm</code> · 4px</div>
+      <div style="background: var(--surface-1); padding: var(--space-4); border-radius: var(--radius-md);"><code>--radius-md</code> · 8px</div>
+      <div style="background: var(--surface-1); padding: var(--space-4); border-radius: var(--radius-lg);"><code>--radius-lg</code> · 12px</div>
+      <div style="background: var(--surface-1); padding: var(--space-4); border-radius: var(--radius-xl);"><code>--radius-xl</code> · 20px</div>
+    </div>
+    <div class="grid grid--3" style="margin-top: var(--space-4);">
+      <div style="background: var(--surface-1); padding: var(--space-4); border-radius: var(--radius-pill); text-align: center;"><code>--radius-pill</code></div>
+      <div style="background: var(--surface-1); padding: var(--space-6); border-radius: var(--radius-full); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;"><code style="font-size: var(--text-xs);">full</code></div>
+      <div style="background: var(--surface-1); padding: var(--space-4); border-radius: var(--radius-none);"><code>--radius-none</code></div>
+    </div>
+
+    <h3 style="margin-top: var(--space-8);">Shadow (paper-ink tint)</h3>
+    <div class="grid grid--3">
+      <div style="background: var(--bg); padding: var(--space-6); border-radius: var(--radius-md); box-shadow: var(--shadow-sm);"><code>--shadow-sm</code></div>
+      <div style="background: var(--bg); padding: var(--space-6); border-radius: var(--radius-md); box-shadow: var(--shadow-md);"><code>--shadow-md</code></div>
+      <div style="background: var(--bg); padding: var(--space-6); border-radius: var(--radius-md); box-shadow: var(--shadow-lg);"><code>--shadow-lg</code></div>
+    </div>
+  </section>
+
+  <!-- ===== §5 MOTIFS ===== -->
+  <section class="section">
+    <h2 class="section__title">5. Motifs</h2>
+    <p class="color-lead" style="margin-bottom: var(--space-4);">
+      Three visual motifs — tissues, neural networks, and flows — each with a matching pillar color range (§2.2).
+      Combined, they form a symbiotic organism. <a class="link" href="motifs-explore.html">Open motifs exploration workspace →</a>
+    </p>
+
+    <div class="motif-intro-split">
+      <div class="motif-intro-split__text">
+        <h3 style="margin-bottom: var(--space-3);">Technological nature</h3>
+        <p style="color: var(--text-muted); font-size: var(--text-sm); line-height: var(--leading-body); margin-bottom: var(--space-3);">
+          Our organization is based on the idea that humans and technology are not separate from nature, but one of its expressions.
+          The brand draws from structures common to both biology and computation. These elements form an emergent visual language
+          that is organic and systematic at once.
+        </p>
+        <p style="color: var(--text-muted); font-size: var(--text-sm); line-height: var(--leading-body); margin-bottom: 0;">
+          The visual system is built from three core elements — tissues, neural networks, and flows — each corresponding to a
+          function of the work. Individually, they can appear as distinct structures. When combined, they interlock to form a
+          single organism: a coherent shape where connection, signaling, and circulation operate together.
+        </p>
+        <h3 style="margin-bottom: var(--space-2);">Symbiotic creature</h3>
+        <p style="color: var(--text-muted); font-size: var(--text-sm); line-height: var(--leading-body); margin-bottom: 0;">
+          How the three elements come together into one visual image — tissues, neural networks, and flows interlocked as a single organism.
+        </p>
+      </div>
+      <figure class="motif-intro-split__visual">
+        <img src="assets/motif-inspo/symbiotic-c977990b.jpg" alt="Symbiotic creature — tissues, neural networks, and flows combined">
+      </figure>
+    </div>
+
+    <div class="grid grid--3">
+      <article class="motif-block">
+        <span class="pillar-badge pillar-badge--neural" style="margin-bottom: var(--space-3);">Collective intelligence</span>
+        <h3 style="margin-bottom: var(--space-2);">Neural networks</h3>
+        <p style="color: var(--text-muted); font-size: var(--text-sm); line-height: var(--leading-body); margin-bottom: var(--space-3);">
+          Research &amp; sensemaking. Like neurons, mycelium, or rivers in the landscape.
+        </p>
+        <img src="assets/motif-inspo/neural-0390e720.jpg" alt="Neural networks motif — research and sensemaking" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-md); display: block;">
+      </article>
+      <article class="motif-block">
+        <span class="pillar-badge pillar-badge--tissue" style="margin-bottom: var(--space-3);">Network coordination</span>
+        <h3 style="margin-bottom: var(--space-2);">Tissues</h3>
+        <p style="color: var(--text-muted); font-size: var(--text-sm); line-height: var(--leading-body); margin-bottom: var(--space-3);">
+          Network coordination. Like muscle tissue, soil, or land-use patches seen from above — filled shapes, not outlines,
+          to distinguish from the neural network.
+        </p>
+        <img src="assets/motif-inspo/tissues-df3c2bff.jpg" alt="Tissues motif — network coordination" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-md); display: block;">
+      </article>
+      <article class="motif-block">
+        <span class="pillar-badge pillar-badge--flow" style="margin-bottom: var(--space-3);">Regenerative finance</span>
+        <h3 style="margin-bottom: var(--space-2);">Flows</h3>
+        <p style="color: var(--text-muted); font-size: var(--text-sm); line-height: var(--leading-body); margin-bottom: var(--space-3);">
+          Regenerative finance. Like blood cells, nutrients, or people and animals moving through the landscape from above.
+        </p>
+        <img src="assets/motif-inspo/flows-e08a705c.jpg" alt="Flows motif — regenerative finance" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-md); display: block;">
+      </article>
+    </div>
+
+    <h3 style="margin-top: var(--space-8);">Cross-surface usage</h3>
+    <p style="color: var(--text-muted); font-size: var(--text-sm); line-height: var(--leading-body);">
+      <strong>refibcn.cat</strong> · <strong>bioregional.refibcn.cat</strong> · <strong>bioregional.garden</strong> · <strong>mapa.refibcn.cat</strong> share this visual language.<br>
+      <strong>Regenerant Catalunya</strong> keeps its own locked toolkit style.
+    </p>
+  </section>
+
+  <!-- ===== §6 PRIMITIVES ===== -->
+  <section class="section">
+    <h2 class="section__title">6. Small Primitives</h2>
+
+    <h3>Buttons</h3>
+    <div style="display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center;">
+      <button class="btn btn--primary">Primary action</button>
+      <button class="btn btn--secondary">Secondary action</button>
+      <button class="btn btn--ghost">Ghost action</button>
+      <button class="btn btn--primary" disabled>Disabled</button>
+    </div>
+
+    <h3 style="margin-top: var(--space-6);">Inputs</h3>
+    <div class="grid grid--2">
+      <label class="field">
+        <span class="field__label">Email</span>
+        <input class="field__input" type="email" placeholder="you@example.com">
+        <span class="field__hint">We only use this for follow-up — no newsletter.</span>
+      </label>
+      <label class="field field--error">
+        <span class="field__label">Email (error state)</span>
+        <input class="field__input" type="email" value="invalid" aria-invalid="true">
+        <span class="field__error">Enter a valid email address.</span>
+      </label>
+    </div>
+
+    <h3 style="margin-top: var(--space-6);">Cards</h3>
+    <div class="grid grid--3">
+      <article class="card">
+        <img class="card__image" src="assets/ecosystem_map.png" alt="">
+        <div class="card__body">
+          <h4 class="card__title">Card with image</h4>
+          <p class="card__text">Card body copy explaining the content. Useful for project case studies or feature highlights with a visual anchor.</p>
+          <a class="card__action" href="#">Learn more →</a>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card__body">
+          <h4 class="card__title">Card without image</h4>
+          <p class="card__text">Text-only card for service descriptions, definitions, or quick-read summaries. Keeps grids visually rhythmic when not every card has art.</p>
+          <a class="card__action" href="#">Read more →</a>
+        </div>
+      </article>
+      <article class="card">
+        <img class="card__image" src="assets/regenerant-catalunya-cover.png" alt="">
+        <div class="card__body">
+          <h4 class="card__title">Project case study</h4>
+          <p class="card__text">Cover image + project name + one-line summary. Lands you on the case-study page.</p>
+          <a class="card__action" href="#">See project →</a>
+        </div>
+      </article>
+    </div>
+
+    <h3 style="margin-top: var(--space-6);">Links</h3>
+    <p>
+      Read about <a class="link" href="#">our services</a> or check the
+      <a class="link link--external" href="https://refi.dao" target="_blank" rel="noopener">ReFi DAO site</a>.
+      Inline links stay muted ink (see <code>.link</code> in primitives). Primary buttons use <code>--text-primary</code> / paper ink on light surfaces; <code>--primary</code> is <code>--paper-900</code> for accents that reference the semantic token.
+    </p>
+
+    <h3 style="margin-top: var(--space-6);">Badges</h3>
+    <div style="display: flex; gap: var(--space-2); flex-wrap: wrap;">
+      <span class="badge">Default</span>
+      <span class="badge badge--success">Active</span>
+      <span class="badge badge--warning">Pending</span>
+      <span class="badge badge--danger">Failed</span>
+      <span class="badge badge--info">In progress</span>
+    </div>
+  </section>
+
+</main>
+<script>
+  (function () {
+    const LIB_STEPS = ['Tint', 'Light', 'Soft', 'Core', 'Dark', 'Shade'];
+    const LIB_FAMILIES = [
+      { slug: 'gris', name: 'Warm grey', token: '--lib-gris', tint: '#E5E5E2', shade: '#565D61' },
+      { slug: 'ocean', name: 'Soft ocean', token: '--lib-ocean', tint: '#D5DFF2', shade: '#101F4D' },
+      { slug: 'blue', name: 'Muted teal', token: '--lib-blue', tint: '#D6EAEB', shade: '#104944' },
+      { slug: 'green', name: 'Sage green', token: '--lib-green', tint: '#E1F3D8', shade: '#1A4114' },
+      { slug: 'yellow', name: 'Warm yellow', token: '--lib-yellow', tint: '#F6ECBE', shade: '#6A4D0C' },
+      { slug: 'orange', name: 'Warm orange', token: '--lib-orange', tint: '#F4DAB0', shade: '#5F360C' },
+      { slug: 'red', name: 'Earth red', token: '--lib-red', tint: '#F2CCBE', shade: '#6B1D0C' },
+      { slug: 'pink', name: 'Soft coral', token: '--lib-pink', tint: '#EED7E0', shade: '#4D1D2F' },
+      { slug: 'purple', name: 'Soft plum', token: '--lib-purple', tint: '#E3D2EE', shade: '#41205A' },
+    ];
+
+    function normalizeHex(hex) {
+      if (!hex || !hex.startsWith('#')) return '#888888';
+      if (hex.length === 4) {
+        return `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`.toUpperCase();
+      }
+      return hex.slice(0, 7).toUpperCase();
+    }
+
+    function mixHex(a, b, ratioB) {
+      const parse = (hex) => {
+        const n = normalizeHex(hex).slice(1);
+        return [0, 2, 4].map((i) => parseInt(n.slice(i, i + 2), 16));
+      };
+      const c1 = parse(a);
+      const c2 = parse(b);
+      const t = ratioB / 100;
+      const out = c1.map((v, i) => Math.round(v * (1 - t) + c2[i] * t));
+      return `#${out.map((x) => x.toString(16).padStart(2, '0')).join('')}`.toUpperCase();
+    }
+
+    function familyStops(tint, core, shade) {
+      const c = normalizeHex(core);
+      return [
+        normalizeHex(tint),
+        mixHex(tint, c, 35),
+        mixHex(tint, c, 70),
+        c,
+        mixHex(c, shade, 55),
+        normalizeHex(shade),
+      ];
+    }
+
+    function readToken(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function textOnBg(hex) {
+      const h = normalizeHex(hex).replace('#', '');
+      const r = parseInt(h.slice(0, 2), 16);
+      const g = parseInt(h.slice(2, 4), 16);
+      const b = parseInt(h.slice(4, 6), 16);
+      const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      return lum > 0.55 ? 'var(--paper-900)' : '#fff';
+    }
+
+    function syncPillarGradients() {
+      ['neural', 'tissue', 'flow'].forEach((p) => {
+        const el = document.getElementById(`pillar-gradient-${p}`);
+        if (!el) return;
+        const stops = [1, 2, 3, 4].map((s) =>
+          normalizeHex(readToken(`--pillar-${p}-${s}`))
+        );
+        el.style.background = `linear-gradient(to right, ${stops.join(', ')})`;
+      });
+    }
+
+    function renderLibraryScales() {
+      const head = document.getElementById('lib-scale-styles-head');
+      const root = document.getElementById('library-scales-full');
+      if (!head || !root) return;
+      head.innerHTML = `<span></span>${LIB_STEPS.map((s) => `<span>${s}</span>`).join('')}`;
+      root.innerHTML = LIB_FAMILIES.map(({ slug, name, token, tint, shade }) => {
+        const core = normalizeHex(readToken(token) || '#888888');
+        const stops = familyStops(tint, core, shade);
+        const cells = stops.map((hex, i) => {
+          const role = LIB_STEPS[i];
+          const coreClass = role === 'Core' ? ' lib-scale-styles__cell--core' : '';
+          const fg = textOnBg(hex);
+          return `<div class="lib-scale-styles__cell${coreClass}" style="background:${hex};color:${fg}"><strong>${role}</strong><span>${hex}</span></div>`;
+        }).join('');
+        return `<div class="lib-scale-styles__row">
+          <div class="lib-scale-styles__label"><span class="lib-scale-styles__slug">${slug}</span><span class="lib-scale-styles__name">${name}</span></div>
+          ${cells}
+        </div>`;
+      }).join('');
+    }
+
+    syncPillarGradients();
+    renderLibraryScales();
+    document.addEventListener('refi-colors-updated', () => {
+      syncPillarGradients();
+      renderLibraryScales();
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+---
+// FeaturedCardGrid.astro — one large card, the rest in a compact grid below. Content-agnostic on
+// purpose: this used to be baked into NetworkSection as "the network grid," but the layout has
+// nothing to do with networks specifically — any card-shaped content can be featured-first. The
+// caller supplies fully-formed cards via two slots (`featured` + the default slot for the rest);
+// NetworkSection now composes this with its own network-specific header on top, instead of owning
+// the grid layout itself.
+---
+<div class="featured-card-grid">
+  <slot name="featured" />
+  {Astro.slots.has("default") && (
+    <div class="featured-card-grid__rest">
+      <slot />
+    </div>
+  )}
+</div>
+
+<style>
+.featured-card-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+.featured-card-grid__rest {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+@media (max-width: 1024px) {
+  .featured-card-grid__rest { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .featured-card-grid__rest { grid-template-columns: 1fr; }
+}
+</style>

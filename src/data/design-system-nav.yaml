@@ -1,0 +1,27 @@
+# src/data/lab-nav.yaml — side-nav structure for /lab/*.
+# One entry per documentation page. `slug` must match the folder name under
+# src/pages/lab/ (slug "" = the /lab/ index itself).
+groups:
+  - label: Foundations
+    items:
+      - { slug: "", label: "Overview" }
+  - label: Atoms
+    items:
+      - { slug: colors, label: "Colors" }
+      - { slug: typography, label: "Typography" }
+      - { slug: spacing, label: "Spacing & effects" }
+      - { slug: motifs, label: "Motifs" }
+      - { slug: image-styles, label: "Image styles" }
+      - { slug: buttons-links, label: "Buttons & links" }
+      - { slug: controls, label: "Controls" }
+      - { slug: badges, label: "Badges" }
+      - { slug: inputs, label: "Inputs" }
+  - label: Molecules
+    items:
+      - { slug: cards, label: "Cards" }
+      - { slug: divider-lists, label: "Divider lists" }
+      - { slug: stats, label: "Stats" }
+  - label: Organisms
+    items:
+      - { slug: sections, label: "Content sections" }
+      - { slug: chrome, label: "Nav & footer" }

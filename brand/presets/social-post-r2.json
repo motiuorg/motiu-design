@@ -1,0 +1,10 @@
+{
+  "name": "social-post-r2",
+  "format": "ig-post",
+  "palette": "flow",
+  "field": { "seed": 61, "count": 28 },
+  "fill": "ramp",
+  "fillOpacity": 0.1,
+  "padRatio": 0.05,
+  "notes": "ig-post backdrop, corrected framing"
+}

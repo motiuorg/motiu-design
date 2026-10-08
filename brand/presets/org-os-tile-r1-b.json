@@ -1,0 +1,9 @@
+{
+  "name": "org-os-tile-r1-b",
+  "format": "tile",
+  "palette": "primary-on-paper",
+  "field": { "seed": 12, "count": 10 },
+  "stroke": 5,
+  "padRatio": 0.28,
+  "notes": "primary-colour statement variant"
+}

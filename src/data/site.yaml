@@ -1,0 +1,19 @@
+# Site identity — SINGLE SOURCE for the org name + global meta.
+# Name = Motiu (BD-2026-049, 2026-08-04); public form is "motiu" alone — the
+# co-op designation comes out only selectively (BD-2026-050). Chrome renders
+# lowercase via CSS; keep the canonical form here.
+# Rename executed 2026-08-09 (aug17-convergence). Conflict-check desk pass ran
+# same day: motiu.cat/.eu/.org/.net available, motiu.com GoDaddy-parked only,
+# no operating brand collision found; formal EUIPO/OEPM query + logged-in
+# handle checks remain owed at domain purchase (BD-2026-051).
+name: motiu
+legalNote: Cooperative in formation · Bloc4, Barcelona
+url: https://motiu.org
+domainNote: motiu.org purchased (GoDaddy, 2026) — served at the apex domain, no www
+tagline: Infrastructure for territorial regeneration
+description: >-
+  Motiu — a cooperative in Barcelona designing and running financial strategies,
+  shared knowledge systems, and coordination for territorial regeneration in
+  Catalonia and beyond.
+email: hello@motiu.org
+ogImage: /assets/og-image.png

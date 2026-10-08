@@ -1,0 +1,8 @@
+{
+  "name": "social-og-r2",
+  "format": "og",
+  "palette": "rule-on-paper",
+  "field": { "seed": 60, "count": 24 },
+  "padRatio": 0.05,
+  "notes": "og backdrop, corrected framing"
+}

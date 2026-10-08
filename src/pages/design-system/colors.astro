@@ -1,0 +1,93 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+
+const neutrals = ["--paper", "--eggshell", "--bone", "--ivory", "--rule", "--umber"];
+const primary = ["--primary", "--primary-hover"];
+const neural = ["--pillar-neural-1", "--pillar-neural-2", "--pillar-neural-3", "--pillar-neural-4"];
+const tissue = ["--pillar-tissue-1", "--pillar-tissue-2", "--pillar-tissue-3", "--pillar-tissue-4"];
+const flow = ["--pillar-flow-1", "--pillar-flow-2", "--pillar-flow-3", "--pillar-flow-4"];
+
+// Color Library — 10 hue families, 6 fixed steps each (Tint → Shade). Unlike
+// the previous version (Andrea's colors-compare.html comparator), every step
+// is a literal chosen hex, not computed from a tint/shade anchor — supplied
+// 2026-08-07. The three pillar colors (neural/tissue/flow) are meant to be
+// sourced from this library — cyan, lime, and orange respectively — but that
+// rewiring into tokens.css hasn't happened yet (see status badge below).
+const LIB_STEP_ROLES = ["Tint", "Light", "Soft", "Core", "Dark", "Shade"];
+const LIB_FAMILIES = [
+  { label: "red", name: "Red", stops: ["#FFE0E0", "#FFA8A8", "#FF4D4D", "#E60000", "#A30000", "#5C0000"] },
+  { label: "orange", name: "Orange", stops: ["#FFECB0", "#FFD27B", "#FFBB26", "#FF7A00", "#FF5500", "#8A2200"] },
+  { label: "yellow", name: "Yellow", stops: ["#FFFBD1", "#FFF67A", "#FFEE00", "#E6D400", "#A69900", "#5C5400"] },
+  { label: "lime", name: "Lime", stops: ["#EFFFB8", "#DFFF80", "#D9FF4A", "#8FE84A", "#6DBF23", "#2C5A0D"] },
+  { label: "green", name: "Green", stops: ["#D6FFEA", "#94FFC7", "#33E894", "#00B86B", "#00804A", "#00502E"] },
+  { label: "cyan", name: "Cyan", stops: ["#C9F7FF", "#96F3FF", "#4DEFFF", "#00AEFF", "#0055FF", "#000FA0"] },
+  { label: "blue", name: "Blue", stops: ["#E8EAFF", "#C2C8FF", "#8F97FF", "#5B62F0", "#3A3AC0", "#1F1D80"] },
+  { label: "purple", name: "Purple", stops: ["#F5E1FF", "#E5BBFF", "#CE7AFF", "#A62FFF", "#750FCC", "#3D0870"] },
+  { label: "pink", name: "Pink", stops: ["#FFE0F2", "#FFB0DE", "#FF5FB8", "#FF1E9C", "#C40074", "#6E0040"] },
+  { label: "gray", name: "Gray", stops: ["#F4F4F2", "#E3E3DF", "#C9C9C3", "#9C9C94", "#6B6B63", "#3A3A34"] },
+];
+---
+<LabShell title="Colors" current="colors"
+  intro="Here are the colors we use across the site: the neutral tones for backgrounds and text, three accent colors for our pillars, and a wider palette for charts and data.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Editorial neutrals</h2>
+    <div class="lab-swatches">{neutrals.map((t) => (<div class="lab-swatch" style={`background: var(${t})`}><code>{t}</code></div>))}</div>
+    <p class="lab-source">All three relocked 2026-08-13 — lighter and warmer than the previous
+      <code>--paper #fffffd / --bone #faf8f4 / --ivory #f8f4ed</code>, with the warmth ratio (R−B spread)
+      now increasing smoothly across the ramp instead of jumping unevenly step to step.
+      <code>--bone</code> was tried site-wide first as a separate <code>--bone-light</code> token before
+      folding it straight in; <code>--ivory</code> got an extra lightening pass afterward.
+      <code>--eggshell</code> (2026-08-14) is a fourth, later addition — an even color-mix
+      halfway between <code>--paper</code> and <code>--bone</code>, for hover states that need a
+      step warmer than the background without jumping all the way to a surface color; ported
+      from bioregioning-earth-ui, where it was introduced first.</p>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Primary</h2>
+    <p><code>--primary</code> is <code>pillar-flow-4</code> (Shade) as of 2026-08-14 — this site had a
+      standalone <code>--terracotta</code> brand color between 2026-08-07 and 2026-08-14, now removed.
+      Flow was picked because it's also the finance pillar, closest to "the brand" — but that's a
+      per-surface choice, not a rule: <strong>any of the three pillar Shade steps (tissue-4, neural-4,
+      flow-4) is a valid <code>--primary</code> for a given surface.</strong> Pick whichever pillar that
+      surface leans on most, not necessarily flow.</p>
+    <div class="lab-swatches">{primary.map((t) => (<div class="lab-swatch" style={`background: var(${t})`}><code>{t}</code></div>))}</div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Pillar ramps</h2>
+    <p>Three 4-step ramps, one per pillar: coordination, intelligence, finance. Each also exposes
+      <code>-light</code> / <code>-mid</code> / <code>-dark</code> aliases. Used by <code>PillarBadge</code>,
+      <code>Aurora</code>, and — as of 2026-08-14 — <code>--primary</code> (see above).</p>
+    <h3>Coordination pillar</h3>
+    <div class="lab-swatches">{tissue.map((t) => (<div class="lab-swatch" style={`background: var(${t})`}><code>{t}</code></div>))}</div>
+    <h3>Intelligence pillar</h3>
+    <div class="lab-swatches">{neural.map((t) => (<div class="lab-swatch" style={`background: var(${t})`}><code>{t}</code></div>))}</div>
+    <h3>Finance pillar</h3>
+    <div class="lab-swatches">{flow.map((t) => (<div class="lab-swatch" style={`background: var(${t})`}><code>{t}</code></div>))}</div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--gap">pillar colors (orange, lime, cyan) are wired into tokens.css — the other 7 families aren't yet</span>
+    <h2>Color Library</h2>
+    <p>Ten hue families, six fixed steps each (Tint → Shade) — the full palette everything else draws from:
+      charts, data-viz, and status colors, plus the three pillar colors (<strong>orange</strong>,
+      <strong>lime</strong>, and <strong>cyan</strong>), which come from this library rather than being
+      defined separately.</p>
+    <div class="lab-scale-head">{LIB_STEP_ROLES.map((r) => <span>{r}</span>)}</div>
+    {LIB_FAMILIES.map((f) => (
+      <div class="lab-scale-row">
+        <span class="lab-scale-row__label"><strong>{f.name}</strong></span>
+        {f.stops.map((hex) => (
+          <div class="lab-scale-cell" style={`background:${hex};`}>
+            <code>{hex}</code>
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+</LabShell>

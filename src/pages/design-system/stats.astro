@@ -1,0 +1,28 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+import StatBand from "../../components/StatBand.astro";
+---
+<LabShell title="Stats" current="stats"
+  intro="Editorial proof-numbers strip — mono figures between dashed rules. Data-driven by default, with an explicit-prop override for one-off callouts.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>StatBand</h2>
+    <p>Defaults to <code>src/data/stats.yaml</code> (with a source comment per figure — every number here has
+      to be traceable back to real org copy). Pass an explicit <code>stats</code> prop to reuse it for a
+      case-study callout instead.</p>
+    <p class="lab-source">Used in: index.astro, about.astro, +1 case-study callout</p>
+    <StatBand />
+  </div>
+
+  <div class="lab-section">
+    <h3>With explicit props (case-study override)</h3>
+    <StatBand stats={[{ value: "5", label: "comarques covered" }, { value: "€8K", label: "matched this round" }]} />
+  </div>
+
+  <div class="lab-note">
+    <strong>Convention:</strong> every entry in <code>stats.yaml</code> carries a <code># source:</code>
+    comment pointing at where the number is verifiable. Keep that up when adding new figures — it's the only
+    thing stopping this from drifting into marketing-speak.
+  </div>
+</LabShell>

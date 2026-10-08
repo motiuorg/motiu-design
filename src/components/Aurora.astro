@@ -1,0 +1,60 @@
+---
+// Aurora.astro — grainy aurora field per pillar. Recreates the mesh-gradient
+// direction from Andrea's 2026-06-23 push (the stock refs in
+// preview/assets/pillar-inspo/ are watermarked — aesthetic reference only;
+// this is a pure-CSS recreation, zero assets, zero client-JS).
+// Colours come exclusively from the pillar ramp vars, biased to the light
+// steps so overlaid text keeps its contrast against effectively-paper.
+// Place inside a position:relative / isolate container.
+interface Props {
+  pillar?: "neural" | "tissue" | "flow";
+  opacity?: number; // overall field strength
+  class?: string;
+}
+const { pillar = "neural", opacity = 0.5, class: cls = "" } = Astro.props;
+---
+<div
+  class={`aurora aurora--${pillar} ${cls}`}
+  aria-hidden="true"
+  style={`--aurora-opacity:${opacity}`}
+></div>
+
+<style>
+.aurora {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--aurora-opacity);
+  background:
+    radial-gradient(55% 75% at 12% 18%, var(--aurora-a), transparent 62%),
+    radial-gradient(45% 65% at 88% 12%, var(--aurora-b), transparent 66%),
+    radial-gradient(65% 85% at 72% 92%, var(--aurora-a), transparent 60%),
+    radial-gradient(40% 55% at 30% 88%, var(--aurora-c), transparent 72%);
+}
+/* Grain — inline monochrome fractal noise, blended over the gradients. */
+.aurora::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
+  background-size: 240px 240px;
+  mix-blend-mode: soft-light;
+  opacity: 0.55;
+}
+.aurora--neural {
+  --aurora-a: color-mix(in srgb, var(--pillar-neural-1) 80%, transparent);
+  --aurora-b: color-mix(in srgb, var(--pillar-neural-2) 55%, transparent);
+  --aurora-c: color-mix(in srgb, var(--pillar-neural-3) 22%, transparent);
+}
+.aurora--tissue {
+  --aurora-a: color-mix(in srgb, var(--pillar-tissue-1) 80%, transparent);
+  --aurora-b: color-mix(in srgb, var(--pillar-tissue-2) 50%, transparent);
+  --aurora-c: color-mix(in srgb, var(--pillar-tissue-3) 20%, transparent);
+}
+.aurora--flow {
+  --aurora-a: color-mix(in srgb, var(--pillar-flow-1) 80%, transparent);
+  --aurora-b: color-mix(in srgb, var(--pillar-flow-2) 45%, transparent);
+  --aurora-c: color-mix(in srgb, var(--pillar-flow-3) 16%, transparent);
+}
+</style>

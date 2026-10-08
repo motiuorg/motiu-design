@@ -1,0 +1,40 @@
+---
+// LangSwitch — EN / CA / ES topbar control (260723 feedback, scope A).
+// EN is live; CA/ES routes exist and serve EN via rewrite fallback until
+// translated (astro.config i18n). Links to the locale-equivalent of the
+// current page so the chosen language persists across the URL.
+const locales = [
+  { code: "en", label: "EN" },
+  { code: "ca", label: "CA" },
+  { code: "es", label: "ES" },
+];
+const current = Astro.currentLocale ?? "en";
+// Strip any locale prefix to the logical path, then re-localize per target.
+let path = Astro.url.pathname.replace(/^\/(ca|es)(?=\/|$)/, "");
+if (!path.startsWith("/")) path = "/" + path;
+const urlFor = (code: string) => (code === "en" ? path : `/${code}${path}`);
+---
+<div class="langswitch" role="group" aria-label="Language">
+  {locales.map((l) => (
+    <a
+      href={urlFor(l.code)}
+      hreflang={l.code}
+      class:list={["lang", { on: l.code === current }]}
+      aria-current={l.code === current ? "true" : undefined}
+    >{l.label}</a>
+  ))}
+</div>
+
+<style>
+  .langswitch { display: inline-flex; align-items: center; gap: 0.15rem; margin-left: 0.4rem; }
+  .lang {
+    font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--rule); text-decoration: none; padding: 0.2rem 0.35rem; border-radius: var(--radius-sm);
+    transition: color var(--t-fast), background-color var(--t-fast);
+  }
+  .lang:hover { color: var(--umber); }
+  .lang.on { color: var(--umber); font-weight: 600; }
+  .lang:not(:last-child)::after { content: ""; }
+  .lang + .lang { border-left: 1px solid var(--border-subtle); border-radius: 0; }
+  .lang:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+</style>

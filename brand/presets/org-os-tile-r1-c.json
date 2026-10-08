@@ -1,0 +1,10 @@
+{
+  "name": "org-os-tile-r1-c",
+  "format": "tile",
+  "palette": "neural",
+  "field": { "seed": 21, "count": 16 },
+  "fill": "ramp",
+  "fillOpacity": 0.1,
+  "padRatio": 0.28,
+  "notes": "neural ramp wash — knowledge-infrastructure register"
+}

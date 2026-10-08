@@ -1,0 +1,157 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+const scale = ["--text-2xs", "--text-xs", "--text-sm", "--text-base", "--text-md", "--text-lg", "--text-xl", "--text-2xl", "--text-3xl", "--text-4xl", "--text-5xl"];
+---
+<LabShell title="Typography" current="typography"
+  intro="Two working families — Geist carries headings and body, Averia is the display face for special occasions — plus mono for labels/data. Family choice lives in src/styles/theme.css; the size scale and line-heights live in src/styles/tokens.css.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Families</h2>
+    <p class="display" style="font-size: var(--text-5xl); margin: 0 0 var(--space-2);">Display — Averia Serif Libre</p>
+    <p class="lab-source">var(--serif), opted into with .display — special occasions only</p>
+
+    <p style="font-size: var(--text-2xl); margin: var(--space-6) 0 0; font-family: var(--sans); font-weight: 600;">Headings + body — Geist Variable</p>
+    <p class="lab-source">var(--sans), also var(--font-headings) — every heading level (h1–h6) and all body copy</p>
+
+    <p style="font-size: var(--text-2xl); margin: var(--space-6) 0 0; font-family: var(--mono);">Mono — Geist Mono</p>
+    <p class="lab-source">var(--mono) · labels, code, addresses, chart data — labels always uppercase + tracked</p>
+  </div>
+
+  <div class="lab-section">
+    <h2>How to use them</h2>
+    <p><strong>Geist is the default for everything text-shaped</strong> — headings and body both. If you're not
+      deliberately reaching for the display treatment, you're already using the right font by doing nothing.</p>
+    <p><strong>Averia is not "the heading font" — it's the display face</strong>, for the small number of
+      special-occasion moments that want a bigger, editorial voice: a hero title, a page's opening H1, an
+      occasional pull quote. Opt in explicitly with the <code>.display</code> class.</p>
+    <ul>
+      <li><strong>Averia is for ReFi BCN's own surfaces only</strong> — refibcn.github.io and other pages we
+        own. This design system will end up serving client work and other engagements too; those don't inherit
+        our display face. Geist + mono travel; Averia stays ours.</li>
+      <li>Only <strong>h1, h2, h3</strong> may use it — combine the heading tag with <code>class="display"</code>.
+        <strong>Never h4, h5, h6</strong> — enforced in code, not just convention: <code>h4.display</code> /
+        <code>h5.display</code> / <code>h6.display</code> are forced back to Geist even if <code>.display</code>
+        gets added by mistake (<code>src/styles/global.css</code>).</li>
+      <li><code>.display</code> also works on non-heading elements (a <code>&lt;p&gt;</code>, a monogram span) —
+        it's a font/weight/line-height treatment, not something tied to heading semantics.</li>
+    </ul>
+    <p class="lab-source">Live example: Hero's <code>&lt;h1 class="hero__title display"&gt;</code> — the only
+      place on the real site currently using it.</p>
+  </div>
+
+  <div class="lab-section">
+    <h2>Typography styles</h2>
+    <p>Every named text style in the system — the target hierarchy, not a snapshot of current usage. Sizes shown
+      are desktop max; h1–h3 are fluid (clamp) down to a smaller mobile minimum — see <a class="link" href="/design-system/spacing/">Spacing & effects</a>
+      for the clamp values. The button rows below are text specs only (size/weight), not styled buttons — see
+      <a class="link" href="/design-system/buttons-links/">Buttons & links</a> for the real, colored component. Button size
+      variants and <strong>Label small</strong> didn't exist before this pass — added here because a one-size
+      button and a single label size were real gaps.</p>
+
+    <div class="lab-type-group">
+      <span class="lab-type-group-label">Display · Averia, opt-in via .display</span>
+      <div class="lab-type-row">
+        <h1 class="display lab-type-sample" style="font-size: var(--text-4xl);">Display large — h1.display</h1>
+        <span class="lab-type-meta"><span>Size: <strong>64</strong></span><span>Line height: <strong>67</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <h2 class="display lab-type-sample" style="font-size: var(--text-2xl);">Display medium — h2.display</h2>
+        <span class="lab-type-meta"><span>Size: <strong>42</strong></span><span>Line height: <strong>44</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <h3 class="display lab-type-sample" style="font-size: var(--text-xl);">Display small — h3.display</h3>
+        <span class="lab-type-meta"><span>Size: <strong>34</strong></span><span>Line height: <strong>36</strong></span></span>
+      </div>
+    </div>
+
+    <div class="lab-type-group">
+      <span class="lab-type-group-label">Heading · Geist, default h1–h6</span>
+      <div class="lab-type-row">
+        <h1 class="lab-type-sample" style="margin: 0;">Heading — h1</h1>
+        <span class="lab-type-meta"><span>Size: <strong>64</strong></span><span>Line height: <strong>77</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <h2 class="lab-type-sample" style="margin: 0;">Heading — h2</h2>
+        <span class="lab-type-meta"><span>Size: <strong>42</strong></span><span>Line height: <strong>50</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <h3 class="lab-type-sample" style="margin: 0;">Heading — h3</h3>
+        <span class="lab-type-meta"><span>Size: <strong>34</strong></span><span>Line height: <strong>41</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <h4 class="lab-type-sample" style="margin: 0;">Heading — h4</h4>
+        <span class="lab-type-meta"><span>Size: <strong>28</strong></span><span>Line height: <strong>34</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <h5 class="lab-type-sample" style="margin: 0;">Heading — h5</h5>
+        <span class="lab-type-meta"><span>Size: <strong>22</strong></span><span>Line height: <strong>26</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <h6 class="lab-type-sample" style="margin: 0;">Heading — h6</h6>
+        <span class="lab-type-meta"><span>Size: <strong>14</strong></span><span>Line height: <strong>17</strong></span></span>
+      </div>
+    </div>
+
+    <div class="lab-type-group">
+      <span class="lab-type-group-label">Body · Geist — 5-tier copy scale (XL/L/M/S/XS), see --copy-* in tokens.css</span>
+      <div class="lab-type-row">
+        <p class="lede lab-type-sample">XL — .lede: hero taglines, page intros</p>
+        <span class="lab-type-meta"><span>Size: <strong>22</strong></span><span>Line height: <strong>33</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <p class="lab-type-sample">L — the default reading size (plain &lt;p&gt;, no class needed)</p>
+        <span class="lab-type-meta"><span>Size: <strong>20</strong></span><span>Line height: <strong>31</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <p class="copy-md lab-type-sample">M — .copy-md: secondary or denser reading copy</p>
+        <span class="lab-type-meta"><span>Size: <strong>17</strong></span><span>Line height: <strong>26</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <p class="copy-sm lab-type-sample">S — .copy-sm: card copy, captions</p>
+        <span class="lab-type-meta"><span>Size: <strong>14</strong></span><span>Line height: <strong>22</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <p class="copy-xs lab-type-sample">XS — .copy-xs: fine print, dense metadata</p>
+        <span class="lab-type-meta"><span>Size: <strong>12</strong></span><span>Line height: <strong>19</strong></span></span>
+      </div>
+    </div>
+
+    <div class="lab-type-group">
+      <span class="lab-type-group-label">Label · UI text — mono labels, button copy, code</span>
+      <div class="lab-type-row">
+        <span class="eyebrow lab-type-sample">Label large — .eyebrow</span>
+        <span class="lab-type-meta"><span>Size: <strong>12</strong></span><span>Line height: <strong>17</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <span class="eyebrow eyebrow--sm lab-type-sample">Label small — .eyebrow--sm</span>
+        <span class="lab-type-meta"><span>Size: <strong>10</strong></span><span>Line height: <strong>14</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <span class="lab-type-sample" style="font-family: var(--sans); font-size: var(--text-md); font-weight: 500;">Button large</span>
+        <span class="lab-type-meta"><span>Size: <strong>22</strong></span><span>Line height: <strong>1×</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <span class="lab-type-sample" style="font-family: var(--sans); font-size: var(--text-base); font-weight: 500;">Button medium — default</span>
+        <span class="lab-type-meta"><span>Size: <strong>18</strong></span><span>Line height: <strong>1×</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <span class="lab-type-sample" style="font-family: var(--sans); font-size: var(--text-sm); font-weight: 500;">Button small</span>
+        <span class="lab-type-meta"><span>Size: <strong>14</strong></span><span>Line height: <strong>1×</strong></span></span>
+      </div>
+      <div class="lab-type-row">
+        <span class="lab-type-sample" style="font-family: var(--mono); font-size: var(--text-sm);">Code — multisig 0x6D18…dD2D</span>
+        <span class="lab-type-meta"><span>Size: <strong>14</strong></span><span>Line height: <strong>20</strong></span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <h2>Size scale</h2>
+    <p>~1.22–1.25 step progression, <code>--text-2xs</code> (0.625rem / 10px) → <code>--text-5xl</code> (5rem / 80px). Base (<code>--text-base</code>) is 1.25rem / 20px — the L tier of the copy scale below. <code>--text-copy-md</code> (1.0625rem / 17px, the copy scale's M tier) sits outside this ladder, between base and sm.</p>
+    {scale.map((t) => (
+      <p style={`font-size: var(${t}); margin: var(--space-2) 0;`}>{t} <span style="font-family: var(--mono); font-size: var(--text-xs); color: var(--text-muted);">— the quick brown fox</span></p>
+    ))}
+  </div>
+
+</LabShell>

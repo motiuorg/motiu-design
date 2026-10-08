@@ -1,0 +1,23 @@
+---
+interface Props { href: string; eyebrow?: string; title: string; body?: string; status?: string; }
+const { href, eyebrow, title, body, status } = Astro.props;
+---
+<a class="tile" href={href}>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <h3 class="tile__title">{title}</h3>
+  {body && <p class="tile__body">{body}</p>}
+  {status && <span class="tile__status">{status}</span>}
+</a>
+<style>
+.tile { background: var(--paper); padding: var(--space-8) var(--space-6); text-decoration: none; color: var(--text-primary); display: flex; flex-direction: column; gap: var(--space-2); transition: background var(--t-fast); }
+.tile:hover { background: var(--ivory); }
+/* Was a bare <h2> with no size override, so it inherited the page-section-heading clamp (2xl) —
+   oversized next to every other card/row title on the site. Those all use h3 + --text-lg
+   (.project-tile__heading, .pillar-service__name, .theory__title, .partner__name); matching that here. */
+.tile__title { margin: var(--space-1) 0 0; font-size: var(--text-lg); }
+/* Was font-family: var(--serif) — Averia, the opt-in display face — on plain body copy. Averia is
+   reserved for .display-tagged h1–h3 only (see Typography); body text just inherits Geist like every
+   other card/row excerpt on the site (.project-tile__excerpt, .case-card__excerpt, etc). */
+.tile__body { flex: 1; color: var(--text-muted); }
+.tile__status { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--umber); border-top: 1px dashed var(--rule); padding-top: var(--space-2); margin-top: var(--space-2); }
+</style>

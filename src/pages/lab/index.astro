@@ -1,0 +1,39 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+---
+<LabShell title="Overview" current="" section="lab"
+  intro="Experimental tools — live, interactive, not wired into the Astro build. Separate from
+  Design System, which documents what's actually shipped; this is where things get built before
+  that happens.">
+
+  <div class="lab-note">
+    <strong>This is a playground, not documentation.</strong> Pages here embed real, standalone
+    tools — most exist elsewhere in the org-os monorepo and are copied in by hand, so they can drift
+    out of sync (each page notes its source). Nothing here is guaranteed to reflect the live site;
+    see <a class="link" href="/design-system/">Design System</a> for that.
+  </div>
+
+  <div class="lab-section">
+    <h2>What's here</h2>
+    <ul>
+      <li><strong><a class="link" href="/lab/voronoi/">Voronoi hero editor</a></strong> — the live
+        tissue/network/flow pattern generator behind the homepage hero. Documented statically at
+        <a class="link" href="/design-system/motifs/">Design System → Motifs</a>.</li>
+      <li><strong><a class="link" href="/lab/voronoi-letters/">Voronoi letter-logo</a></strong> — type
+        a letter (M or B so far), get a logo built entirely from Voronoi geometry, color it from the
+        Color Library, export SVG/PNG. No Design System counterpart — a generative one-off, not a
+        reusable site component.</li>
+    </ul>
+  </div>
+
+  <div class="lab-section">
+    <h2>Related surfaces</h2>
+    <p>This lab documents the <em>current</em> build. Everything else we run — the other live
+      instances, the raw editor tools, and frozen snapshots of earlier design iterations for
+      side-by-side comparison — is indexed on the development hub.</p>
+    <ul>
+      <li><a href="/versions/"><strong>/versions/</strong> — development instances hub</a></li>
+      <li><a href="/lab-tools/">/lab-tools/</a> — live Voronoi editor, colour and font comparators</li>
+    </ul>
+  </div>
+</LabShell>

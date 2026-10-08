@@ -1,0 +1,90 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+---
+<LabShell title="Inputs" current="inputs"
+  intro="Form data-entry fields. Text input is fully built (src/styles/global.css §6.2) and used nowhere yet; textarea, select, checkbox, and radio don't exist as styled primitives at all — sketched below against the same tokens so the first real form doesn't start from zero.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--unused">unused sitewide</span>
+    <h2>Text input</h2>
+    <p>There's no form on refibcn.github.io yet — /contact/ presumably links out rather than embedding one.
+      This exists as a styled-but-unexercised primitive.</p>
+    <div style="max-width: 24rem; display: flex; flex-direction: column; gap: var(--space-4);">
+      <div class="field">
+        <label class="field__label" for="lab-name">Name</label>
+        <input class="field__input" id="lab-name" type="text" placeholder="Jordi Puig" />
+        <span class="field__hint">As you'd like to be addressed</span>
+      </div>
+      <div class="field field--error">
+        <label class="field__label" for="lab-email">Email</label>
+        <input class="field__input" id="lab-email" type="email" value="not-an-email" />
+        <span class="field__error">Enter a valid email address</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--gap">doesn't exist — sketch only</span>
+    <h2>Textarea</h2>
+    <p>Reuses <code>.field__input</code> with a fixed height — no dedicated class yet, but nothing about the
+      primitive fights multi-line text.</p>
+    <div style="max-width: 24rem;">
+      <div class="field">
+        <label class="field__label" for="lab-message">Message</label>
+        <textarea class="field__input" id="lab-message" rows="4" placeholder="Tell us what you're working on…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--gap">doesn't exist — sketch only</span>
+    <h2>Select</h2>
+    <p><code>.field__input</code> applied to a native <code>&lt;select&gt;</code> — works, but has none of the
+      custom-arrow/affordance treatment a real design pass would probably want.</p>
+    <div style="max-width: 24rem;">
+      <div class="field">
+        <label class="field__label" for="lab-topic">Topic</label>
+        <select class="field__input" id="lab-topic">
+          <option>Program facilitation</option>
+          <option>Funding / matching</option>
+          <option>Research & mapping</option>
+          <option>Something else</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--gap">doesn't exist — sketch only</span>
+    <h2>Checkbox & radio</h2>
+    <p>No styled primitive at all — these are unstyled browser defaults. A real pass would need a custom
+      indicator (square/circle, ink border, primary-color check/dot) to match the flat BIS treatment
+      everything else uses.</p>
+    <div class="lab-row" style="align-items: flex-start; gap: var(--space-8);">
+      <fieldset style="border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-2);">
+        <legend class="field__label" style="padding: 0 0 var(--space-2);">Checkbox</legend>
+        <label style="display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm);">
+          <input type="checkbox" checked /> Subscribe to updates
+        </label>
+        <label style="display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm);">
+          <input type="checkbox" /> Share contact with network partners
+        </label>
+      </fieldset>
+      <fieldset style="border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-2);">
+        <legend class="field__label" style="padding: 0 0 var(--space-2);">Radio</legend>
+        <label style="display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm);">
+          <input type="radio" name="lab-radio" checked /> Individual
+        </label>
+        <label style="display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm);">
+          <input type="radio" name="lab-radio" /> Organization
+        </label>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="lab-note">
+    <strong>Gap:</strong> textarea and select ride on <code>.field__input</code> well enough to sketch with, but
+    checkbox and radio have zero styling — those need an actual design decision (custom indicator shape/size),
+    not just a CSS pass, before the first real form can use them.
+  </div>
+</LabShell>

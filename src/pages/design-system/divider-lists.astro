@@ -1,0 +1,163 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+import Aurora from "../../components/Aurora.astro";
+import ProcessStrip from "../../components/ProcessStrip.astro";
+---
+<LabShell title="Divider lists" current="divider-lists"
+  intro="Split out from Cards — these aren't cards (no chrome, no background, no shadow), they're rows or
+  columns separated by a border. Four real shapes run the site; only one, ProcessStrip, is a component.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Service row (<code>.pillar-service</code>)</h2>
+    <p>What-we-do.astro, "Services": single-column, full-width rows, each pairing a name + body with an
+      optional <code>.case-card</code> mini-card alongside. In its real list context only the row's
+      border-top repeats (the last row also gets a border-bottom); this demo shows a single row on its
+      own, so both borders are set directly to bound it.</p>
+    <p class="lab-source">Used in: what-we-do.astro (pillar service lists)</p>
+    <div class="pillar-service">
+      <div class="pillar-service__main">
+        <h3 class="pillar-service__name">Service name</h3>
+        <p class="pillar-service__body">Service description, one or two sentences of what this service line actually does.</p>
+      </div>
+      <a class="case-card" href="#">
+        <div class="case-card__media">
+          <Aurora pillar="tissue" opacity={0.7} />
+        </div>
+        <div class="case-card__body">
+          <div class="case-card__head">
+            <span class="case-card__label">Case study</span>
+            <span class="case-card__arrow" aria-hidden="true">↗</span>
+          </div>
+          <span class="case-card__title">Case title</span>
+          <p class="case-card__excerpt">Short excerpt of the linked case study.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Audience grid (<code>.audiences</code>)</h2>
+    <p>Index.astro, "Who we work with": a simpler 2-column grid of name + body rows, no media, border
+      dropped on the last row of each column.</p>
+    <p class="lab-source">Used in: index.astro (#who-we-work-with)</p>
+    <div class="audiences">
+      <article class="audience"><h3>Audience name</h3><p>Short body copy describing who this audience is and why the org works with them.</p></article>
+      <article class="audience"><h3>Audience name</h3><p>Short body copy describing who this audience is and why the org works with them.</p></article>
+      <article class="audience"><h3>Audience name</h3><p>Short body copy describing who this audience is and why the org works with them.</p></article>
+      <article class="audience"><h3>Audience name</h3><p>Short body copy describing who this audience is and why the org works with them.</p></article>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Numbered rows (<code>.theory</code>)</h2>
+    <p>About.astro, "Theory of change": numbered, single-column rows — same shape as
+      <code>.pillar-service</code> above, but with a mono index instead of a paired card. Divider color
+      is now <code>var(--border-subtle)</code>, matching <code>.pillar-service</code> and
+      <code>.audience</code> — was <code>1px solid var(--umber)</code>, a heavier dark line with no
+      apparent reason to differ from the other two (fixed 2026-08-12, see the gap note below).</p>
+    <p class="lab-source">Used in: about.astro ("Theory of change")</p>
+    <ol class="theory">
+      <li class="theory__item">
+        <span class="theory__index">01</span>
+        <div>
+          <h3 class="theory__title">Theory item</h3>
+          <p class="theory__body">Body copy explaining this move, one or two sentences.</p>
+        </div>
+      </li>
+      <li class="theory__item">
+        <span class="theory__index">02</span>
+        <div>
+          <h3 class="theory__title">Second item</h3>
+          <p class="theory__body">Body copy for the second numbered move.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>ProcessStrip <span class="lab-source" style="display:inline;">— the horizontal one</span></h2>
+    <p>"How an engagement runs," what-we-do.astro + contact.astro: the one <em>horizontal</em> variant of
+      this idiom — numbered steps as side-by-side columns, each with a top border, instead of rows
+      stacked with borders between them. Also the only one of the four that's already a real component
+      rather than markup pasted into each page.</p>
+    <p class="lab-source">Used in: what-we-do.astro, contact.astro — YAML-driven, src/data/process.yaml</p>
+    <ProcessStrip />
+  </div>
+
+  <div class="lab-note">
+    <strong>Gap:</strong> only <code>ProcessStrip</code> is a component; <code>.pillar-service</code>,
+    <code>.audiences</code>, and <code>.theory</code> are hand-duplicated markup, each in its own page.
+    Worth consolidating into one component with a horizontal/vertical + numbered/unnumbered +
+    paired-card/no-card set of variants. Also fixed: <code>.theory</code>'s divider rule was
+    <code>1px solid var(--umber)</code> while <code>.pillar-service</code> and <code>.audience</code>
+    both used <code>var(--border-subtle)</code> — same idiom, different border color, no apparent
+    reason; all three now use <code>var(--border-subtle)</code>.
+    <code>.case-card__title</code> was setting <code>font-family: var(--serif)</code> (Averia) directly
+    on a <code>&lt;span&gt;</code> — the same class of violation as the Tile and NetworkSection fixes
+    elsewhere in this pass (Averia is h1–h3 <code>.display</code> only). Dropped in what-we-do.astro's
+    live CSS, not just this lab copy.
+  </div>
+</LabShell>
+
+<style>
+  /* .pillar-service — from what-we-do.astro. See note in the section above re: the doubled border. */
+  .pillar-service {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-8);
+    align-items: start;
+    padding: var(--space-8) 0;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .pillar-service__name { margin: 0 0 var(--space-2); font-size: var(--text-lg); }
+  .pillar-service__body { color: var(--text-muted); line-height: var(--leading-body); margin: 0; }
+
+  .audiences { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 var(--space-12); }
+  .audience { padding: var(--space-5) 0; border-bottom: 1px solid var(--border-subtle); }
+  .audience:nth-last-child(-n+2) { border-bottom: none; }
+  .audience h3 { font-size: var(--text-md); font-weight: 600; margin: 0 0 var(--space-1); }
+  .audience p { color: var(--text-muted); line-height: var(--leading-body); margin: 0; }
+
+  /* .theory — from about.astro. Was var(--umber), inconsistent with .pillar-service/.audience above;
+     now var(--border-subtle) like both (fixed 2026-08-12, see gap note). */
+  .theory { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .theory__item { display: grid; grid-template-columns: 4rem 1fr; gap: var(--space-5); padding: var(--space-7) 0; border-top: 1px solid var(--border-subtle); }
+  .theory__item:last-child { border-bottom: 1px solid var(--border-subtle); }
+  .theory__index { font-family: var(--mono); font-size: var(--text-lg); color: var(--primary); }
+  .theory__title { margin: 0 0 var(--space-2); font-size: var(--text-lg); }
+  .theory__body { color: var(--text-muted); line-height: var(--leading-body); max-width: 60ch; margin: 0; }
+
+  /* .case-card — from what-we-do.astro, the mini card paired with .pillar-service above. */
+  .case-card {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: translate var(--t-med), box-shadow var(--t-med);
+  }
+  .case-card:hover { translate: 0 -2px; box-shadow: var(--shadow-md); }
+  .case-card__media { position: relative; background: var(--surface-2); }
+  .case-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .case-card__media :global(.aurora) { position: absolute; inset: 0; }
+  .case-card__body { padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+  .case-card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+  .case-card__label { font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); }
+  .case-card__arrow {
+    width: 1.375rem; height: 1.375rem; border-radius: 50%;
+    background: var(--umber); color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; flex-shrink: 0;
+  }
+  .case-card__title { font-size: var(--text-md); }
+  .case-card__excerpt { font-size: var(--text-sm); color: var(--text-muted); line-height: var(--leading-body); margin: 0; }
+</style>

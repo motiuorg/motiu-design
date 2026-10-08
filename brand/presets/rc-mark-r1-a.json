@@ -1,0 +1,11 @@
+{
+  "name": "rc-mark-r1-a",
+  "format": "mark",
+  "palette": "tissue",
+  "field": { "seed": 33, "count": 9 },
+  "fill": "ramp",
+  "fillOpacity": 0.14,
+  "cornerRadius": 40,
+  "padRatio": 0.28,
+  "notes": "territorial cells — land register, no letterform"
+}

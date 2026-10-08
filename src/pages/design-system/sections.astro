@@ -1,0 +1,147 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+import Hero from "../../components/Hero.astro";
+import PageHero from "../../components/PageHero.astro";
+import SectionBlock from "../../components/SectionBlock.astro";
+import Tile from "../../components/Tile.astro";
+import CTABand from "../../components/CTABand.astro";
+import CardGrid from "../../components/CardGrid.astro";
+import FeaturedCardGrid from "../../components/FeaturedCardGrid.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import PillarBadge from "../../components/PillarBadge.astro";
+---
+<LabShell title="Content sections" current="sections"
+  intro="Full-width page sections — each one a distinct, reusable composition of the atoms and molecules on the other pages. These are organisms in the Brad Frost sense.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Hero</h2>
+    <p class="lab-source">Used in: index.astro</p>
+    <div class="lab-frame">
+      <Hero title="Example hero title" tagline="Supporting tagline copy, one or two sentences." primaryCta={{ label: "Primary", href: "#" }} ghostCta={{ label: "Secondary", href: "#" }} />
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>PageHero</h2>
+    <p class="lab-source">Used in: about, what-we-do, who-we-serve, projects, commons — the standard inner-page opener</p>
+    <div class="lab-frame">
+      <PageHero eyebrow="Section" title="Example page hero" lede="Lede copy explaining the page." />
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>SectionBlock</h2>
+    <p>Structural — not content-specific. A slot-based wrapper (title + intro + arbitrary children) most other
+      sections render inside of. Closer to a layout primitive than a true organism.</p>
+    <div class="lab-frame">
+      <SectionBlock title="Example section" intro="Section intro copy.">
+        <p>Slotted content goes here.</p>
+      </SectionBlock>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--unused">unused on real pages</span>
+    <h2>Tile</h2>
+    <p>Link tile with eyebrow + title + body + an optional dashed-rule <code>status</code> footer. Fully
+      built, zero usages found, so nothing on the site actually needs a status footer — it's speculative,
+      not modeled on a real data shape the way <code>ProjectCard</code>'s badge slot or the cohort status
+      pill are. Two fixes made in passing: the title was a bare <code>&lt;h2&gt;</code> with no size
+      override, inheriting the page-section-heading clamp — now <code>&lt;h3&gt;</code> at
+      <code>--text-lg</code>, matching every other card/row title on the site. The body copy was also
+      running on <code>var(--serif)</code> — Averia, the opt-in display face — on plain text; dropped, it
+      now just inherits Geist like every other card excerpt. Averia is h1–h3 <code>.display</code> only,
+      see Typography.</p>
+    <div class="lab-frame" style="padding: var(--space-6);">
+      <Tile href="#" eyebrow="Category" title="Tile title" body="Supporting body copy for the tile." status="Status footer" />
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live — fixed</span>
+    <h2>CTABand</h2>
+    <p>Was flow-Aurora + gradient + <code>.btn--primary</code>, with only 2 real callers (who-we-serve,
+      projects/[slug]). The other 3 pages that render a closing CTA (about, what-we-do, projects) each
+      pasted their own flat-umber + <code>.btn--paper</code> version instead, explicitly commented "not
+      the shared component's gradient" — that's what the site actually looks like at this point in the
+      page, 3-to-2. This component now <em>is</em> that flat-umber version, and all 5 real callers use
+      it — the 3 pages' own inline copies (and their local <code>.btn--paper</code>) are gone.</p>
+    <p class="lab-source">Used in: who-we-serve.astro, projects/[slug].astro, about.astro, what-we-do.astro, projects.astro — every closing CTA on the site, one component.</p>
+    <div class="lab-frame">
+      <CTABand />
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Card grid</h2>
+    <p>Plain multi-column grid — auto-fit columns, no featured treatment. Content-agnostic: just a grid
+      wrapper around any card-shaped children, in this case <code>ProjectCard</code>. Used to be
+      <code>.project-gallery</code>, pasted identically into index.astro and projects.astro; now one
+      shared wrapper, <code>CardGrid</code>.</p>
+    <p class="lab-source">Used in: index.astro (#projects), projects.astro (full grid)</p>
+    <div class="lab-frame" style="padding: var(--space-6);">
+      <CardGrid>
+        <ProjectCard image="/images/projects/mixite.png" title="Project heading" subtitle="Theme / category"
+          body="Excerpt copy for a standard, non-featured card." href="#">
+          <Fragment slot="badges"><PillarBadge pillar="tissue" /></Fragment>
+        </ProjectCard>
+        <ProjectCard image="/images/projects/laurel-31.png" title="Second project" subtitle="Theme / category"
+          body="Another card in the same grid, same size as the rest." href="#">
+          <Fragment slot="badges"><PillarBadge pillar="neural" /></Fragment>
+        </ProjectCard>
+        <ProjectCard image="/images/projects/la-marmita.png" title="Third project" subtitle="Theme / category"
+          body="Grid wraps to as many columns as fit at 19rem minimum." href="#">
+          <Fragment slot="badges"><PillarBadge pillar="flow" /></Fragment>
+        </ProjectCard>
+      </CardGrid>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Featured card grid</h2>
+    <p>One large card (<code>ProjectCard</code>'s <code>featured</code> prop — image left, content right,
+      bigger heading), the rest in a compact grid below. Content-agnostic by design — this used to be
+      baked into <code>NetworkSection</code> as "the network grid," but the layout has nothing to do with
+      networks; <code>NetworkSection</code> now composes this generic component with its own
+      network-specific header on top, rather than owning the grid itself. Shown here on its own, without
+      that header, since a featured-first grid is just as usable for any other card content.</p>
+    <p class="lab-source">Used in: NetworkSection (projects/regenerant-catalunya, index + article, both
+      networks) — real cohort data, with the header this lab entry deliberately omits</p>
+    <div class="lab-frame" style="padding: var(--space-6);">
+      <FeaturedCardGrid>
+        <ProjectCard slot="featured" featured image="/images/projects/regeneracio-xyz.png" title="Featured project"
+          subtitle="Theme / category" body="Excerpt copy for the featured slot — same fields as the grid variant, laid out wider with a bigger heading." href="#">
+          <Fragment slot="badges"><PillarBadge pillar="flow" /></Fragment>
+        </ProjectCard>
+        <ProjectCard image="/images/projects/anigami.png" title="Second project" subtitle="Theme / category"
+          body="Compact card, same size as the rest of the grid." href="#">
+          <Fragment slot="badges"><PillarBadge pillar="tissue" /></Fragment>
+        </ProjectCard>
+        <ProjectCard image="/images/projects/la-suculenta.png" title="Third project" subtitle="Theme / category"
+          body="Another compact entry." href="#">
+          <Fragment slot="badges"><PillarBadge pillar="neural" /></Fragment>
+        </ProjectCard>
+      </FeaturedCardGrid>
+    </div>
+  </div>
+
+  <div class="lab-note">
+    <strong>Done this pass:</strong> <code>FeatureGrid</code> — fully built, but neither index.astro nor
+    projects.astro actually imported it despite this lab previously claiming they did — has been deleted;
+    its featured-first layout idea lives on as <code>FeaturedCardGrid</code>, a new content-agnostic
+    component extracted out of what used to be <code>NetworkSection</code>'s own grid markup.
+    <code>NetworkSection</code> now composes <code>FeaturedCardGrid</code> plus its own network-specific
+    header, instead of owning the grid layout itself — so the layout isn't stuck being "the network
+    thing" if something else needs a featured-first grid later. The plain grid wrapper
+    (<code>.project-gallery</code>, pasted into index.astro and projects.astro) got the same treatment as
+    <code>CardGrid</code>. <code>CTABand</code> now matches the flat-umber style most of the site actually
+    uses instead of its old, less-used gradient. <code>ProcessStrip</code> moved to the new
+    <a class="link" href="/design-system/divider-lists/">Divider lists</a> page, grouped with the other row/column
+    divider patterns instead of the section-level organisms here.
+  </div>
+</LabShell>

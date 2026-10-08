@@ -1,0 +1,61 @@
+---
+// LabTopNav.astro — the standalone top nav for /design-system/* and /lab/*, deliberately
+// separate from the main site's Nav.astro (About/Projects/Services/Knowledge/Contact). This
+// area reads as its own small site with its own 3-item nav, not another page of refibcn.github.io
+// — "Website ↗" is the one deliberate bridge back, opening the real site in a new tab rather than
+// navigating away from wherever you were.
+import fs from "node:fs";
+import path from "node:path";
+import yaml from "js-yaml";
+const site = yaml.load(fs.readFileSync(path.join(process.cwd(), "src/data/site.yaml"), "utf8")) as { url: string };
+
+interface Props { current: "design-system" | "lab" }
+const { current } = Astro.props;
+---
+<header class="lab-topnav">
+  <a class="lab-topnav__brand" href="/design-system/">motiu</a>
+  <nav aria-label="Design system and lab">
+    <ul>
+      <li><a href="/design-system/" class:list={{ active: current === "design-system" }}>Design System</a></li>
+      <li><a href="/lab/" class:list={{ active: current === "lab" }}>Lab</a></li>
+      <li><a href={site.url} target="_blank" rel="noopener">Website ↗</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+.lab-topnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--gutter);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--paper);
+}
+.lab-topnav__brand {
+  font-family: var(--sans);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--umber);
+  text-decoration: none;
+}
+.lab-topnav nav ul { list-style: none; display: flex; gap: 1.25rem; margin: 0; padding: 0; }
+.lab-topnav nav a {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--rule);
+  text-decoration: none;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid transparent;
+  white-space: nowrap;
+}
+.lab-topnav nav a.active, .lab-topnav nav a:hover { color: var(--umber); border-bottom-color: var(--umber); }
+@media (max-width: 480px) {
+  .lab-topnav { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+}
+</style>

@@ -1,0 +1,25 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+---
+<LabShell title="Voronoi hero editor" current="voronoi" section="lab"
+  intro="The real Voronoi tissue/network/flow editor, embedded live. Not wired into the Astro build
+  (own copy of tokens/primitives, tunes via localStorage, exports JSON/PNG) — this is where the hero
+  pattern actually gets designed before geometry gets baked into a live component. Moved here from
+  Design System → Motifs (2026-08-12), which now just shows a static preview of what this produces.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--unused">exploration tool, not build-connected</span>
+    <p class="lab-source">Source: projects/branding/preview/hero-lab.html (org-os repo) · copied into public/lab-tools/hero-lab.html ·
+      <a class="link" href="/lab-tools/hero-lab.html" target="_blank" rel="noopener">open full-page ↗</a></p>
+    <div class="lab-frame" style="height: 90vh;">
+      <iframe src="/lab-tools/hero-lab.html" title="Hero generative lab — Voronoi editor" style="width: 100%; height: 100%; border: 0;"></iframe>
+    </div>
+  </div>
+
+  <div class="lab-note">
+    <strong>Note:</strong> copied by hand from the org-os monorepo, not symlinked — if the hero lab changes over
+    there, this copy needs re-syncing manually. Worth automating if it turns out to churn a lot. See
+    <a class="link" href="/design-system/motifs/">Design System → Motifs</a> for the static preview and where
+    this pattern actually gets used.
+  </div>
+</LabShell>

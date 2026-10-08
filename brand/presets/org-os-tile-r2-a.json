@@ -1,0 +1,8 @@
+{
+  "name": "org-os-tile-r2-a",
+  "format": "tile",
+  "palette": "rule-on-paper",
+  "field": { "seed": 7, "count": 26 },
+  "padRatio": 0.05,
+  "notes": "round 2 — corrected framing (r1 was over-zoomed at padRatio 0.28)"
+}

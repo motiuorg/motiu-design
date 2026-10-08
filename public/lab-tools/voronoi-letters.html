@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="tokens-2026-06-04-experiment.css">
+  <link rel="stylesheet" href="primitives-2026-06-04-experiment.css">
+  <link rel="stylesheet" href="hero-editor/hero-editor.css">
+  <link rel="stylesheet" href="voronoi-letters/voronoi-letters.css">
+  <title>Voronoi letter-logo generator</title>
+  <link rel="icon" href="assets/favicons.png">
+</head>
+<body class="vl-page">
+
+<div class="vl-stage">
+  <svg data-vl-svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <clipPath id="vl-letter-clip" data-vl-letter-clip-shapes></clipPath>
+      <clipPath id="vl-circle-clip">
+        <circle data-vl-clip-circle cx="50" cy="50" r="40"></circle>
+      </clipPath>
+    </defs>
+    <rect data-vl-bg x="0" y="0" width="100" height="100" fill="none"></rect>
+    <g clip-path="url(#vl-letter-clip)">
+      <g data-vl-clip-group>
+        <g data-vl-cells></g>
+      </g>
+    </g>
+    <g data-vl-handles hidden></g>
+  </svg>
+</div>
+
+<aside class="voronoi-editor voronoi-editor--lab is-positioned" data-vl-panel aria-label="Voronoi letter-logo controls" style="top: 1rem; right: 1rem;">
+  <div class="voronoi-editor__header">
+    <span class="voronoi-editor__title">Voronoi letters</span>
+  </div>
+  <div class="voronoi-editor__body">
+    <div class="voronoi-editor__export-row">
+      <button type="button" data-vl-export-svg>Export SVG</button>
+      <button type="button" data-vl-export-png>Export PNG</button>
+    </div>
+
+    <div class="voronoi-editor__zone">
+      <div class="voronoi-editor__zone-head">
+        <span class="voronoi-editor__zone-title">Letter</span>
+      </div>
+      <div class="voronoi-editor__zone-params">
+        <div class="voronoi-editor__row">
+          <label for="vl-letter-input">Character</label>
+          <input id="vl-letter-input" type="text" maxlength="1" value="M" data-vl-letter-input style="width: 3em; text-align: center; text-transform: uppercase;">
+        </div>
+        <p class="voronoi-editor__hint">Outline only, from Geist Bold — no typographic detail shows, the inside is entirely Voronoi cells.</p>
+      </div>
+    </div>
+
+    <div class="voronoi-editor__zone">
+      <div class="voronoi-editor__zone-head">
+        <span class="voronoi-editor__zone-title">Shape</span>
+      </div>
+      <div class="voronoi-editor__zone-params">
+        <div class="vl-toggle-row">
+          <button type="button" data-vl-mode="freeform" class="is-active">Freeform</button>
+          <button type="button" data-vl-mode="circular">Circular</button>
+        </div>
+        <div data-vl-circle-zone class="is-disabled">
+          <div class="voronoi-editor__row">
+            <label for="vl-circle-cx">Circle X <output data-vl-circle-cx-out>50</output></label>
+            <input id="vl-circle-cx" type="range" min="-20" max="100" step="1" value="50" data-vl-circle-cx>
+          </div>
+          <div class="voronoi-editor__row">
+            <label for="vl-circle-cy">Circle Y <output data-vl-circle-cy-out>50</output></label>
+            <input id="vl-circle-cy" type="range" min="-20" max="100" step="1" value="50" data-vl-circle-cy>
+          </div>
+          <div class="voronoi-editor__row">
+            <label for="vl-circle-r">Circle radius <output data-vl-circle-r-out>40</output></label>
+            <input id="vl-circle-r" type="range" min="5" max="80" step="1" value="40" data-vl-circle-r>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="voronoi-editor__zone">
+      <div class="voronoi-editor__zone-head">
+        <span class="voronoi-editor__zone-title">Geometry</span>
+      </div>
+      <div class="voronoi-editor__zone-params">
+        <div class="voronoi-editor__row">
+          <label for="vl-cell-count">Shapes <output data-vl-cell-count-out>3</output></label>
+          <input id="vl-cell-count" type="range" min="2" max="4" step="1" value="3" data-vl-cell-count>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="vl-gap">Gap <output data-vl-gap-out>2.5</output></label>
+          <input id="vl-gap" type="range" min="0" max="8" step="0.5" value="2.5" data-vl-gap>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="vl-corner">Corner radius <output data-vl-corner-out>3</output></label>
+          <input id="vl-corner" type="range" min="0" max="10" step="0.5" value="3" data-vl-corner>
+        </div>
+        <p class="voronoi-editor__hint">No line is drawn between shapes — the gap itself is what separates them, background color showing through.</p>
+        <div class="voronoi-editor__actions">
+          <button type="button" data-vl-edit-toggle>Edit sites</button>
+          <button type="button" data-vl-shuffle>Shuffle</button>
+          <button type="button" data-vl-reset>Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="voronoi-editor__zone">
+      <div class="voronoi-editor__zone-head">
+        <span class="voronoi-editor__zone-title">Color</span>
+      </div>
+      <div class="voronoi-editor__zone-params">
+        <p class="voronoi-editor__hint">Click a swatch to arm a color, then click any shape to paint it individually — or Fill all for one shared color across every shape (the default).</p>
+        <div class="voronoi-editor__color-group">
+          <div class="letter-swatch-grid" data-vl-swatches></div>
+        </div>
+        <div class="voronoi-editor__actions">
+          <button type="button" data-vl-fill-all>Fill all</button>
+          <button type="button" data-vl-clear-fill>Clear shape</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="voronoi-editor__zone">
+      <div class="voronoi-editor__zone-head">
+        <span class="voronoi-editor__zone-title">Background</span>
+      </div>
+      <div class="voronoi-editor__zone-params">
+        <div class="vl-toggle-row">
+          <button type="button" data-vl-bg-mode="transparent" class="is-active">Transparent</button>
+          <button type="button" data-vl-bg-mode="solid">Solid</button>
+        </div>
+        <div class="voronoi-editor__row">
+          <label for="vl-bg-color">Color</label>
+          <input id="vl-bg-color" type="color" value="#FFFFFF" data-vl-bg-color>
+        </div>
+      </div>
+    </div>
+
+    <p class="voronoi-editor__status" data-vl-status aria-live="polite"></p>
+  </div>
+</aside>
+
+<script type="module">
+import { initVoronoiLetters } from './voronoi-letters/voronoi-letters.mjs';
+initVoronoiLetters();
+</script>
+</body>
+</html>

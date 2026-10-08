@@ -1,0 +1,677 @@
+/* Hero generative editor + mockup */
+
+/* --- Opening / hero frame --- */
+.opening-voronoi {
+  position: relative;
+  background: var(--paper-100);
+  --voronoi-edge-stroke: var(--paper-200);
+  --voronoi-edit-stroke: #ff4fd8;
+  --voronoi-edit-selected: #ff1493;
+}
+
+.opening-voronoi__illustration {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero {
+  position: relative;
+  z-index: 2;
+  padding: calc(var(--space-24) + var(--space-4) + 3.25rem) var(--space-6) var(--space-20);
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero__pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero__pattern .opening-voronoi__canvas,
+.hero__pattern .opening-voronoi__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 52ch;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: var(--font-display-weight);
+  font-size: var(--text-5xl);
+  line-height: var(--leading-display);
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.02em;
+}
+
+.hero__badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.hero__badges .pillar-badge {
+  margin-bottom: 0;
+  width: fit-content;
+}
+
+.pillar-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-4);
+}
+
+.pillar-badge--tissue {
+  background: var(--pillar-tissue-light);
+  color: var(--pillar-tissue-dark);
+}
+
+.pillar-badge--neural {
+  background: var(--pillar-neural-light);
+  color: var(--pillar-neural-dark);
+}
+
+.pillar-badge--flow {
+  background: var(--pillar-flow-light);
+  color: var(--pillar-flow-dark);
+}
+
+.hero__tagline {
+  font-size: var(--text-md);
+  color: var(--text-muted);
+  margin-bottom: var(--space-8);
+}
+
+.hero__actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* --- Nav (shared mockup) --- */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  z-index: 10;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.nav.is-scrolled {
+  background: var(--paper-50);
+  border-bottom-color: var(--border-subtle);
+}
+
+.nav__brand {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-md);
+  color: var(--text-primary);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.nav__brand:hover {
+  color: var(--paper-700);
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.nav__links a:not(.btn) {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: var(--text-sm);
+}
+
+.nav__links a:not(.btn):hover {
+  color: var(--paper-700);
+}
+
+.nav__links .btn {
+  font-size: var(--text-sm);
+  padding: var(--space-2) var(--space-4);
+}
+
+body.is-voronoi-editing .nav {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* --- Voronoi cells --- */
+.opening-voronoi__cell {
+  fill: transparent;
+  stroke: var(--voronoi-edge-stroke);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill;
+  vector-effect: non-scaling-stroke;
+}
+
+.opening-voronoi__cell-sub {
+  fill: transparent;
+  stroke: var(--voronoi-edge-stroke);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.72;
+}
+
+.opening-voronoi__cell-sub--depth-2 { opacity: 0.62; }
+.opening-voronoi__cell-sub--depth-3 { opacity: 0.52; }
+.opening-voronoi__cell-sub--depth-4 { opacity: 0.44; }
+
+.opening-voronoi__illustration.is-tissue-filled .opening-voronoi__cell,
+.opening-voronoi__illustration.is-tissue-filled .opening-voronoi__cell-sub {
+  fill: transparent;
+}
+
+.opening-voronoi__illustration.is-voronoi-editing .opening-voronoi__cell,
+.opening-voronoi__illustration.is-voronoi-editing .opening-voronoi__cell-sub {
+  pointer-events: stroke;
+  stroke: var(--voronoi-edit-stroke);
+}
+
+.opening-voronoi__illustration.is-voronoi-editing .opening-voronoi__cell.is-selected,
+.opening-voronoi__illustration.is-voronoi-editing .opening-voronoi__cell-sub.is-selected {
+  stroke: var(--voronoi-edit-selected);
+}
+
+.opening-voronoi__illustration.is-voronoi-editing .opening-voronoi__cell-sub.is-selected {
+  opacity: 0.95;
+}
+
+.opening-voronoi__illustration.is-voronoi-editing .hero,
+.opening-voronoi__illustration.is-voronoi-editing .section-block {
+  pointer-events: none;
+  user-select: none;
+}
+
+.opening-voronoi__illustration.is-voronoi-editing .hero__pattern {
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.opening-voronoi__illustration.is-voronoi-editing .opening-voronoi__canvas {
+  z-index: 3;
+}
+
+.opening-voronoi__illustration.is-voronoi-editing .opening-voronoi__svg {
+  z-index: 4;
+  pointer-events: auto;
+}
+
+.opening-voronoi__illustration.is-voronoi-editing .voronoi-handles,
+.opening-voronoi__illustration.is-voronoi-editing .voronoi-sub-handles {
+  pointer-events: auto;
+}
+
+.voronoi-handles,
+.voronoi-sub-handles {
+  pointer-events: none;
+}
+
+.voronoi-handle,
+.voronoi-sub-handle {
+  pointer-events: all;
+  cursor: grab;
+}
+
+.voronoi-handle {
+  fill: var(--paper-900);
+  fill-opacity: 0.72;
+  stroke: var(--paper-50);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.voronoi-handle.is-dragging {
+  cursor: grabbing;
+  fill-opacity: 0.85;
+}
+
+.voronoi-sub-handle {
+  fill: var(--voronoi-edit-stroke);
+  fill-opacity: 0.9;
+  stroke: var(--paper-50);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.voronoi-sub-handle.is-dragging {
+  cursor: grabbing;
+  fill-opacity: 1;
+}
+
+/* --- Section blocks below hero --- */
+.opening-voronoi__illustration .section-block {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
+
+.section-block {
+  padding: var(--space-24) var(--space-6);
+  max-width: var(--container-xl);
+  margin: 0 auto;
+}
+
+.section-block__title {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.02em;
+}
+
+.section-block__intro {
+  font-size: var(--text-md);
+  color: var(--text-muted);
+  margin-bottom: var(--space-12);
+  max-width: 60ch;
+  text-align: left;
+}
+
+.section-block--alt {
+  background: var(--surface-1);
+  max-width: none;
+  margin: 0;
+  padding-left: max(var(--space-6), calc((100% - var(--container-xl)) / 2));
+  padding-right: max(var(--space-6), calc((100% - var(--container-xl)) / 2));
+}
+
+.section-block--alt > * {
+  max-width: var(--container-xl);
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+}
+
+/* --- Lab page --- */
+.hero-lab-page {
+  min-height: 100vh;
+  background: var(--paper-100);
+}
+
+.hero-lab-page .opening-voronoi {
+  min-height: auto;
+}
+
+.hero-lab-page .hero {
+  min-height: 72vh;
+}
+
+/* --- Editor panel --- */
+.voronoi-editor {
+  position: fixed;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  z-index: 100;
+  width: min(20rem, calc(100vw - var(--space-8)));
+  max-height: calc(100vh - var(--space-8));
+  overflow: auto;
+  background: color-mix(in srgb, var(--paper-50) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-primary);
+  touch-action: none;
+}
+
+.voronoi-editor--lab {
+  width: min(22rem, calc(100vw - var(--space-8)));
+}
+
+.voronoi-editor.is-positioned {
+  bottom: auto;
+  right: auto;
+}
+
+.voronoi-editor.is-collapsed {
+  overflow: hidden;
+}
+
+.voronoi-editor.is-collapsed .voronoi-editor__body {
+  display: none;
+}
+
+.voronoi-editor.is-editing-active {
+  border-color: color-mix(in srgb, var(--voronoi-edit-stroke) 35%, var(--border-subtle));
+}
+
+.voronoi-editor__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  cursor: grab;
+  user-select: none;
+}
+
+.voronoi-editor__header.is-dragging {
+  cursor: grabbing;
+}
+
+.voronoi-editor__drag-handle {
+  color: var(--text-muted);
+  letter-spacing: -0.12em;
+  font-size: 0.85rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.voronoi-editor__title {
+  flex: 1;
+  font-weight: 500;
+  min-width: 0;
+}
+
+.voronoi-editor__editing-badge {
+  color: var(--voronoi-edit-stroke, #ff4fd8);
+  font-weight: 500;
+}
+
+.voronoi-editor__minimize {
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--paper-50);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+.voronoi-editor__minimize:hover {
+  border-color: var(--paper-700);
+}
+
+.voronoi-editor__body {
+  padding: 0 var(--space-4) var(--space-4);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.voronoi-editor__export-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.voronoi-editor__export-row button {
+  border: 1px solid var(--border-default);
+  background: var(--paper-50);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+
+.voronoi-editor__export-row button:hover {
+  border-color: var(--paper-700);
+}
+
+.voronoi-editor__zone {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.voronoi-editor__zone:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.voronoi-editor__zone-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.voronoi-editor__zone-title {
+  font-weight: 600;
+  font-size: var(--text-sm);
+  letter-spacing: 0.02em;
+}
+
+.voronoi-editor__zone-params {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.voronoi-editor__zone-params.is-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.voronoi-editor__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.voronoi-editor__toggle input {
+  accent-color: var(--paper-900);
+}
+
+.voronoi-editor__row {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.voronoi-editor__row label {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  color: var(--text-muted);
+}
+
+.voronoi-editor__row input[type="range"] {
+  width: 100%;
+  accent-color: var(--paper-900);
+}
+
+.voronoi-editor__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.voronoi-editor__actions button {
+  flex: 1 1 calc(50% - var(--space-1));
+  min-width: 5.5rem;
+  border: 1px solid var(--border-default);
+  background: var(--paper-50);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  cursor: pointer;
+}
+
+.voronoi-editor__actions button:hover {
+  border-color: var(--paper-700);
+}
+
+.voronoi-editor__hint {
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.voronoi-editor__status {
+  color: var(--text-muted);
+  min-height: 1.2em;
+}
+
+.voronoi-editor__status.is-violated {
+  color: #d92b2b;
+}
+
+/* Content-protection prototype overlay — dashed boxes over the logo, nav,
+ * hero, and approach regions; red flags a region a cell edge still crosses. */
+.voronoi-protect-overlay {
+  pointer-events: none;
+}
+
+.voronoi-protect-rect {
+  fill: none;
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+  vector-effect: non-scaling-stroke;
+}
+
+.voronoi-protect-rect.is-clear {
+  stroke: #2fa84f;
+}
+
+.voronoi-protect-rect.is-violated {
+  stroke: #d92b2b;
+}
+
+.voronoi-editor__color-group {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.voronoi-editor__color-label {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.voronoi-editor__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.voronoi-editor__swatch {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--paper-900) 12%, transparent);
+}
+
+.voronoi-editor__swatch:hover {
+  transform: scale(1.06);
+}
+
+.voronoi-editor__swatch.is-active {
+  border-color: var(--paper-900);
+  box-shadow: 0 0 0 1px var(--paper-50);
+}
+
+.voronoi-editor__swatch:focus-visible {
+  outline: 2px solid var(--paper-900);
+  outline-offset: 2px;
+}
+
+.voronoi-editor__section {
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.voronoi-editor__section-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.voronoi-editor__section-toggle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  border: none;
+  background: transparent;
+  padding: var(--space-2) 0;
+  font: inherit;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.voronoi-editor__section-toggle:hover {
+  color: var(--paper-900);
+}
+
+.voronoi-editor__section-chevron {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.voronoi-editor__section.is-collapsed .voronoi-editor__section-body {
+  display: none;
+}
+
+.voronoi-editor__section-body {
+  display: grid;
+  gap: var(--space-2);
+  padding-bottom: var(--space-1);
+}
+
+.voronoi-editor select {
+  width: 100%;
+  font: inherit;
+  padding: var(--space-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--paper-50);
+}
+
+.voronoi-editor input[type="file"] {
+  display: none;
+}

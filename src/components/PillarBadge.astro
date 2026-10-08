@@ -1,0 +1,13 @@
+---
+// PillarBadge.astro — the three-capability pillar badge (Andrea's landing).
+//   tissue → Network coordination · neural → Collective intelligence · flow → Regenerative finance
+// Thin wrapper around Badge (2026-08-12 migration, per the plan documented in /lab/badges) — kept
+// only for the pillar-name-to-default-label lookup. All actual styling (dot, pill shape, the
+// light-tint tissue/neural/flow colors) now lives in Badge.astro; this file no longer has its own.
+import Badge from "./Badge.astro";
+
+interface Props { pillar: "tissue" | "neural" | "flow"; label?: string; }
+const { pillar, label } = Astro.props;
+const defaults = { tissue: "Network coordination", neural: "Collective intelligence", flow: "Regenerative finance" };
+---
+<Badge tone={pillar} dot>{label ?? defaults[pillar]}</Badge>

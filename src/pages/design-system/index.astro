@@ -1,0 +1,28 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+---
+<LabShell title="Overview" current=""
+  intro="The living design system for refibcn.github.io — tokens, atoms, molecules, organisms, and the Catalunya map patterns, documented against what's actually wired into the Astro build.">
+
+  <div class="lab-note">
+    <strong>This design is a work in progress.</strong> Pages here document what exists today
+    and flag with a status tag what's unused, incomplete, or missing outright — this is meant to
+    stay accurate as the visual direction keeps changing, not to lock anything in.
+  </div>
+
+  <div class="lab-section">
+    <h2>How this is organized</h2>
+    <p>Atomic-design tiers, left rail. Each page: what exists, where it's used on the live site,
+      and what's still a gap.</p>
+    <ul>
+      <li><strong>Foundations</strong> — reference docs: this overview, and how the section works.</li>
+      <li><strong>Atoms</strong> — smallest reusable pieces: color, type, spacing/effects, motifs, image styles,
+        buttons/links, controls (tabs, loading), badges, inputs.</li>
+      <li><strong>Molecules</strong> — small compositions: cards, stat bands.</li>
+      <li><strong>Organisms</strong> — full page sections: heroes, CTA bands, feature grids, nav, footer, and the
+        Catalunya map components (d3 inset map + MapLibre program map) — not generic UI-kit material, but
+        load-bearing across several pages and worth keeping in view alongside everything else.</li>
+    </ul>
+    <p>Looking for the live, tunable tools instead of the docs? See <a class="link" href="/lab/">Lab</a>.</p>
+  </div>
+</LabShell>

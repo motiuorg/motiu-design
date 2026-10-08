@@ -1,0 +1,79 @@
+/* src/styles/tokens.css — STRUCTURAL tokens only (direction-agnostic).
+ * Palette, fonts, radius default, and shadows live in the active theme
+ * (src/styles/theme.css → themes/{organic,brand-family}.css).
+ * Realization of DESIGN.md §3.2 (scale) + §4 (spatial) + §4.5 (motion).
+ */
+
+:root {
+  /* §3.2 Type scale — base bumped to 18px (was 16px; body copy read too
+   * small), same ~1.22–1.25 step progression carried through the rest of
+   * the scale so the whole ladder grew together, not just one step. */
+  --text-2xs: 0.625rem; /* 10px — smallest label size */
+  --text-xs: 0.75rem;   /* 12px */
+  --text-sm: 0.875rem;  /* 14px */
+  --text-copy-md: 1.0625rem; /* 17px — copy-scale only, sits between base and sm; not part of the heading ladder */
+  --text-base: 1.25rem; /* 20px — bumped again from 18px, still too small for regular reading copy */
+  --text-md: 1.375rem;  /* 22px */
+  --text-lg: 1.75rem;   /* 28px */
+  --text-xl: 2.125rem;  /* 34px */
+  --text-2xl: 2.625rem; /* 42px */
+  --text-3xl: 3.25rem;  /* 52px */
+  --text-4xl: 4rem;     /* 64px */
+  --text-5xl: 5rem;     /* 80px */
+
+  /* Copy scale — 5 named reading-copy sizes (paragraphs/prose, not headings
+   * or labels). XL/L map onto the general ladder above (lede / body
+   * default); M/S/XS are copy-specific. See .lede, .copy-md, .copy-sm,
+   * .copy-xs in global.css. */
+  --copy-xl: var(--text-md);   /* 22px — .lede */
+  --copy-lg: var(--text-base); /* 20px — default body */
+  --copy-md: var(--text-copy-md); /* 17px */
+  --copy-sm: var(--text-sm);   /* 14px */
+  --copy-xs: var(--text-xs);   /* 12px */
+
+  /* Line-height */
+  --leading-display: 1.05;
+  --leading-heading: 1.2;
+  --leading-body: 1.55;
+  --leading-ui: 1.4;
+  --leading-mono: 1.45;
+
+  /* §4.1 Spacing (4px base) */
+  --space-0: 0;
+  --space-px: 0.0625rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* §4.2 Universal radii (theme owns --radius + --radius-sm) */
+  --radius-pill: 9999px;
+  --radius-full: 50%;
+
+  /* Nav — fallback before Nav.astro's script measures the real height */
+  --nav-h: 3.75rem;
+
+  /* §4.4 Container + gutter */
+  --gutter: 2rem;
+  --container-prose: 65ch;
+  --container-default: min(1280px, 100% - 2 * var(--gutter));
+  --container-wide: min(1440px, 100% - 2 * var(--gutter));
+
+  /* §4.5 Motion */
+  --t-fast: 120ms ease;
+  --t-med: 280ms ease;
+  --t-slow: 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --t-fast: 0ms; --t-med: 0ms; --t-slow: 0ms; }
+}

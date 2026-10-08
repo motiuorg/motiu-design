@@ -1,0 +1,82 @@
+---
+// TeamCard.astro — editorial member tile. Falls back to an Averia monogram
+// over a pillar-tinted aurora header when no portrait is supplied.
+// Redesigned 2026-08-12: was a 21/9 cinematic-banner crop (built for the abstract Aurora
+// placeholder, before real portraits existed) and a flat-bordered, square-cornered shell that
+// predated ProjectCard/.case-card's rounded, shadowed card language. Both real portraits on file
+// (Giulio, Luiz) are square source images — 1/1 is the shape that actually fits what this card
+// holds, not just a stylistic pick.
+import Aurora from "./Aurora.astro";
+
+interface Props {
+  name: string;
+  role: string;
+  bio?: string;
+  pillar?: "neural" | "tissue" | "flow";
+  photo?: string;
+}
+const { name, role, bio, pillar = "tissue", photo } = Astro.props;
+const initials = name.split(/\s+/).slice(0, 2).map((w) => w[0]).join("");
+---
+<article class="team-card">
+  <div class="team-card__visual">
+    {photo
+      ? <img class="team-card__photo" src={photo} alt={name} loading="lazy" />
+      : <>
+          <Aurora pillar={pillar} opacity={0.7} />
+          <span class="team-card__monogram" aria-hidden="true">{initials}</span>
+        </>}
+  </div>
+  <div class="team-card__body">
+    <h3 class="team-card__name">{name}</h3>
+    <p class="team-card__role eyebrow">{role}</p>
+    {bio && <p class="team-card__bio">{bio}</p>}
+  </div>
+</article>
+
+<style>
+.team-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--paper);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--t-med), translate var(--t-med);
+}
+.team-card:hover { box-shadow: var(--shadow-md); translate: 0 -2px; }
+.team-card__visual {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  background: var(--surface-2);
+  display: grid;
+  place-items: center;
+}
+.team-card__photo {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.team-card__monogram {
+  position: relative;
+  z-index: 1;
+  font-family: var(--serif);
+  font-size: var(--text-4xl);
+  line-height: 1;
+  color: var(--text-primary);
+  opacity: 0.85;
+}
+.team-card__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-1); flex: 1; }
+.team-card__name { font-size: var(--text-lg); margin: 0; }
+.team-card__role { margin: 0 0 var(--space-2); }
+.team-card__bio {
+  color: var(--text-muted);
+  font-size: var(--copy-md);
+  line-height: var(--leading-body);
+  margin: var(--space-2) 0 0;
+}
+</style>

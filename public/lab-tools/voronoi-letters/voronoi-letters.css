@@ -1,0 +1,106 @@
+/**
+ * voronoi-letters.css — only what's new for this tool. The panel chrome itself
+ * (.voronoi-editor, __header, __zone, __row, __swatch, etc.) is loaded straight from
+ * ../hero-editor/hero-editor.css — it was already generic, not hero-specific, so there's
+ * nothing to duplicate.
+ */
+
+.vl-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper-100, #f4f1e9);
+  padding: var(--space-8, 2rem);
+}
+
+.vl-stage {
+  width: min(70vh, 90vw);
+  aspect-ratio: 1 / 1;
+  background: repeating-conic-gradient(#e7e3d8 0% 25%, #f4f1e9 0% 50%) 50% / 20px 20px;
+  border-radius: var(--radius-md, 0.75rem);
+  border: 1px solid var(--border-subtle, #ddd7cf);
+  overflow: hidden;
+}
+
+.vl-stage svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.vl-cell {
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.vl-cell:hover {
+  filter: brightness(0.96);
+}
+
+.vl-cell.is-selected {
+  filter: brightness(0.9);
+}
+
+.vl-handle {
+  fill: #ff4fd8;
+  stroke: #fff;
+  stroke-width: 0.4;
+  cursor: grab;
+}
+
+.vl-handle:active {
+  cursor: grabbing;
+}
+
+/* Letter / mode / background toggle buttons — same visual language as the panel's other
+   buttons (.voronoi-editor__actions button), plus an .is-active state matching .voronoi-editor__swatch.is-active. */
+.vl-toggle-row {
+  display: flex;
+  gap: var(--space-2, 0.5rem);
+}
+
+.vl-toggle-row button {
+  flex: 1;
+  border: 1px solid var(--border-default, #c9c3b6);
+  background: var(--paper-50, #fff);
+  border-radius: var(--radius-sm, 0.35rem);
+  padding: var(--space-2, 0.5rem) var(--space-3, 0.75rem);
+  font: inherit;
+  font-size: var(--text-xs, 0.75rem);
+  cursor: pointer;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.vl-toggle-row button:hover {
+  border-color: var(--paper-700, #6b6357);
+}
+
+.vl-toggle-row button.is-active {
+  background: var(--text-primary, #1a1a1a);
+  border-color: var(--text-primary, #1a1a1a);
+  color: var(--paper-50, #fff);
+}
+
+.vl-toggle-row button.is-active:hover {
+  filter: brightness(1.15);
+}
+
+/* Color Library swatch grid — rows of 6 (Tint→Shade), one row per family. Individual
+   swatches reuse .voronoi-editor__swatch's own square/border/hover styling. */
+.letter-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+}
+
+.letter-swatch {
+  width: 100%;
+  height: 1.4rem;
+  aspect-ratio: auto;
+}
+
+[data-vl-circle-zone].is-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}

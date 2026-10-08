@@ -1,0 +1,211 @@
+---
+import LabShell from "../../components/lab/LabShell.astro";
+import Button from "../../components/Button.astro";
+---
+<LabShell title="Buttons & links" current="buttons-links"
+  intro="The .btn and .link primitive classes (src/styles/global.css §6.1/§6.4) plus the Button.astro wrapper component.">
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--unused">component unused on real pages</span>
+    <h2>Button</h2>
+    <p><code>Button.astro</code> wraps <code>.btn</code> (renders an <code>&lt;a&gt;</code> if given
+      <code>href</code>, else a <code>&lt;button&gt;</code>). It's a clean component — but every real page
+      currently hand-writes <code>&lt;a class="btn btn--primary"&gt;</code> directly instead of importing it
+      (see Hero, CTABand, Nav). Worth either switching those over to the component, or, if the raw-markup
+      pattern is intentional, dropping the unused wrapper.</p>
+
+    <h3>Variants</h3>
+    <div class="lab-row">
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="ghost">Ghost</Button>
+    </div>
+    <p class="lab-source">Primary runs on <code>--btn-primary-bg</code> (→ <code>--umber</code>), not
+      <code>--primary</code> (the red pillar-flow accent) — a deliberate split from the brand color for the
+      everyday button action. Disabled state is in States below.</p>
+
+    <h3>Sizes</h3>
+    <p class="lab-source"><code>size="sm" | "md" | "lg"</code> (default md). See <a class="link" href="/design-system/typography/">Typography</a> for the full size spec.</p>
+    <div class="lab-row" style="align-items: center;">
+      <Button variant="primary" size="sm">Small</Button>
+      <Button variant="primary">Medium</Button>
+      <Button variant="primary" size="lg">Large</Button>
+    </div>
+
+    <h3>Icons</h3>
+    <p>Named <code>icon-left</code> / <code>icon-right</code> slots — pass anything (plain characters here; any
+      inline SVG works the same way). <code>.btn__label</code> handles the gap between icon and text.</p>
+    <div class="lab-row">
+      <Button variant="secondary">
+        <Fragment slot="icon-left">←</Fragment>
+        Back
+      </Button>
+      <Button variant="primary">
+        Continue
+        <Fragment slot="icon-right">→</Fragment>
+      </Button>
+    </div>
+
+    <h3>States</h3>
+    <span class="lab-status lab-status--live">live</span>
+    <p>Default, Hover, Active, Disabled for each variant. Hover/Active are forced static here with page-local
+      <code>.demo-hover</code>/<code>.demo-active</code> classes so they can sit side by side — they mirror the
+      real <code>:hover</code>/<code>:active</code> rules in <code>global.css</code> exactly (they read the same
+      <code>--btn-primary-*</code> tokens, which is also what makes the "on dark" row below work). Hovering or
+      clicking the real buttons above does the same thing live.</p>
+    <div class="lab-btn-matrix">
+      <span></span>
+      <span class="lab-btn-matrix__head">Default</span>
+      <span class="lab-btn-matrix__head">Hover</span>
+      <span class="lab-btn-matrix__head">Active</span>
+      <span class="lab-btn-matrix__head">Disabled</span>
+
+      <span class="lab-btn-matrix__label">Primary</span>
+      <button class="btn btn--primary" type="button">Button</button>
+      <button class="btn btn--primary demo-hover" type="button">Button</button>
+      <button class="btn btn--primary demo-active" type="button">Button</button>
+      <button class="btn btn--primary" type="button" disabled>Button</button>
+
+      <span class="lab-btn-matrix__label">Secondary</span>
+      <button class="btn btn--secondary" type="button">Button</button>
+      <button class="btn btn--secondary demo-hover" type="button">Button</button>
+      <button class="btn btn--secondary demo-active" type="button">Button</button>
+      <button class="btn btn--secondary" type="button" disabled>Button</button>
+
+      <span class="lab-btn-matrix__label">Ghost</span>
+      <button class="btn btn--ghost" type="button">Button</button>
+      <button class="btn btn--ghost demo-hover" type="button">Button</button>
+      <button class="btn btn--ghost demo-active" type="button">Button</button>
+      <button class="btn btn--ghost" type="button" disabled>Button</button>
+    </div>
+
+    <h3>On dark</h3>
+    <span class="lab-status lab-status--gap">speculative — nothing on the live site uses this yet</span>
+    <p>Wrap any block in <code>.on-dark</code> (<code>src/styles/themes/editorial-organic.css</code>) to flip it
+      for a dark section. Nothing on refibcn.github.io needs this today, but this design system is meant to
+      serve more than one light editorial website — client work, other products — so the inversion exists as a
+      real, working context now rather than getting invented ad hoc later. Every semantic token flips
+      (<code>--bg</code>, <code>--surface-*</code>, <code>--text-*</code>, <code>--border-*</code>,
+      <code>--btn-primary-*</code>), so buttons, cards, and text all adapt with zero component changes.</p>
+    <div class="on-dark lab-dark-panel">
+      <div class="lab-btn-matrix">
+        <span></span>
+        <span class="lab-btn-matrix__head">Default</span>
+        <span class="lab-btn-matrix__head">Hover</span>
+        <span class="lab-btn-matrix__head">Active</span>
+        <span class="lab-btn-matrix__head">Disabled</span>
+
+        <span class="lab-btn-matrix__label">Primary</span>
+        <button class="btn btn--primary" type="button">Button</button>
+        <button class="btn btn--primary demo-hover" type="button">Button</button>
+        <button class="btn btn--primary demo-active" type="button">Button</button>
+        <button class="btn btn--primary" type="button" disabled>Button</button>
+
+        <span class="lab-btn-matrix__label">Secondary</span>
+        <button class="btn btn--secondary" type="button">Button</button>
+        <button class="btn btn--secondary demo-hover" type="button">Button</button>
+        <button class="btn btn--secondary demo-active" type="button">Button</button>
+        <button class="btn btn--secondary" type="button" disabled>Button</button>
+
+        <span class="lab-btn-matrix__label">Ghost</span>
+        <button class="btn btn--ghost" type="button">Button</button>
+        <button class="btn btn--ghost demo-hover" type="button">Button</button>
+        <button class="btn btn--ghost demo-active" type="button">Button</button>
+        <button class="btn btn--ghost" type="button" disabled>Button</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--gap">speculative — new pattern, not used on the live site</span>
+    <h2>FAB (icon-only)</h2>
+    <p>Circular, icon-only — <code>fab</code> prop on <code>Button.astro</code> plus <code>ariaLabel</code>
+      (required in practice, since there's no visible text label for assistive tech to read). Same
+      <code>sm</code>/<code>md</code>/<code>lg</code> sizing, changing diameter instead of padding.</p>
+
+    <h3>States</h3>
+    <div class="lab-btn-matrix">
+      <span></span>
+      <span class="lab-btn-matrix__head">Default</span>
+      <span class="lab-btn-matrix__head">Hover</span>
+      <span class="lab-btn-matrix__head">Active</span>
+      <span class="lab-btn-matrix__head">Disabled</span>
+
+      <span class="lab-btn-matrix__label">Filled</span>
+      <button class="btn btn--primary btn--fab" type="button" aria-label="Add">+</button>
+      <button class="btn btn--primary btn--fab demo-hover" type="button" aria-label="Add">+</button>
+      <button class="btn btn--primary btn--fab demo-active" type="button" aria-label="Add">+</button>
+      <button class="btn btn--primary btn--fab" type="button" aria-label="Add" disabled>+</button>
+
+      <span class="lab-btn-matrix__label">Outlined</span>
+      <button class="btn btn--secondary btn--fab" type="button" aria-label="Add">+</button>
+      <button class="btn btn--secondary btn--fab demo-hover" type="button" aria-label="Add">+</button>
+      <button class="btn btn--secondary btn--fab demo-active" type="button" aria-label="Add">+</button>
+      <button class="btn btn--secondary btn--fab" type="button" aria-label="Add" disabled>+</button>
+
+      <span class="lab-btn-matrix__label">Ghost</span>
+      <button class="btn btn--ghost btn--fab" type="button" aria-label="Add">+</button>
+      <button class="btn btn--ghost btn--fab demo-hover" type="button" aria-label="Add">+</button>
+      <button class="btn btn--ghost btn--fab demo-active" type="button" aria-label="Add">+</button>
+      <button class="btn btn--ghost btn--fab" type="button" aria-label="Add" disabled>+</button>
+    </div>
+
+    <h3>On dark</h3>
+    <div class="on-dark lab-dark-panel">
+      <div class="lab-btn-matrix">
+        <span></span>
+        <span class="lab-btn-matrix__head">Default</span>
+        <span class="lab-btn-matrix__head">Hover</span>
+        <span class="lab-btn-matrix__head">Active</span>
+        <span class="lab-btn-matrix__head">Disabled</span>
+
+        <span class="lab-btn-matrix__label">Filled</span>
+        <button class="btn btn--primary btn--fab" type="button" aria-label="Add">+</button>
+        <button class="btn btn--primary btn--fab demo-hover" type="button" aria-label="Add">+</button>
+        <button class="btn btn--primary btn--fab demo-active" type="button" aria-label="Add">+</button>
+        <button class="btn btn--primary btn--fab" type="button" aria-label="Add" disabled>+</button>
+
+        <span class="lab-btn-matrix__label">Outlined</span>
+        <button class="btn btn--secondary btn--fab" type="button" aria-label="Add">+</button>
+        <button class="btn btn--secondary btn--fab demo-hover" type="button" aria-label="Add">+</button>
+        <button class="btn btn--secondary btn--fab demo-active" type="button" aria-label="Add">+</button>
+        <button class="btn btn--secondary btn--fab" type="button" aria-label="Add" disabled>+</button>
+
+        <span class="lab-btn-matrix__label">Ghost</span>
+        <button class="btn btn--ghost btn--fab" type="button" aria-label="Add">+</button>
+        <button class="btn btn--ghost btn--fab demo-hover" type="button" aria-label="Add">+</button>
+        <button class="btn btn--ghost btn--fab demo-active" type="button" aria-label="Add">+</button>
+        <button class="btn btn--ghost btn--fab" type="button" aria-label="Add" disabled>+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--gap">no component wrapper</span>
+    <h2>Link</h2>
+    <p><code>.link</code> exists only as a raw CSS class (no Astro wrapper), used on index.astro and
+      what-we-do.astro. <code>.link--external</code> appends a ↗ suffix.</p>
+    <p>
+      Inline link: <a class="link" href="#">our services</a>. External:
+      <a class="link link--external" href="#" target="_blank" rel="noopener">ReFi DAO site</a>.
+    </p>
+  </div>
+</LabShell>
+
+<style>
+  .lab-dark-panel {
+    padding: var(--space-6);
+    border-radius: var(--radius);
+  }
+  .demo-hover {
+    translate: 0 -1px;
+    box-shadow: 2px 2px 0 color-mix(in srgb, var(--text-primary) 18%, transparent);
+  }
+  .demo-hover.btn--primary { background: var(--btn-primary-bg-hover); }
+  .demo-hover.btn--secondary { background: var(--surface-2); }
+  .demo-hover.btn--ghost { background: var(--surface-1); }
+
+  .demo-active.btn--primary { background: var(--btn-primary-bg-active); }
+  .demo-active.btn--secondary { background: var(--surface-2); border-color: var(--text-primary); }
+  .demo-active.btn--ghost { background: var(--surface-2); }
+</style>

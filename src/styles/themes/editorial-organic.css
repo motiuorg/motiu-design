@@ -1,0 +1,160 @@
+/* themes/editorial-organic.css — ACTIVE. BIS editorial structure
+ * (warm paper/umber, straight edges, flat) + Andrea's organic three-pillar
+ * accents + backgrounds. Palette = the 2026-05-31 lock (4-step ramps,
+ * light=1 mid=3 dark=4); primary = pillar-flow-4 per the 2026-08-14
+ * decision (was --terracotta, a standalone color, 2026-08-07–2026-08-14;
+ * before that, flow pillar again but at flow-3/Core, which failed AA —
+ * see --primary comment below for the full history). */
+:root {
+  /* Neutrals — BIS warm-editorial. Light-to-dark: paper, bone, ivory. --bone relocked
+   * 2026-08-13 to #fcfaf6 (was #faf8f4) — one step lighter, same warmth ratio (every channel +2,
+   * not cooled toward grey) — tried site-wide first as a separate --bone-light token, liked it,
+   * folded straight into --bone rather than keeping two near-identical neutrals. */
+  --paper: #fffdfb; --bone: #fcf8f2; --ivory: #fbf5ea;
+  /* --eggshell (2026-08-14) — exactly halfway between --paper and --bone, for hover states that
+   * need a step warmer than the page background but a step lighter than --bone itself (surface
+   * would jump too far). Ported from bioregioning-earth-ui, where it was introduced first for
+   * this same purpose (.field-control/.filter-dropdown-option/.view-toggle-btn hovers). Derived
+   * via color-mix rather than a hand-picked hex so it stays centered if --paper/--bone relock
+   * again, same rationale as --rule below. */
+  --eggshell: color-mix(in srgb, var(--paper) 50%, var(--bone) 50%);
+  --umber: #221a12;
+  /* --rule is derived, not picked independently — a mix of umber and paper,
+   * so it always sits in a fixed relationship to the two anchor neutrals
+   * instead of drifting as an arbitrary grey. */
+  --rule: color-mix(in srgb, var(--umber) 65%, var(--paper) 35%);
+
+  /* Organic pillars (2026-08-07 relock, v4 — sourced from the Color Library
+   * in src/pages/design-system/colors.astro rather than picked independently: neural=
+   * cyan (water), tissue=lime (land), flow=orange (accents/finance).
+   * Steps relocked 2026-08-14: 1/2/3/4 = Light/Soft/Core/Shade (was
+   * Soft/Core/Dark/Shade — Tint stays dropped, Dark is now the one excluded
+   * instead of Light). Note: --primary/-hover read from pillar-flow-4 again
+   * as of 2026-08-14 (see below) — briefly moved off onto a standalone
+   * --terracotta between 2026-08-07 and 2026-08-14, now removed.
+   * --accent is the only semantic token still wired to a pillar step
+   * (neural-mid, i.e. step 3 = Core as of this relock, was Dark) — it's
+   * decorative-only (a 3px border-left in lab.css), so the step change
+   * doesn't carry a text-contrast implication. --success/--warning/--danger/
+   * --info do NOT come from these pillar ramps despite an earlier version of
+   * this comment implying otherwise — they're their own --status-* family
+   * (added 2026-08-12 specifically so status colors read as distinct from
+   * pillar colors), defined further down. */
+  --pillar-neural-1: #96F3FF; --pillar-neural-2: #4DEFFF;
+  --pillar-neural-3: #00AEFF; --pillar-neural-4: #000FA0;
+  --pillar-neural-light: var(--pillar-neural-1); --pillar-neural-mid: var(--pillar-neural-3); --pillar-neural-dark: var(--pillar-neural-4);
+  --pillar-tissue-1: #DFFF80; --pillar-tissue-2: #D9FF4A;
+  --pillar-tissue-3: #8FE84A; --pillar-tissue-4: #2C5A0D;
+  --pillar-tissue-light: var(--pillar-tissue-1); --pillar-tissue-mid: var(--pillar-tissue-3); --pillar-tissue-dark: var(--pillar-tissue-4);
+  --pillar-flow-1: #FFD27B; --pillar-flow-2: #FFBB26;
+  --pillar-flow-3: #FF7A00; --pillar-flow-4: #8A2200;
+  --pillar-flow-light: var(--pillar-flow-1); --pillar-flow-mid: var(--pillar-flow-3); --pillar-flow-dark: var(--pillar-flow-4);
+
+  /* Color Library — full 10-family/6-step reference lives in
+   * src/pages/lab/colors.astro; these --lib-* tokens are the pre-2026-08-07
+   * 9-family set and haven't been migrated to the new library yet. */
+  --lib-gris: #AEADA5; --lib-ocean: #4C6BC1; --lib-blue: #6BB5B4;
+  --lib-green: #39A659; --lib-yellow: #D5AD1C; --lib-orange: #DC7221;
+  --lib-red: #CC4727; --lib-pink: #DC697F; --lib-purple: #8161BF;
+
+  /* Semantic mapping */
+  --bg: var(--paper);
+  --surface-1: var(--bone);
+  --surface-2: var(--ivory);
+  --text-primary: var(--umber);
+  --text-muted: var(--rule);
+  --border-default: color-mix(in srgb, var(--umber) 45%, transparent);
+  --border-subtle: color-mix(in srgb, var(--rule) 22%, transparent);
+  /* 2026-08-14: primary moved back onto the flow pillar, off the standalone
+   * --terracotta (introduced 2026-08-07, now removed) — this site's primary
+   * (links etc.) is pillar-flow-4/Shade (#8A2200), not flow-3/Core, which is
+   * what the original flow-primary attempt used and had failed AA (3.20:1).
+   * Flow-4 on paper is ~9:1 (AAA) — darker step, much better contrast.
+   * Other surfaces aren't required to use flow here specifically: any of the
+   * three pillar -4/Shade steps (tissue-4, neural-4, flow-4) is a valid
+   * primary pick for a given surface — this site picked flow because it's
+   * also the finance/regenerative-finance pillar, closest to "the brand,"
+   * but that's a per-surface choice, not a rule. */
+  --primary: var(--pillar-flow-4);
+  --primary-hover: color-mix(in srgb, var(--pillar-flow-4) 82%, black 18%); /* darkened 18% toward black, same formula as before */
+  --primary-foreground: var(--paper);         /* paper on primary — AAA ~9:1 */
+  --accent: var(--pillar-neural-mid);
+  --accent-foreground: var(--paper);          /* paper on #0055FF — AA 5.60:1 */
+
+  /* Status colors (2026-08-12) — deliberately adjacent to, not the same as, the pillar ramps.
+   * Status meanings (success/warning/danger/info) and pillar meanings (tissue/neural/flow) read
+   * as confusingly identical if they share hues — success was literally tissue-dark, info was
+   * literally neural-mid. Sourced from the same Color Library (src/pages/lab/colors.astro) as the
+   * pillars, from the neighboring family: green not lime, blue not cyan, yellow not orange, and a
+   * real red (not the old standalone brick #7A2618).
+   * -light relocked 2026-08-14: was literally the library's Soft step despite the token's name
+   * (a mislabeling from when these were added, unrelated to the pillar-ramp step change) — now
+   * genuinely the Light step, matching Badge.astro's tinted-background formula which reads
+   * -light for background on every tone, pillar and status alike. -mid/-dark intentionally left
+   * on Dark/Shade — --danger/--warning/--info read -mid directly and are used as real text
+   * (form-error copy, the old solid-fill .badge), where lightening -mid would have dropped
+   * --danger's contrast from ~8.2:1 (AAA) to ~4.8:1 (barely AA). */
+  --status-success-light: #94FFC7; --status-success-mid: #00804A; --status-success-dark: #00502E;
+  --status-info-light:    #C2C8FF; --status-info-mid:    #3A3AC0; --status-info-dark:    #1F1D80;
+  --status-warning-light: #FFF67A; --status-warning-mid: #A69900; --status-warning-dark: #5C5400;
+  --status-danger-light:  #FFA8A8; --status-danger-mid:  #A30000; --status-danger-dark:  #5C0000;
+
+  --success: var(--status-success-dark);      --success-foreground: #F4F6F2;  /* 5.02:1 (AA) */
+  --warning: var(--status-warning-light);     --warning-foreground: var(--umber);  /* ~13.4:1 (AAA), re-checked after the -light relock */
+  --danger:  var(--status-danger-mid);        --danger-foreground: var(--paper); /* 8.22:1 (AAA) */
+  --info:    var(--status-info-mid);          --info-foreground: var(--paper);   /* 8.26:1 (AAA) */
+
+  --gradient-bridge: linear-gradient(135deg, var(--pillar-neural-mid), var(--pillar-flow-mid));
+
+  /* Primary button — routed through its own tokens rather than hardcoded
+   * umber/paper, so .on-dark below can flip it without touching
+   * global.css. Same reasoning as the semantic layer generally: one
+   * override point, not a hunt through every component. */
+  --btn-primary-bg: var(--umber);
+  --btn-primary-bg-hover: color-mix(in srgb, var(--umber) 85%, var(--paper) 15%);
+  --btn-primary-bg-active: color-mix(in srgb, var(--umber) 85%, black 15%);
+  --btn-primary-fg: var(--paper);
+
+  /* Type — Geist carries headings (full h1–h6 range) + body. Averia Serif
+   * Libre is the display face only, for special occasions (hero titles,
+   * pull quotes) — h1/h2/h3 may opt into it via .display, h4 and below
+   * never do (see the guard in global.css). Mono is Geist Mono (2026-08-11
+   * correction) — was IBM Plex Mono per Andrea's 2026-07-04 direction,
+   * changed back to keep the whole type system on one family. */
+  --serif: "Averia Serif Libre", "Fraunces", Georgia, serif;
+  --sans: "Geist Variable", "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono Variable", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-headings: var(--sans);
+  --font-display-weight: 400;
+
+  /* Radius / shadow — BIS straight + flat */
+  --radius: 0; --radius-sm: 0;
+  --shadow-sm: 0 1px 2px 0 color-mix(in srgb, var(--umber) 6%, transparent);
+  --shadow-md: var(--shadow-sm);
+  --shadow-lg: var(--shadow-sm);
+}
+
+/* .on-dark — inverse-surface context. Wrap any block in it to flip that
+ * block for a dark section: a future dark product surface, a client
+ * theme, a footer-style panel. Everything that reads the semantic vars
+ * (not raw --paper/--umber) adapts automatically — buttons, cards, text,
+ * borders — with zero component-level changes. This system is meant to
+ * serve more than this one light website, so this exists even though
+ * nothing on the live site uses it yet. */
+.on-dark {
+  --bg: var(--umber);
+  --surface-1: color-mix(in srgb, var(--umber) 85%, white 15%);
+  --surface-2: color-mix(in srgb, var(--umber) 70%, white 30%);
+  --text-primary: var(--paper);
+  --text-muted: color-mix(in srgb, var(--paper) 65%, var(--umber) 35%);
+  --border-default: color-mix(in srgb, var(--paper) 35%, transparent);
+  --border-subtle: color-mix(in srgb, var(--paper) 18%, transparent);
+
+  --btn-primary-bg: var(--paper);
+  --btn-primary-bg-hover: color-mix(in srgb, var(--paper) 85%, var(--umber) 15%);
+  --btn-primary-bg-active: color-mix(in srgb, var(--paper) 85%, black 15%);
+  --btn-primary-fg: var(--umber);
+
+  background: var(--bg);
+  color: var(--text-primary);
+}

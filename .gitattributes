@@ -1,0 +1,10 @@
+inspo/**/*.png filter=lfs diff=lfs merge=lfs -text
+inspo/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+inspo/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+inspo/**/*.webp filter=lfs diff=lfs merge=lfs -text
+inspo/**/*.gif filter=lfs diff=lfs merge=lfs -text
+inspo/**/*.pdf filter=lfs diff=lfs merge=lfs -text
+inspo/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
+inspo/**/*.mov filter=lfs diff=lfs merge=lfs -text
+inspo/**/*.svg filter=lfs diff=lfs merge=lfs -text
+inspo/**/*.avif filter=lfs diff=lfs merge=lfs -text

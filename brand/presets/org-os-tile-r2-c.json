@@ -1,0 +1,10 @@
+{
+  "name": "org-os-tile-r2-c",
+  "format": "tile",
+  "palette": "neural",
+  "field": { "seed": 21, "count": 30 },
+  "fill": "ramp",
+  "fillOpacity": 0.1,
+  "padRatio": 0.05,
+  "notes": "neural ramp wash, corrected framing"
+}

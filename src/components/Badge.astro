@@ -1,0 +1,105 @@
+---
+// Badge.astro — the unified badge: two shapes (pill/square), one sizing scale, one color
+// formula, used for pillar tags, status, and everything tag-shaped in between.
+// Proposal (2026-08-12) — not wired into any real page yet. See /lab/badges
+// for the full matrix and rationale before it replaces PillarBadge / the
+// generic .badge / bioregioning-earth-ui's tag pills.
+//
+// Tone note: pillar tones (tissue/neural/flow) and status tones
+// (success/info/warning/danger) are deliberately different colors, not
+// aliases of each other — see editorial-organic.css's --status-* tokens,
+// added 2026-08-12 specifically so "success" doesn't read as literally the
+// same green as "tissue." Adjacent hue families, same Soft/Dark/Shade steps.
+type Tone =
+  | "neutral"
+  | "tissue" | "neural" | "flow"
+  | "success" | "info" | "warning" | "danger";
+
+interface Props {
+  tone?: Tone;
+  size?: "sm" | "md" | "lg";
+  shape?: "pill" | "square"; // square is neutral-tone only for now — see /lab/badges
+  dot?: boolean;   // leading colored dot (currentColor) — mutually exclusive with icon
+  icon?: string;   // leading emoji/character — takes precedence over dot if both given
+}
+const { tone = "neutral", size = "md", shape = "pill", dot = false, icon } = Astro.props;
+---
+<span class={`badge badge--${size} badge--${shape} badge--${tone}`}>
+  {icon ? <span class="badge__icon" aria-hidden="true">{icon}</span> : dot && <span class="badge__dot" aria-hidden="true" />}
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: nowrap;
+    border: 1px solid;
+    padding: 0.3em 0.75em;
+  }
+  .badge--sm { font-size: var(--text-2xs); padding: 0.25em 0.6em; }
+  .badge--md { font-size: var(--text-xs); }
+  .badge--lg { font-size: var(--text-sm); padding: 0.35em 0.85em; }
+
+  /* Pill (default) — fully round, for anything with real color meaning: pillar tones, status,
+     org-type/category-style labels. Square — rounded corners short of a full pill, neutral tone
+     only for now — for themes/tags, where there are often many in a row and a full pill per tag
+     reads as visually heavier than the content needs. Radius is set in em like the padding, so it
+     scales with size instead of looking proportionally sharper at sm or blobbier at lg. */
+  .badge--pill { border-radius: var(--radius-pill); }
+  .badge--square { border-radius: 0.35em; }
+
+  .badge__dot { width: 0.5em; height: 0.5em; border-radius: 50%; background: currentColor; flex: none; }
+  .badge__icon { flex: none; line-height: 1; font-size: 1.1em; }
+
+  /* One formula throughout, pillar tones and status tones alike: a light tint of the tone's own
+     color as background, its dark step as text, its mid step (at reduced opacity) as border —
+     same treatment PillarBadge already used for pillars, now applied uniformly instead of a
+     second, solid-fill formula for status. */
+  .badge--neutral {
+    color: var(--text-primary);
+    border-color: var(--border-default);
+    background: var(--surface-1);
+  }
+  .badge--tissue {
+    color: var(--pillar-tissue-dark);
+    border-color: color-mix(in srgb, var(--pillar-tissue-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--pillar-tissue-light) 45%, var(--paper));
+  }
+  .badge--neural {
+    color: var(--pillar-neural-dark);
+    border-color: color-mix(in srgb, var(--pillar-neural-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--pillar-neural-light) 45%, var(--paper));
+  }
+  .badge--flow {
+    color: var(--pillar-flow-dark);
+    border-color: color-mix(in srgb, var(--pillar-flow-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--pillar-flow-light) 45%, var(--paper));
+  }
+  .badge--success {
+    color: var(--status-success-dark);
+    border-color: color-mix(in srgb, var(--status-success-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--status-success-light) 45%, var(--paper));
+  }
+  .badge--info {
+    color: var(--status-info-dark);
+    border-color: color-mix(in srgb, var(--status-info-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--status-info-light) 45%, var(--paper));
+  }
+  .badge--warning {
+    color: var(--status-warning-dark);
+    border-color: color-mix(in srgb, var(--status-warning-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--status-warning-light) 45%, var(--paper));
+  }
+  .badge--danger {
+    color: var(--status-danger-dark);
+    border-color: color-mix(in srgb, var(--status-danger-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--status-danger-light) 45%, var(--paper));
+  }
+</style>

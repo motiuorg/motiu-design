@@ -1,0 +1,46 @@
+---
+// PageHero.astro — consistent opener for the deeper pages: eyebrow +
+// display title + lede, with an optional per-page aurora field motif on the right.
+import Aurora from "./Aurora.astro";
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  motif?: "aurora-neural" | "aurora-tissue" | "aurora-flow" | "none";
+}
+const { eyebrow, title, lede, motif = "none" } = Astro.props;
+const aurora = motif.startsWith("aurora-") ? motif.replace("aurora-", "") as "neural" | "tissue" | "flow" : null;
+---
+<header class="page-hero">
+  {aurora && <Aurora pillar={aurora} opacity={0.35} />}
+  <div class="page-hero__inner">
+    <div class="page-hero__text">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1 class="display page-hero__title">{title}</h1>
+      {lede && <p class="lede page-hero__lede">{lede}</p>}
+    </div>
+  </div>
+</header>
+
+<style>
+.page-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--space-16) var(--gutter) var(--space-12);
+}
+.page-hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-default);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-10);
+}
+.page-hero__title { font-size: clamp(2.2rem, 4.5vw, 3.4rem); margin: var(--space-3) 0 var(--space-5); }
+.page-hero__lede { max-width: 58ch; }
+</style>

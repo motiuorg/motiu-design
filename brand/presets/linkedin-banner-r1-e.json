@@ -1,0 +1,29 @@
+{
+  "name": "linkedin-banner-r1-e",
+  "format": "linkedin-banner",
+  "palette": "umber-on-paper",
+  "sites": null,
+  "field": {
+    "seed": 37,
+    "count": 12
+  },
+  "transform": {
+    "scale": 1,
+    "stretchX": 1,
+    "stretchY": 1,
+    "rotation": 0,
+    "offsetX": 0,
+    "offsetY": 0
+  },
+  "stroke": 3,
+  "cornerRadius": 12,
+  "fill": "none",
+  "fillOpacity": 0.14,
+  "padRatio": 0.05,
+  "pillarImages": [
+    "/Users/andreafarias/Code/motiu/motiu-website/public/assets/pillar-photos/network-coordination-highlight.jpg",
+    "/Users/andreafarias/Code/motiu/motiu-website/public/assets/pillar-photos/collective-intelligence-highlight.jpg",
+    "/Users/andreafarias/Code/motiu/motiu-website/public/assets/pillar-photos/regenerative-finance-highlight.jpg"
+  ],
+  "notes": "seed 37, 12 cells, fill:none, palette:umber-on-paper"
+}

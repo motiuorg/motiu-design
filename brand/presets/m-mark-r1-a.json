@@ -1,0 +1,10 @@
+{
+  "name": "m-mark-r1-a",
+  "format": "mark",
+  "palette": "umber-on-paper",
+  "sites": [[240,240],[240,600],[240,960],[600,520],[600,860],[960,240],[960,600],[960,960],[430,180],[770,180],[600,1080]],
+  "stroke": 6,
+  "cornerRadius": 30,
+  "padRatio": 0.28,
+  "notes": "M from cell edges — two verticals + center valley; quiet umber. No legible M reads: renders as a symmetric pentagon/hexagon tessellation. Tried 2 re-rolls: (1) paired flanking sites per leg to force clean vertical bisectors — legs read cleanly but the center collapsed into a lens/goblet shape, not a V-notch; (2) added flanking pairs along the diagonals too — cell count went up but the shape degenerated into a snowflake/kite, worse than the original. Committing the original spec geometry as the best of the three: cleanest as an abstract mark even though no letterform reads. Hand-placed Voronoi sites at this density (~11-21 points) don't give enough control over which edges appear — every edge in the tessellation renders, not just the ones tracing an intended stroke path. This likely needs either masking a denser Voronoi field with actual letterform geometry, or many more hand-placed flanking-pair sites than is practical to place by hand (probably 40-60+), or Andrea's hand in the lab tool."
+}

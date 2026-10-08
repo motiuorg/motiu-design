@@ -1,0 +1,34 @@
+---
+interface Props {
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "sm" | "md" | "lg";
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
+  fab?: boolean;
+  ariaLabel?: string;
+}
+const {
+  variant = "primary", size = "md", href, type = "button",
+  disabled = false, fab = false, ariaLabel,
+} = Astro.props;
+const className = `btn btn--${variant}${size !== "md" ? ` btn--${size}` : ""}${fab ? " btn--fab" : ""}`;
+---
+
+{href ? (
+  <a href={href} class={className} aria-label={ariaLabel}>
+    <span class="btn__label">
+      <slot name="icon-left" />
+      <slot />
+      <slot name="icon-right" />
+    </span>
+  </a>
+) : (
+  <button class={className} type={type} disabled={disabled} aria-label={ariaLabel}>
+    <span class="btn__label">
+      <slot name="icon-left" />
+      <slot />
+      <slot name="icon-right" />
+    </span>
+  </button>
+)}

@@ -1,0 +1,52 @@
+---
+// StatBand.astro — editorial proof-numbers strip. Mono figures between
+// dashed rules, in the BIS editorial voice. Data from src/data/stats.yaml
+// unless an explicit stats prop is passed (case-study callouts reuse this).
+import fs from "node:fs";
+import path from "node:path";
+import yaml from "js-yaml";
+
+interface Stat { value: string; label: string; }
+interface Props { stats?: Stat[]; }
+
+const fallback = (yaml.load(
+  fs.readFileSync(path.join(process.cwd(), "src/data/stats.yaml"), "utf8")
+) as { stats: Stat[] }).stats;
+const { stats = fallback } = Astro.props;
+---
+<dl class="stat-band">
+  {stats.map((s) => (
+    <div class="stat">
+      <dt class="stat__label">{s.label}</dt>
+      <dd class="stat__value">{s.value}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+.stat-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--space-6) var(--space-8);
+  margin: 0;
+  padding: var(--space-6) 0;
+  border-top: 1px dashed var(--rule, var(--border-default));
+  border-bottom: 1px dashed var(--rule, var(--border-default));
+}
+.stat { display: flex; flex-direction: column-reverse; gap: var(--space-1); }
+.stat__value {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--text-2xl);
+  line-height: 1;
+  color: var(--text-primary);
+}
+.stat__label {
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  max-width: 22ch;
+}
+</style>
