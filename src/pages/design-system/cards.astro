@@ -16,6 +16,7 @@ import CardFact from "../../components/card/CardFact.astro";
 import CardFooter from "../../components/card/CardFooter.astro";
 import CardLink from "../../components/card/CardLink.astro";
 import Badge from "../../components/Badge.astro";
+import Check from "../../components/Check.astro";
 ---
 <LabShell title="Cards" current="cards"
   intro="Cards are composed, not picked: Card is the surface, and media, badges, title, text, facts, footer and link are separate parts you arrange inside it. ProjectCard and TeamCard further down are specific cards assembled from the same parts.">
@@ -23,13 +24,14 @@ import Badge from "../../components/Badge.astro";
   <div class="lab-section">
     <span class="lab-status lab-status--live">live</span>
     <h2>Composable cards</h2>
-    <p><code>Card</code> is only the surface — paper, soft radius, hairline shadow, a small lift on hover.
+    <p><code>Card</code> is only the surface — paper, soft radius, a hairline border that darkens on hover, a faint shadow, a small lift.
       Everything inside is a separate part you choose and order: <code>CardMedia</code>, <code>CardBody</code>,
       <code>CardBadges</code>, <code>CardEyebrow</code>, <code>CardTitle</code>, <code>CardText</code>,
       <code>CardFacts</code> / <code>CardFact</code>, <code>CardFooter</code>, <code>CardLink</code>. A new kind
       of card is a new arrangement, not a new component. Data attributes and classes pass straight through to the
       surface, so a page's filter script can read them. Tags are <code>Badge shape="square"</code>; status
-      pills are <code>Badge</code> with a status tone.</p>
+      pills are <code>Badge</code> with a status tone, and a yes/no property is a <code>Check</code> shown only for
+      yes.</p>
 
     <pre class="lab-code"><code>{`<Card>
   <CardMedia src="…" />
@@ -64,7 +66,7 @@ import Badge from "../../components/Badge.astro";
             </CardFact>
             <CardFact label="Valor a 5 años" mono>420.000 €</CardFact>
             <CardFact label="Años">4</CardFact>
-            <CardFact label="Recurrencia" empty />
+            <CardFact label="Recurrente"><Check label="Sí" /></CardFact>
             <CardFact label="Viabilidad"><Badge tone="success" size="sm">Sí, viable</Badge></CardFact>
           </CardFacts>
         </CardBody>

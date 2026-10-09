@@ -1,0 +1,19 @@
+---
+// Check — a small ticked box for a yes/no property (recurring, viable, included). Show it only for
+// "yes"; leave the property out for "no". `label` is read by screen readers ("Recurrente").
+interface Props { label: string; class?: string; [attr: string]: unknown }
+const { label, class: className, ...rest } = Astro.props;
+---
+<span class:list={["check", className]} role="img" aria-label={label} {...rest}>
+  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 8.6l3.1 3.1 6.5-7.4" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+</span>
+
+<style>
+  .check {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 1.15rem; height: 1.15rem; flex-shrink: 0;
+    border: 1.5px solid currentColor; border-radius: 3px;
+    color: var(--text-primary);
+  }
+  .check svg { width: 78%; height: 78%; }
+</style>
