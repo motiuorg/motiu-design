@@ -1,5 +1,5 @@
 ---
-// Check — a small green ticked box for a yes/no property (recurring, viable, included). Show it only for
+// Check — a small green ticked box (the same light green as the success badge) for a yes/no property (recurring, viable, included). Show it only for
 // "yes"; leave the property out for "no". `label` is read by screen readers ("Recurrente").
 interface Props { label: string; class?: string; [attr: string]: unknown }
 const { label, class: className, ...rest } = Astro.props;
@@ -12,8 +12,9 @@ const { label, class: className, ...rest } = Astro.props;
   .check {
     display: inline-flex; align-items: center; justify-content: center;
     width: 1.15rem; height: 1.15rem; flex-shrink: 0;
-    border: 1.5px solid currentColor; border-radius: 3px;
-    color: var(--status-success-mid);
+    border: 1.5px solid color-mix(in srgb, var(--status-success-mid) 55%, transparent); border-radius: 3px;
+    color: var(--status-success-dark);
+    background: color-mix(in srgb, var(--status-success-light) 45%, var(--paper));
   }
   .check svg { width: 78%; height: 78%; }
 </style>
