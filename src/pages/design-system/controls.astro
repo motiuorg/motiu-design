@@ -20,6 +20,40 @@ import Tab from "../../components/tabs/Tab.astro";
       <Tab value="finances">Finances</Tab>
       <Tab value="archived" disabled>Archived</Tab>
     </Tabs>
+
+    <h3 style="margin-top: var(--space-8);">Second level</h3>
+    <p>When a tab holds its own set of views, the second level has to look like a different thing, not the same
+      component twice. Three options, all <code>variant</code> on <code>Tabs</code>:</p>
+    <p class="lab-source"><strong>outline</strong> — small tabs, boxed only when active. Quiet, so it reads as
+      "inside" the page tab above it. This is what the simulator's Supuestos tab uses.</p>
+    <Tabs label="Example second-level tabs, outline" variant="outline">
+      <Tab selected>What matters most</Tab>
+      <Tab>All assumptions</Tab>
+      <Tab>Reference data</Tab>
+    </Tabs>
+    <p class="lab-source" style="margin-top: var(--space-6);"><strong>segmented</strong> — a connected group with the
+      active segment filled, the same look as the chip groups. Heavier; better for a choice of <em>view</em>
+      than for navigation.</p>
+    <Tabs label="Example second-level tabs, segmented" variant="segmented">
+      <Tab selected>What matters most</Tab>
+      <Tab>All assumptions</Tab>
+      <Tab>Reference data</Tab>
+    </Tabs>
+    <p class="lab-source" style="margin-top: var(--space-6);"><strong>underline</strong> (the default, used above)
+      stays for the top level only.</p>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live — first version</span>
+    <h2>Text button</h2>
+    <p><code>.text-button</code> is an action that sits quietly inside a larger control or a panel header — Adjust,
+      Close, Reset. Mono caps, muted, underlined, darker on hover, no box. Use a boxed <code>.chip</code> or
+      <code>Button</code> for the main action of a view, and this for the small ones around it.</p>
+    <div style="display: flex; gap: var(--space-6); align-items: center;">
+      <button class="text-button" type="button">Adjust</button>
+      <button class="text-button" type="button">Close</button>
+      <button class="text-button" type="button" disabled>Reset</button>
+    </div>
   </div>
 
   <div class="lab-section">

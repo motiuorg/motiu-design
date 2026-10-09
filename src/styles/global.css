@@ -374,3 +374,16 @@ a:focus-visible {
 .on-dark .select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 8'%3E%3Cpath d='M0 0h10L5 8z' fill='%23fffdfb'/%3E%3C/svg%3E");
 }
+
+/* Text button — an action that sits quietly inside a larger control or a panel header (Adjust,
+   Close, Reset): mono caps, muted, underlined; darker on hover. No box. */
+.text-button {
+  font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-muted); background: none; border: 0; padding: 0.25rem 0; cursor: pointer;
+  text-decoration: underline; text-decoration-color: var(--border-default);
+  text-decoration-thickness: 1px; text-underline-offset: 0.3em;
+  transition: color var(--t-fast), text-decoration-color var(--t-fast);
+}
+.text-button:hover:not(:disabled) { color: var(--text-primary); text-decoration-color: var(--text-primary); }
+.text-button:disabled { opacity: 0.4; cursor: default; }
+.text-button:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
