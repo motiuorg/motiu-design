@@ -166,6 +166,11 @@ const faviconType = faviconHref?.endsWith(".svg")
                 "main > section, main > header, main > article",
             );
             if ("IntersectionObserver" in window && els.length) {
+                // Sections already on screen stay as they are (hiding them first would make
+                // the page flash out and back in); only those below the fold wait their
+                // turn. Any overlap counts as "seen": a threshold on the section's share
+                // never fires for a very tall section such as a long list of cards, which
+                // then stayed hidden until the layout happened to change.
                 const io = new IntersectionObserver(
                     (entries) => {
                         for (const e of entries) {
@@ -175,11 +180,15 @@ const faviconType = faviconHref?.endsWith(".svg")
                             }
                         }
                     },
-                    { threshold: 0.08 },
+                    { threshold: 0, rootMargin: "0px 0px -6% 0px" },
                 );
                 els.forEach((el) => {
                     el.classList.add("reveal");
-                    io.observe(el);
+                    if (el.getBoundingClientRect().top < window.innerHeight) {
+                        el.classList.add("reveal--in");
+                    } else {
+                        io.observe(el);
+                    }
                 });
             }
         </script>
