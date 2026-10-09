@@ -1,0 +1,35 @@
+---
+// Tab — one tab in a <Tabs> row. Active when `selected` or aria-selected="true" (a page script can
+// toggle the attribute). `value` is exposed as data-tab for the page's script to read.
+interface Props {
+  value?: string;
+  selected?: boolean;
+  disabled?: boolean;
+  class?: string;
+  [attr: string]: unknown;
+}
+const { value, selected = false, disabled = false, class: className, ...rest } = Astro.props;
+---
+<button
+  type="button"
+  role="tab"
+  class:list={["tab", className]}
+  data-tab={value}
+  aria-selected={selected ? "true" : "false"}
+  disabled={disabled}
+  {...rest}
+><slot /></button>
+
+<style>
+  .tab {
+    font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text-muted); background: none; border: 0; border-bottom: 2px solid transparent;
+    padding: var(--space-3) var(--space-3); margin-bottom: -1px;
+    cursor: pointer; white-space: nowrap;
+    transition: color var(--t-fast), border-color var(--t-fast);
+  }
+  .tab:hover:not(:disabled) { color: var(--text-primary); }
+  .tab[aria-selected="true"] { color: var(--text-primary); border-bottom-color: var(--text-primary); }
+  .tab:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+  .tab:disabled { opacity: 0.4; cursor: default; }
+</style>

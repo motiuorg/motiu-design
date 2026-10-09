@@ -1,0 +1,24 @@
+---
+// Tabs — a row of tabs (see Tab). Mono caps with a bottom border on the active one — the same
+// active convention as Nav — and a hairline under the whole row. This is the look and the
+// accessibility roles only: the page decides what each tab shows (hide/show panels, change the
+// route…) and sets aria-selected on the active Tab.
+//
+//   <Tabs label="Sections">
+//     <Tab value="overview" selected>Overview</Tab>
+//     <Tab value="projects">Projects</Tab>
+//   </Tabs>
+interface Props {
+  label: string;      // accessible name of the tab list
+  rule?: boolean;     // hairline under the row (default true)
+  class?: string;
+  [attr: string]: unknown;
+}
+const { label, rule = true, class: className, ...rest } = Astro.props;
+---
+<div class:list={["tabs", { "tabs--rule": rule }, className]} role="tablist" aria-label={label} {...rest}><slot /></div>
+
+<style>
+  .tabs { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-2); min-width: 0; }
+  .tabs--rule { border-bottom: 1px solid var(--border-subtle); }
+</style>

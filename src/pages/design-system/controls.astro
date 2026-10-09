@@ -1,20 +1,25 @@
 ---
 import LabShell from "../../components/lab/LabShell.astro";
+import Tabs from "../../components/tabs/Tabs.astro";
+import Tab from "../../components/tabs/Tab.astro";
 ---
 <LabShell title="Controls" current="controls"
-  intro="Interactive UI controls that aren't form data-entry — tabs, loading/progress indicators. None of this exists in the codebase yet; everything below is a sketch built only from existing tokens (no new colors/radii invented), so it's a starting point, not a locked design.">
+  intro="Interactive UI controls that aren't form data-entry — tabs, loading/progress indicators. Tabs are live; the rest is a sketch built only from existing tokens (no new colors/radii invented), so it's a starting point, not a locked design.">
 
   <div class="lab-section">
-    <span class="lab-status lab-status--gap">doesn't exist — sketch only</span>
+    <span class="lab-status lab-status--live">live — first version</span>
     <h2>Tabs</h2>
-    <p>Styled after the same mono-caps + bottom-border-on-active pattern <code>Nav</code> already uses, so it
-      doesn't introduce a second "active state" convention.</p>
-    <div class="lab-tabs" role="tablist" aria-label="Example tabs">
-      <button class="lab-tab active" role="tab" aria-selected="true" type="button">Overview</button>
-      <button class="lab-tab" role="tab" aria-selected="false" type="button">Projects</button>
-      <button class="lab-tab" role="tab" aria-selected="false" type="button">Finances</button>
-      <button class="lab-tab" role="tab" aria-selected="false" type="button" disabled>Archived</button>
-    </div>
+    <p><code>Tabs</code> is the row and <code>Tab</code> is one tab. Mono caps with a bottom border on the active
+      one — the same active convention <code>Nav</code> uses, so there is no second one — and a hairline under the
+      row. It supplies the look and the roles (<code>tablist</code>, <code>tab</code>, <code>aria-selected</code>);
+      the page decides what each tab shows and toggles <code>aria-selected</code>. First used for the section tabs
+      of the Altiplano simulator; expect the design to change as it settles.</p>
+    <Tabs label="Example tabs">
+      <Tab value="overview" selected>Overview</Tab>
+      <Tab value="projects">Projects</Tab>
+      <Tab value="finances">Finances</Tab>
+      <Tab value="archived" disabled>Archived</Tab>
+    </Tabs>
   </div>
 
   <div class="lab-section">
