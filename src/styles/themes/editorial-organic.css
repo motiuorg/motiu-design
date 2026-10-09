@@ -57,6 +57,15 @@
   --lib-green: #39A659; --lib-yellow: #D5AD1C; --lib-orange: #DC7221;
   --lib-red: #CC4727; --lib-pink: #DC697F; --lib-purple: #8161BF;
 
+  /* Data colours — what a colour means in a chart or a figure. Steps from the Color Library
+   * (src/pages/design-system/colors.astro). Red is a loss or a shortfall, green a gain, blue a supporting
+   * quantity or an information block; the second blue is a second supporting series. Orange is not a data
+   * colour. Not the --status-* family: that is for badges and form states, where a dark mid step is wanted. */
+  --data-negative: #E60000;     /* red, Core */
+  --data-positive: #00B86B;     /* green, Core */
+  --data-support: #0055FF;      /* cyan, Dark */
+  --data-support-soft: #00AEFF; /* cyan, Core */
+
   /* Semantic mapping */
   --bg: var(--paper);
   --surface-1: var(--bone);

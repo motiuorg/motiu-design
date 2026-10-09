@@ -72,6 +72,23 @@ const LIB_FAMILIES = [
   </div>
 
   <div class="lab-section">
+    <span class="lab-status lab-status--live">live — first version</span>
+    <h2>Data colours</h2>
+    <p>What a colour means in a chart, a figure or a callout. Three meanings, tokenised from Color Library steps:
+      <strong>red</strong> (<code>--data-negative</code>) is a loss or a shortfall, <strong>green</strong>
+      (<code>--data-positive</code>) is a gain, and <strong>blue</strong> (<code>--data-support</code>) is a supporting
+      quantity or an information block, with <code>--data-support-soft</code> for a second supporting series.
+      Orange is not a data colour — it is an accent, and stays out of figures. Use <code>--status-*</code> and
+      <code>Badge</code> for status and form states, where a dark step is wanted; use these for the marks themselves.</p>
+    <div class="lab-row" style="gap: var(--space-4); flex-wrap: wrap;">
+      <span style="display:inline-flex; align-items:center; gap: var(--space-2);"><i style="width:2.5rem; height:1rem; background: var(--data-negative); display:inline-block;"></i><code>--data-negative</code></span>
+      <span style="display:inline-flex; align-items:center; gap: var(--space-2);"><i style="width:2.5rem; height:1rem; background: var(--data-positive); display:inline-block;"></i><code>--data-positive</code></span>
+      <span style="display:inline-flex; align-items:center; gap: var(--space-2);"><i style="width:2.5rem; height:1rem; background: var(--data-support); display:inline-block;"></i><code>--data-support</code></span>
+      <span style="display:inline-flex; align-items:center; gap: var(--space-2);"><i style="width:2.5rem; height:1rem; background: var(--data-support-soft); display:inline-block;"></i><code>--data-support-soft</code></span>
+    </div>
+  </div>
+
+  <div class="lab-section">
     <span class="lab-status lab-status--gap">pillar colors (orange, lime, cyan) are wired into tokens.css — the other 7 families aren't yet</span>
     <h2>Color Library</h2>
     <p>Ten hue families, six fixed steps each (Tint → Shade) — the full palette everything else draws from:
