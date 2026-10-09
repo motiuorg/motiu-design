@@ -6,17 +6,23 @@
 // mirrors the rest of brand/presets + brand/renders (see render-motif.mjs).
 // Usage: node scripts/generate-linkedin-banner.mjs
 import { writeFileSync, mkdirSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { renderSvg, renderPng } from "./render-motif.mjs";
 import { loadTokens, getPalettes } from "./lib/brand-tokens.mjs";
 import { validatePreset } from "./lib/preset.mjs";
 
 const ROOT = new URL("..", import.meta.url).pathname;
+// Stored in presets relative to the assets dir (the photos live in the
+// website); resolved to real files only for rendering. Same lookup order as
+// render-motif.mjs: $MOTIU_ASSETS_DIR, else the sibling website repo.
 const PILLAR_IMAGES = [
-  join(ROOT, "public/assets/pillar-photos/network-coordination-highlight.jpg"),
-  join(ROOT, "public/assets/pillar-photos/collective-intelligence-highlight.jpg"),
-  join(ROOT, "public/assets/pillar-photos/regenerative-finance-highlight.jpg"),
+  "pillar-photos/network-coordination-highlight.jpg",
+  "pillar-photos/collective-intelligence-highlight.jpg",
+  "pillar-photos/regenerative-finance-highlight.jpg",
 ];
+const ASSETS_DIR = resolve(
+  process.env.MOTIU_ASSETS_DIR ?? join(ROOT, "../motiu-website/public/assets"),
+);
 
 // Round 2: round-1 feedback was "h and e's layouts are closest, but drop the
 // pillar-tinted ramp entirely — paper colors only, like the live hero."
@@ -63,7 +69,10 @@ async function main() {
     );
     writeFileSync(join(presetDir, name + ".json"), JSON.stringify(preset, null, 2) + "\n");
 
-    const svg = renderSvg(preset, palettes);
+    const svg = renderSvg(
+      { ...preset, pillarImages: preset.pillarImages.map((p) => join(ASSETS_DIR, p)) },
+      palettes,
+    );
     const svgPath = join(outDir, name + ".svg");
     writeFileSync(svgPath, svg);
 
