@@ -1,0 +1,51 @@
+---
+// SectionHeading — optional number + mono eyebrow, serif display title, optional lede,
+// and a hairline rule that fades out. For the head of a section on a content page.
+export interface Props {
+  number?: string;
+  eyebrow: string;
+  title: string;
+  intro?: string;
+}
+
+const { number = "", eyebrow, title, intro = "" } = Astro.props;
+---
+
+<div class="section-head">
+  <p class="eyebrow">{number && <span class="section-head__num">{number}</span>}{number && " "}{eyebrow}</p>
+  <h2 class="display section-head__title">{title}</h2>
+  {intro && <p class="lede section-head__intro">{intro}</p>}
+  <div class="section-head__rule" aria-hidden="true"></div>
+</div>
+
+<style>
+  .section-head {
+    margin-bottom: var(--space-10);
+  }
+
+  .section-head__num {
+    color: var(--pillar-flow-3);
+    margin-right: 0.5em;
+  }
+
+  .section-head__title {
+    font-size: clamp(var(--text-2xl), 4.5vw, var(--text-3xl));
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .section-head__intro {
+    max-width: 64ch;
+    margin-bottom: var(--space-6);
+  }
+
+  .section-head__rule {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      var(--border-default) 0%,
+      var(--border-default) 48%,
+      transparent 100%
+    );
+  }
+</style>

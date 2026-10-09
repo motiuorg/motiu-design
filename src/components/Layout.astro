@@ -68,7 +68,12 @@ const pageTitle = (site.titleTemplate ?? "{title} · {name}")
     .replace("{name}", site.name);
 // i18n: each language page is self-canonical, indexable, and declares hreflang
 // alternates for the others (single-language sites declare none).
-const canonical = new URL(Astro.url.pathname, site.url).href;
+// Astro reports a project base (e.g. /altiplano-map) without its trailing slash.
+const pagePath =
+    baseOf(baseUrl) && Astro.url.pathname === baseOf(baseUrl)
+        ? Astro.url.pathname + "/"
+        : Astro.url.pathname;
+const canonical = new URL(pagePath, site.url).href;
 const hrefLang = locales.list.length > 1
     ? locales.list.map((l) => ({
           code: l.code,
