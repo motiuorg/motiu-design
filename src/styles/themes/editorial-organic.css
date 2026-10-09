@@ -61,10 +61,10 @@
    * (src/pages/design-system/colors.astro). Red is a loss or a shortfall, green a gain, blue a supporting
    * quantity or an information block; the second blue is a second supporting series. Orange is not a data
    * colour. Not the --status-* family: that is for badges and form states, where a dark mid step is wanted. */
-  --data-negative: #E60000;     /* red, Core */
-  --data-positive: #00B86B;     /* green, Core */
-  --data-support: #0055FF;      /* cyan, Dark */
-  --data-support-soft: #00AEFF; /* cyan, Core */
+  --data-negative: #FF4D4D;     /* red, Soft */
+  --data-positive: #33E894;     /* green, Soft */
+  --data-support: #8F97FF;      /* blue, Soft */
+  --data-support-soft: #C2C8FF; /* blue, Light */
 
   /* Semantic mapping */
   --bg: var(--paper);
