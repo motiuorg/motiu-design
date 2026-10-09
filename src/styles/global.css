@@ -430,6 +430,11 @@ a:focus-visible {
 .chip:hover { border-color: var(--text-primary); color: var(--text-primary); }
 .chip.is-active { background: var(--text-primary); border-color: var(--text-primary); color: var(--bg); }
 .chip:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+/* Chip group — chips joined into one block with no gap, for a switch between views or a
+   single-choice filter. Wrap the chips in <div class="chip-group" role="group">. */
+.chip-group { display: inline-flex; }
+.chip-group .chip + .chip { margin-left: -1px; }
+.chip-group .chip:hover, .chip-group .chip.is-active { position: relative; z-index: 1; }
 [data-filterable][hidden] { display: none !important; }
 
 /* Caret — the one arrow: a filled triangle, drawn in CSS so it looks the same in every font.
