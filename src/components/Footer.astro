@@ -79,6 +79,11 @@ const year = new Date().getFullYear();
     .col--name {
         flex-shrink: 0;
     }
+    /* Keep a long blurb to a readable measure so it can't push the link
+       columns to the far edge. */
+    .col--name p {
+        max-width: 28rem;
+    }
     .lockup {
         font-family: var(--sans);
         font-size: 1.25rem;
