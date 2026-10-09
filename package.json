@@ -1,6 +1,6 @@
 {
   "name": "@motiu/design",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "type": "module",
   "private": true,
   "description": "motiu design system: tokens, themes, Astro components, brand tooling, lab and inspo. Consumed by motiu-website, altiplano-map and future projects.",
@@ -24,12 +24,12 @@
     "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
-    "@fontsource-variable/fraunces": "^5.0.0",
-    "@fontsource-variable/geist": "^5.0.0",
-    "@fontsource-variable/geist-mono": "^5.0.0",
-    "@fontsource-variable/inter": "^5.0.0",
-    "@fontsource/averia-serif-libre": "^5.0.0",
-    "@fontsource/ibm-plex-mono": "^5.0.0",
+    "@fontsource-variable/fraunces": "5.2.9",
+    "@fontsource-variable/geist": "5.2.9",
+    "@fontsource-variable/geist-mono": "5.2.8",
+    "@fontsource-variable/inter": "5.2.8",
+    "@fontsource/averia-serif-libre": "5.2.7",
+    "@fontsource/ibm-plex-mono": "5.2.7",
     "d3": "^7.9.0",
     "js-yaml": "^4.1.1"
   },
