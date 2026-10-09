@@ -63,8 +63,8 @@
    * colour. Not the --status-* family: that is for badges and form states, where a dark mid step is wanted. */
   --data-negative: #FF4D4D;     /* red, Soft */
   --data-positive: #33E894;     /* green, Soft */
-  --data-support: #8F97FF;      /* blue, Soft */
-  --data-support-soft: #C2C8FF; /* blue, Light */
+  --data-support: #00AEFF;      /* cyan, Core */
+  --data-support-soft: #4DEFFF; /* cyan, Soft */
 
   /* Semantic mapping */
   --bg: var(--paper);
