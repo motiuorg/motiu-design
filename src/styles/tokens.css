@@ -64,6 +64,7 @@
 
   /* §4.4 Container + gutter */
   --gutter: 2rem;
+  --control-h: 2.15rem; /* one height for inputs, selects, chips and buttons in a row */
   --container-prose: 65ch;
   --container-default: min(1280px, 100% - 2 * var(--gutter));
   --container-wide: min(1440px, 100% - 2 * var(--gutter));

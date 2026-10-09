@@ -102,6 +102,9 @@ h4.display, h5.display, h6.display {
   border: 1px solid transparent;
   text-decoration: none;
 }
+/* Default-size buttons and text fields share one control height, so they line up in a row. */
+.btn:not(.btn--sm):not(.btn--lg) { min-height: var(--control-h); box-sizing: border-box; }
+.field__input { min-height: var(--control-h); box-sizing: border-box; }
 .btn:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
@@ -319,18 +322,20 @@ a:focus-visible {
    .is-active (and aria-pressed). Pair with [data-filterable] items that a
    script hides with the hidden attribute. */
 .chip {
+  display: inline-flex; align-items: center; box-sizing: border-box;
+  min-height: var(--control-h);
   font-family: var(--mono);
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 0.5rem 0.9rem;
-  border: 1px solid var(--border-subtle);
+  padding: 0 0.9rem;
+  border: 1px solid var(--border-default);
   background: var(--bg);
   color: var(--text-muted);
   cursor: pointer;
   transition: border-color var(--t-fast), color var(--t-fast), background var(--t-fast);
 }
-.chip:hover { border-color: var(--border-default); color: var(--text-primary); }
+.chip:hover { border-color: var(--text-primary); color: var(--text-primary); }
 .chip.is-active { background: var(--text-primary); border-color: var(--text-primary); color: var(--bg); }
 .chip:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 [data-filterable][hidden] { display: none !important; }

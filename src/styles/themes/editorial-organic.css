@@ -63,7 +63,9 @@
   --surface-2: var(--ivory);
   --text-primary: var(--umber);
   --text-muted: var(--rule);
-  --border-default: color-mix(in srgb, var(--umber) 45%, transparent);
+  /* Outline of anything you can act on (inputs, selects, chips, secondary buttons). Kept clearly darker
+   * than --border-subtle, which is for containers; 50% umber is ~3.3:1 on paper (WCAG 1.4.11 asks 3:1). */
+  --border-default: color-mix(in srgb, var(--umber) 50%, transparent);
   --border-subtle: color-mix(in srgb, var(--rule) 22%, transparent);
   /* 2026-08-14: primary moved back onto the flow pillar, off the standalone
    * --terracotta (introduced 2026-08-07, now removed) — this site's primary
