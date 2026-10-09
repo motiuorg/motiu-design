@@ -3,11 +3,13 @@
 // the Voronoi motif pipeline; the manual half is public/lab-tools/hero-lab.html.
 // Usage:
 //   node scripts/render-motif.mjs --preset brand/presets/<name>.json
-//     [--out brand/renders/<target>/round-1] [--png] [--smoke]
+//     [--out brand/renders/<target>/round-1] [--assets <dir>] [--png] [--smoke]
+//   Preset pillarImages are relative to --assets (default $MOTIU_ASSETS_DIR, else
+//   ../motiu-website/public/assets).
 // Never deploys anything. brand/ is outside src/ and public/, so nothing here
 // reaches the built site.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
-import { join, basename, isAbsolute, extname } from "node:path";
+import { join, basename, isAbsolute, extname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   computeCellPolygons,
@@ -154,6 +156,16 @@ async function main() {
     JSON.parse(readFileSync(presetPath, "utf8")),
     palettes,
   );
+  // pillarImages are relative to an assets folder (the photos live in the
+  // consuming website, not here). --assets > $MOTIU_ASSETS_DIR > sibling repo.
+  const assetsDir = resolve(
+    get("--assets") ?? process.env.MOTIU_ASSETS_DIR ?? "../motiu-website/public/assets",
+  );
+  if (preset.pillarImages) {
+    preset.pillarImages = preset.pillarImages.map((p) =>
+      isAbsolute(p) ? p : join(assetsDir, p),
+    );
+  }
   const outDirArg = get("--out") ?? "brand/renders/_scratch";
   const outDir = isAbsolute(outDirArg) ? outDirArg : join(process.cwd(), outDirArg);
   mkdirSync(outDir, { recursive: true });

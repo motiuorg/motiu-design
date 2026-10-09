@@ -46,3 +46,5 @@ npm test        # brand-token + preset + voronoi tests
 ```
 
 Large render output (`brand/renders/`) is not tracked; regenerate with `scripts/render-motif.mjs`.
+
+Preset `pillarImages` are relative to an assets folder, because the photos belong to the website. The renderer looks in `--assets <dir>`, then `$MOTIU_ASSETS_DIR`, then `../motiu-website/public/assets`.

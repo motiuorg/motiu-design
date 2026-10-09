@@ -21,9 +21,9 @@
   "fillOpacity": 0.14,
   "padRatio": 0.05,
   "pillarImages": [
-    "/Users/andreafarias/Work/motiu-website/public/assets/pillar-photos/network-coordination-highlight.jpg",
-    "/Users/andreafarias/Work/motiu-website/public/assets/pillar-photos/collective-intelligence-highlight.jpg",
-    "/Users/andreafarias/Work/motiu-website/public/assets/pillar-photos/regenerative-finance-highlight.jpg"
+    "pillar-photos/network-coordination-highlight.jpg",
+    "pillar-photos/collective-intelligence-highlight.jpg",
+    "pillar-photos/regenerative-finance-highlight.jpg"
   ],
   "notes": "seed 24, 10 cells, fill:none, palette:rule-on-paper"
 }
