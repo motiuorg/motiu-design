@@ -1,0 +1,16 @@
+---
+// CardTitle — the card heading. Plain Geist, never the display serif (that face is kept for
+// page-opening moments). `level` picks the heading element, `size` the scale (sm for dense
+// data cards, md for marketing cards, lg for featured).
+interface Props { level?: 2 | 3 | 4; size?: "sm" | "md" | "lg" }
+const { level = 3, size = "md" } = Astro.props;
+const H = `h${level}` as any;
+---
+<H class:list={["card-title", `card-title--${size}`]}><slot /></H>
+
+<style>
+  .card-title { margin: 0; }
+  .card-title--sm { font-size: var(--text-md); }
+  .card-title--md { font-size: var(--text-lg); }
+  .card-title--lg { font-size: var(--text-xl); }
+</style>

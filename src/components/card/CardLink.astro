@@ -1,0 +1,14 @@
+---
+// CardLink — the small mono-caps link at the bottom of a card. `external` opens a new tab.
+interface Props { href: string; external?: boolean }
+const { href, external = false } = Astro.props;
+---
+<a class="card-link" href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}><slot /></a>
+
+<style>
+  .card-link {
+    font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--primary); text-decoration: none;
+  }
+  .card-link:hover { text-decoration: underline; }
+</style>

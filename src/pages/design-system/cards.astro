@@ -4,6 +4,18 @@ import Aurora from "../../components/Aurora.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import PillarBadge from "../../components/PillarBadge.astro";
 import TeamCard from "../../components/TeamCard.astro";
+import Card from "../../components/card/Card.astro";
+import CardMedia from "../../components/card/CardMedia.astro";
+import CardBody from "../../components/card/CardBody.astro";
+import CardEyebrow from "../../components/card/CardEyebrow.astro";
+import CardTitle from "../../components/card/CardTitle.astro";
+import CardText from "../../components/card/CardText.astro";
+import CardBadges from "../../components/card/CardBadges.astro";
+import CardFacts from "../../components/card/CardFacts.astro";
+import CardFact from "../../components/card/CardFact.astro";
+import CardFooter from "../../components/card/CardFooter.astro";
+import CardLink from "../../components/card/CardLink.astro";
+import Badge from "../../components/Badge.astro";
 ---
 <LabShell title="Cards" current="cards"
   intro="ProjectCard (one component, three shapes — marketing grid, cohort grid, and featured) and the
@@ -101,6 +113,74 @@ import TeamCard from "../../components/TeamCard.astro";
     <code>TeamCard</code> was reshot from a 21/9 flat-bordered banner to a 1/1 rounded, shadowed tile
     matching <code>ProjectCard</code>'s card language — the aspect ratio now fits the square portraits
     actually on file instead of a crop chosen for the abstract placeholder.
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Composable cards</h2>
+    <p><code>Card</code> is only the surface — paper, soft radius, hairline shadow, a small lift on hover.
+      Everything inside is a separate part you choose and order: <code>CardMedia</code>, <code>CardBody</code>,
+      <code>CardBadges</code>, <code>CardEyebrow</code>, <code>CardTitle</code>, <code>CardText</code>,
+      <code>CardFacts</code> / <code>CardFact</code>, <code>CardFooter</code>, <code>CardLink</code>. A new kind
+      of card is a new arrangement, not a new component. Data attributes and classes pass straight through to the
+      surface, so a page's filter script can read them. Tags are <code>Badge shape="square"</code>; status
+      pills are <code>Badge</code> with a status tone.</p>
+
+    <div class="lab-grid">
+      <Card>
+        <CardMedia><Aurora pillar="flow" opacity={0.7} /></CardMedia>
+        <CardBody>
+          <CardBadges><Badge tone="flow" size="sm" dot>Regenerative finance</Badge></CardBadges>
+          <CardTitle>Media card</CardTitle>
+          <CardEyebrow>Theme / category</CardEyebrow>
+          <CardText>Image on top, then badges, title, eyebrow and text. This is the project card, assembled from parts.</CardText>
+          <CardFooter><CardLink href="#">Read more →</CardLink></CardFooter>
+        </CardBody>
+      </Card>
+
+      <Card>
+        <CardBody>
+          <CardTitle>Properties card</CardTitle>
+          <CardText>No image. The facts list holds any mix of values under a hairline.</CardText>
+          <CardFacts>
+            <CardFact label="Área">
+              <Badge shape="square" size="sm">Agricultura regenerativa</Badge>
+            </CardFact>
+            <CardFact label="Valor a 5 años" mono>420.000 €</CardFact>
+            <CardFact label="Años">4</CardFact>
+            <CardFact label="Recurrencia" empty />
+            <CardFact label="Viabilidad"><Badge tone="success" size="sm">Sí, viable</Badge></CardFact>
+          </CardFacts>
+        </CardBody>
+      </Card>
+
+      <Card>
+        <CardBody>
+          <CardTitle>Directory card</CardTitle>
+          <CardEyebrow>Murcia</CardEyebrow>
+          <CardBadges>
+            <Badge shape="square" size="sm">Cooperativa</Badge>
+            <Badge shape="square" size="sm">Asociación</Badge>
+          </CardBadges>
+          <CardText>A name, a place, a few tags, a sentence — and a footer with a link and a status.</CardText>
+          <CardFooter rule>
+            <CardLink href="#" external>Website ↗</CardLink>
+            <Badge tone="flow" size="sm">Working group</Badge>
+          </CardFooter>
+        </CardBody>
+      </Card>
+    </div>
+
+    <p>Row layout puts the media beside the body, and the title steps up a size:</p>
+    <Card layout="row">
+      <CardMedia><Aurora pillar="tissue" opacity={0.7} /></CardMedia>
+      <CardBody padding="lg">
+        <CardBadges><Badge tone="tissue" size="sm" dot>Network coordination</Badge></CardBadges>
+        <CardTitle size="lg">Row card</CardTitle>
+        <CardEyebrow>Theme / category</CardEyebrow>
+        <CardText>Same parts, different arrangement. On narrow screens it stacks.</CardText>
+      </CardBody>
+    </Card>
   </div>
 </LabShell>
 

@@ -50,6 +50,13 @@ map (`{ es: "…", en: "…" }`). Internal links (starting with `/`) take the cu
 project's `base` path. Astro's own i18n routing is used when the project configures it; otherwise the language
 is read from the URL.
 
+### Cards are composed, not picked
+`components/card/` holds the parts of a card: `Card` (the surface), `CardMedia`, `CardBody`, `CardBadges`,
+`CardEyebrow`, `CardTitle` (`sm`/`md`/`lg`), `CardText`, `CardFacts` + `CardFact` (labelled properties),
+`CardFooter` and `CardLink`. A new kind of card is a new arrangement of these, not a new component; extra
+attributes (`class`, `data-*`) pass through to the surface. Tags are `<Badge shape="square">`, status pills
+`<Badge tone="success">`. The workshop's Cards page shows several arrangements.
+
 ## Develop
 
 ```bash

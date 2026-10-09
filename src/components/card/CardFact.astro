@@ -1,0 +1,23 @@
+---
+// CardFact — one labelled property. The slot is the value: text, a number (`mono`), a row of
+// <Badge shape="square" /> tags, a status <Badge />. `empty` shows a quiet dash.
+interface Props { label: string; mono?: boolean; empty?: boolean }
+const { label, mono = false, empty = false } = Astro.props;
+---
+<div class="card-fact">
+  <dt>{label}</dt>
+  <dd class:list={{ "card-fact__mono": mono, "card-fact__empty": empty }}>{empty ? "—" : <slot />}</dd>
+</div>
+
+<style>
+  .card-fact { display: grid; grid-template-columns: minmax(6.5rem, 36%) 1fr; gap: var(--space-3); align-items: baseline; }
+  dt {
+    font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-muted);
+  }
+  dd { margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-2); font-size: var(--copy-sm); min-width: 0; }
+  /* Badges are single-line by default; inside a fact, long tags (an organisation name) wrap. */
+  dd :global(.badge) { white-space: normal; max-width: 100%; text-align: left; }
+  .card-fact__mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .card-fact__empty { color: var(--text-muted); }
+</style>

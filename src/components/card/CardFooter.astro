@@ -1,0 +1,12 @@
+---
+// CardFooter — the card's last row: a link, a status, an action. Sits at the bottom of the
+// body whatever the content above it.
+interface Props { rule?: boolean }
+const { rule = false } = Astro.props;
+---
+<div class:list={["card-footer", { "card-footer--rule": rule }]}><slot /></div>
+
+<style>
+  .card-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-top: auto; padding-top: var(--space-2); }
+  .card-footer--rule { border-top: 1px solid var(--border-subtle); padding-top: var(--space-3); }
+</style>
