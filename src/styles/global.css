@@ -191,7 +191,7 @@ h4.display, h5.display, h6.display {
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
   background: var(--bg);
-  color: var(--text-primary);
+  color: var(--text-muted);
   font-size: var(--text-base);
   font-family: var(--sans);
   transition: border-color var(--t-fast);
@@ -200,6 +200,7 @@ h4.display, h5.display, h6.display {
   outline: 2px solid var(--primary);
   outline-offset: 0;
   border-color: var(--primary);
+  color: var(--text-primary);
 }
 .field__hint { font-size: var(--text-sm); color: var(--text-muted); }
 .field--error .field__input { border-color: var(--danger); }
@@ -361,15 +362,15 @@ a:focus-visible {
   box-sizing: border-box; height: var(--control-h);
   padding: 0 2.4rem 0 0.7rem;
   font-family: var(--mono); font-size: var(--text-xs);
-  background-color: var(--bg); color: var(--text-primary);
+  background-color: var(--bg); color: var(--text-muted);
   border: 1px solid var(--border-default); border-radius: var(--radius);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 8'%3E%3Cpath d='M0 0h10L5 8z' fill='%23221a12'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 0.9rem center; background-size: 0.55rem 0.44rem;
   cursor: pointer;
   transition: border-color var(--t-fast);
 }
-.select:hover { border-color: var(--text-primary); }
-.select:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.select:hover { border-color: var(--text-primary); color: var(--text-primary); }
+.select:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; color: var(--text-primary); }
 .on-dark .select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 8'%3E%3Cpath d='M0 0h10L5 8z' fill='%23fffdfb'/%3E%3C/svg%3E");
 }
