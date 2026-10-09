@@ -2,6 +2,7 @@
 # ({ en: "About", es: "Sobre" }). `id` matches the `current` prop of Layout.
 label: Primary
 homeLabel: home
+variant: overlay
 items:
   - { id: about, href: /about/, label: About }
   - { id: projects, href: /projects/, label: Projects }

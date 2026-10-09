@@ -39,7 +39,7 @@ The package holds no site content. Components that render it read YAML from the 
 | File | Read by | Keys |
 |---|---|---|
 | `site.yaml` | `Layout`, `Nav`, `LangSwitch`, `Footer` | `name`, `url`, `description` (required); `favicon`, `ogImage`, `ogImageWidth`, `ogImageHeight`, `titleTemplate` (default `{title} · {name}`), `goatcounter` (analytics URL), `legalNote`, `locales` |
-| `nav.yaml` | `Nav` | `items` (`id`, `href`, `label`, `external?`), `cta`, `label`, `homeLabel` |
+| `nav.yaml` | `Nav` | `items` (`id`, `href`, `label`, `external?`), `cta`, `label`, `homeLabel`, `variant` (`overlay` = transparent until scroll, as on motiu.org; `solid` = background and line from the top, the default) |
 | `footer.yaml` | `Footer` | `columns` (`label`, `links`), `blurb` (falls back to `legalNote`), `meta` |
 | `stats.yaml`, `process.yaml` | `StatBand`, `ProcessStrip` | see the samples |
 

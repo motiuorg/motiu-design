@@ -50,6 +50,7 @@ interface Props {
     minimal?: boolean;
     noindex?: boolean;
     lang?: string; // override the language detected from the URL
+    navVariant?: "overlay" | "solid"; // default: nav.yaml `variant`, else solid
 }
 const detected = locate(Astro.url.pathname, locales, baseUrl);
 const loc = Astro.props.lang ?? currentLang(Astro, locales, baseUrl);
@@ -63,6 +64,10 @@ const {
     minimal = false,
     noindex = false,
 } = Astro.props;
+const navVariant: "overlay" | "solid" =
+    Astro.props.navVariant ??
+    (readData("nav.yaml", { optional: true }) as { variant?: "overlay" | "solid" } | null)?.variant ??
+    "solid";
 const pageTitle = (site.titleTemplate ?? "{title} · {name}")
     .replace("{title}", title)
     .replace("{name}", site.name);
@@ -146,10 +151,10 @@ const faviconType = faviconHref?.endsWith(".svg")
     <body class:list={{ minimal }}>
         {
             !minimal && (
-                <Nav current={current} section={section} dataset={dataset} />
+                <Nav current={current} section={section} dataset={dataset} variant={navVariant} />
             )
         }
-        <main class:list={{ "main--overlay-nav": current === "home" }}>
+        <main class:list={{ "main--overlay-nav": current === "home" && navVariant === "overlay" }}>
             <slot />
         </main>
         {!minimal && <Footer />}

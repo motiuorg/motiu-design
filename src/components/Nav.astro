@@ -7,6 +7,7 @@ const site = readData("site.yaml") as { name: string };
 const nav = readData("nav.yaml") as {
     label?: string | Record<string, string>;
     homeLabel?: string | Record<string, string>;
+    variant?: "overlay" | "solid";
     items: { id: string; href: string; label: string | Record<string, string>; external?: boolean }[];
     cta?: { id: string; href: string; label: string | Record<string, string> };
 };
@@ -17,8 +18,13 @@ interface Props {
     current?: string;
     section?: string;
     dataset?: string;
+    // overlay: transparent over the hero, gains its background and bottom line
+    //   once the page scrolls (motiu.org). solid: background and line from the
+    //   very top. Defaults to nav.yaml `variant`, else solid.
+    variant?: "overlay" | "solid";
 }
 const { current = "home", section, dataset } = Astro.props;
+const variant = Astro.props.variant ?? nav.variant ?? "solid";
 // Keep the chosen language as you navigate: internal links take the current
 // language prefix (the default language stays unprefixed).
 const loc = currentLang(Astro, locales, baseUrl);
@@ -27,7 +33,7 @@ const hrefOf = (it: { href: string; external?: boolean }) =>
     it.external || !isInternal(it.href) ? it.href : L(it.href);
 ---
 
-<header class="site-nav">
+<header class:list={["site-nav", { "site-nav--solid": variant === "solid" }]}>
     <a href={L("/")} class="brand" aria-label={`${site.name} — ${t(nav.homeLabel, loc, locales) ?? "home"}`}>
         <span class="brand-org">{site.name}</span>
         {
@@ -124,7 +130,8 @@ const hrefOf = (it: { href: string; external?: boolean }) =>
             background-color var(--t-med),
             border-color var(--t-med);
     }
-    .site-nav.is-scrolled {
+    .site-nav.is-scrolled,
+    .site-nav--solid {
         background: var(--paper);
         border-bottom-color: var(--border-subtle);
     }

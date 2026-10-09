@@ -15,6 +15,15 @@ import Footer from "../../components/Footer.astro";
     <div class="lab-frame lab-frame--chrome" style="max-height: 12rem;">
       <Nav current="home" />
     </div>
+
+    <h3>Variants</h3>
+    <p><code>variant</code> (set per site in <code>nav.yaml</code>, or per page via <code>Layout</code>'s
+      <code>navVariant</code>): <strong>overlay</strong> is transparent over the hero and gains its background
+      and bottom line once the page scrolls (motiu.org, above). <strong>solid</strong> has the background and
+      line from the very top, for sites without a full-bleed hero. Default: solid.</p>
+    <div class="lab-frame lab-frame--chrome" style="max-height: 12rem;">
+      <Nav current="home" variant="solid" />
+    </div>
   </div>
 
   <div class="lab-section">
