@@ -24,7 +24,8 @@ import Check from "../../components/Check.astro";
   <div class="lab-section">
     <span class="lab-status lab-status--live">live</span>
     <h2>Composable cards</h2>
-    <p><code>Card</code> is only the surface — paper, soft radius, a hairline border that darkens on hover, a faint shadow, a small lift.
+    <p><code>Card</code> is only the surface — paper, soft radius, a hairline border that darkens on hover, a faint shadow, a small lift. <code>flat</code> drops the shadow and <code>{"interactive={false}"}</code>
+      drops the hover, for panels that hold charts and figures; the corner radius is the <code>--radius-card</code> token.
       Everything inside is a separate part you choose and order: <code>CardMedia</code>, <code>CardBody</code>,
       <code>CardBadges</code>, <code>CardEyebrow</code>, <code>CardTitle</code>, <code>CardText</code>,
       <code>CardFacts</code> / <code>CardFact</code>, <code>CardFooter</code>, <code>CardLink</code>. A new kind
