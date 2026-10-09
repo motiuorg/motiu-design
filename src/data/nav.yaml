@@ -1,0 +1,10 @@
+# Topbar for Nav.astro. Labels may be a string or a per-language map
+# ({ en: "About", es: "Sobre" }). `id` matches the `current` prop of Layout.
+label: Primary
+homeLabel: home
+items:
+  - { id: about, href: /about/, label: About }
+  - { id: projects, href: /projects/, label: Projects }
+  - { id: what-we-do, href: /what-we-do/, label: Services }
+  - { id: contact, href: /contact/, label: Contact }
+cta: { id: contact, href: /contact/, label: Contact }

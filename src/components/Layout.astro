@@ -12,61 +12,77 @@ import "../styles/theme.css";
 import "../styles/global.css";
 import Nav from "./Nav.astro";
 import Footer from "./Footer.astro";
-import fs from "node:fs";
-import path from "node:path";
-import yaml from "js-yaml";
+import {
+    readData,
+    getLocales,
+    locate,
+    currentLang,
+    localize,
+    baseOf,
+    t,
+    isInternal,
+} from "../lib/site-data.mjs";
 
-const site = yaml.load(
-    fs.readFileSync(path.join(process.cwd(), "src/data/site.yaml"), "utf8"),
-) as {
+type Text = string | Record<string, string>;
+// Identity and global meta come from the consuming site's src/data/site.yaml.
+// The only required keys are name, url and description; everything else is
+// optional (see lib/site-data.mjs for the full list).
+const site = readData("site.yaml") as {
     name: string;
     url: string;
-    description: string;
-    ogImage: string;
+    description: Text;
+    ogImage?: string;
     ogImageWidth?: number;
     ogImageHeight?: number;
+    favicon?: string; // e.g. /favicon.svg, relative to the site root
+    titleTemplate?: string; // default "{title} · {name}"
     goatcounter?: string; // e.g. https://<code>.goatcounter.com/count; omit for no analytics
 };
+const locales = getLocales(readData("site.yaml"));
+const baseUrl = import.meta.env.BASE_URL;
 
 interface Props {
     title: string;
     description?: string;
-    current?:
-        | "home"
-        | "what-we-do"
-        | "who-we-serve"
-        | "projects"
-        | "atlas"
-        | "commons"
-        | "about"
-        | "contact";
+    current?: string; // matches an id in the consumer's nav.yaml
     section?: string; // optional contextual brand-line segment (e.g. "Bioregional Commons")
     dataset?: string; // e.g. "Catalunya"
     minimal?: boolean;
     noindex?: boolean;
+    lang?: string; // override the language detected from the URL
 }
+const detected = locate(Astro.url.pathname, locales, baseUrl);
+const loc = Astro.props.lang ?? currentLang(Astro, locales, baseUrl);
+const logicalPath = detected.logicalPath;
 const {
     title,
-    description = site.description,
+    description = t(site.description, loc, locales),
     current = "home",
     section,
     dataset,
     minimal = false,
     noindex = false,
 } = Astro.props;
-const pageTitle = `${title} · ${site.name}`;
-// i18n: CA/ES serve real translations (2026-09-07) — each locale page is
-// self-canonical, indexable, and declares hreflang alternates for the others.
-const loc = Astro.currentLocale ?? "en";
-const logicalPath = Astro.url.pathname.replace(/^\/(ca|es)(?=\/|$)/, "") || "/";
+const pageTitle = (site.titleTemplate ?? "{title} · {name}")
+    .replace("{title}", title)
+    .replace("{name}", site.name);
+// i18n: each language page is self-canonical, indexable, and declares hreflang
+// alternates for the others (single-language sites declare none).
 const canonical = new URL(Astro.url.pathname, site.url).href;
-const hrefLang = ["en", "ca", "es"].map((code) => ({
-    code,
-    href: new URL(
-        code === "en" ? logicalPath : `/${code}${logicalPath}`,
-        site.url,
-    ).href,
-}));
+const hrefLang = locales.list.length > 1
+    ? locales.list.map((l) => ({
+          code: l.code,
+          href: new URL(localize(logicalPath, l.code, locales, baseUrl), site.url).href,
+      }))
+    : [];
+const faviconHref = site.favicon
+    ? isInternal(site.favicon) ? baseOf(baseUrl) + site.favicon : site.favicon
+    : null;
+const faviconType = faviconHref?.endsWith(".svg")
+    ? "image/svg+xml"
+    : faviconHref?.endsWith(".png")
+      ? "image/png"
+      : undefined;
 ---
 
 <!doctype html>
@@ -77,30 +93,40 @@ const hrefLang = ["en", "ca", "es"].map((code) => ({
         <meta name="description" content={description} />
         {noindex && <meta name="robots" content="noindex" />}
         <title>{pageTitle}</title>
-        <link rel="icon" type="image/png" href="/assets/favicons.png" />
+        {faviconHref && <link rel="icon" type={faviconType} href={faviconHref} />}
         <link rel="canonical" href={canonical} />
         {
             hrefLang.map((l) => (
                 <link rel="alternate" hreflang={l.code} href={l.href} />
             ))
         }
-        <link
-            rel="alternate"
-            hreflang="x-default"
-            href={new URL(logicalPath, site.url).href}
-        />
+        {
+            hrefLang.length > 0 && (
+                <link
+                    rel="alternate"
+                    hreflang="x-default"
+                    href={new URL(localize(logicalPath, locales.default, locales, baseUrl), site.url).href}
+                />
+            )
+        }
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content={site.name} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={canonical} />
-        <meta
-            property="og:image"
-            content={new URL(site.ogImage, site.url).href}
-        />
-        <meta property="og:image:width" content={site.ogImageWidth ?? 1920} />
-        <meta property="og:image:height" content={site.ogImageHeight ?? 1078} />
-        <meta name="twitter:card" content="summary_large_image" />
+        {
+            site.ogImage && (
+                <>
+                    <meta
+                        property="og:image"
+                        content={new URL(baseOf(baseUrl) + site.ogImage, site.url).href}
+                    />
+                    {site.ogImageWidth && <meta property="og:image:width" content={site.ogImageWidth} />}
+                    {site.ogImageHeight && <meta property="og:image:height" content={site.ogImageHeight} />}
+                </>
+            )
+        }
+        <meta name="twitter:card" content={site.ogImage ? "summary_large_image" : "summary"} />
         {
             site.goatcounter && (
                 <script

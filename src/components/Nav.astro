@@ -1,11 +1,17 @@
 ---
-import fs from "node:fs";
-import path from "node:path";
-import yaml from "js-yaml";
 import LangSwitch from "./LangSwitch.astro";
-const site = yaml.load(
-    fs.readFileSync(path.join(process.cwd(), "src/data/site.yaml"), "utf8"),
-) as { name: string };
+import { readData, getLocales, currentLang, localize, t, isInternal } from "../lib/site-data.mjs";
+// Content comes from the consuming site: name from site.yaml, links from
+// nav.yaml ({ label?, items: [{ id, href, label, external? }], cta? }).
+const site = readData("site.yaml") as { name: string };
+const nav = readData("nav.yaml") as {
+    label?: string | Record<string, string>;
+    homeLabel?: string | Record<string, string>;
+    items: { id: string; href: string; label: string | Record<string, string>; external?: boolean }[];
+    cta?: { id: string; href: string; label: string | Record<string, string> };
+};
+const locales = getLocales(readData("site.yaml"));
+const baseUrl = import.meta.env.BASE_URL;
 
 interface Props {
     current?: string;
@@ -13,24 +19,16 @@ interface Props {
     dataset?: string;
 }
 const { current = "home", section, dataset } = Astro.props;
-// Keep the chosen locale as you navigate: prefix internal links with it
-// (EN stays unprefixed). CA/ES serve EN content via i18n rewrite fallback.
-const loc = Astro.currentLocale ?? "en";
-const L = (href: string) => (loc === "en" ? href : `/${loc}${href}`);
-// Topbar IA (260723): About · Projects · Services · Contact.
-// "Services" = /what-we-do. who-we-serve stays reachable (linked from
-// Services), just off the topbar.
-const items: { id: string; label: string; href: string; external?: boolean }[] =
-    [
-        { id: "about", label: "About", href: "/about/" },
-        { id: "projects", label: "Projects", href: "/projects/" },
-        { id: "what-we-do", label: "Services", href: "/what-we-do/" },
-        { id: "contact", label: "Contact", href: "/contact/" },
-    ];
+// Keep the chosen language as you navigate: internal links take the current
+// language prefix (the default language stays unprefixed).
+const loc = currentLang(Astro, locales, baseUrl);
+const L = (href: string) => localize(href, loc, locales, baseUrl);
+const hrefOf = (it: { href: string; external?: boolean }) =>
+    it.external || !isInternal(it.href) ? it.href : L(it.href);
 ---
 
 <header class="site-nav">
-    <a href={L("/")} class="brand" aria-label={`${site.name} — home`}>
+    <a href={L("/")} class="brand" aria-label={`${site.name} — ${t(nav.homeLabel, loc, locales) ?? "home"}`}>
         <span class="brand-org">{site.name}</span>
         {
             section && (
@@ -53,26 +51,30 @@ const items: { id: string; label: string; href: string; external?: boolean }[] =
             )
         }
     </a>
-    <nav aria-label="Primary">
+    <nav aria-label={t(nav.label, loc, locales) ?? "Primary"}>
         <ul>
             {
-                items.map((it) => (
+                nav.items.map((it) => (
                     <li>
                         <a
-                            href={it.external ? it.href : L(it.href)}
+                            href={hrefOf(it)}
                             class:list={[{ active: current === it.id }]}
                         >
-                            {it.label}
+                            {t(it.label, loc, locales)}
                         </a>
                     </li>
                 ))
             }
-            <li>
-                <a
-                    href={L("/contact/")}
-                    class:list={["nav-cta", { active: current === "contact" }]}
-                    >Contact</a>
-            </li>
+            {
+                nav.cta && (
+                    <li>
+                        <a
+                            href={hrefOf(nav.cta)}
+                            class:list={["nav-cta", { active: current === nav.cta.id }]}
+                            >{t(nav.cta.label, loc, locales)}</a>
+                    </li>
+                )
+            }
             <li><LangSwitch /></li>
         </ul>
     </nav>

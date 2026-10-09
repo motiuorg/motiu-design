@@ -1,21 +1,21 @@
 ---
-// LangSwitch — EN / CA / ES topbar control (260723 feedback, scope A).
-// EN is live; CA/ES routes exist and serve EN via rewrite fallback until
-// translated (astro.config i18n). Links to the locale-equivalent of the
-// current page so the chosen language persists across the URL.
-const locales = [
-  { code: "en", label: "EN" },
-  { code: "ca", label: "CA" },
-  { code: "es", label: "ES" },
-];
-const current = Astro.currentLocale ?? "en";
-// Strip any locale prefix to the logical path, then re-localize per target.
-let path = Astro.url.pathname.replace(/^\/(ca|es)(?=\/|$)/, "");
-if (!path.startsWith("/")) path = "/" + path;
-const urlFor = (code: string) => (code === "en" ? path : `/${code}${path}`);
+// LangSwitch — language control for the topbar. Languages come from the
+// consuming site's src/data/site.yaml (`locales`); the default language is
+// unprefixed, the others live under /<code>/. Links go to the equivalent of
+// the current page, so the chosen language persists across the URL. Renders
+// nothing for a single-language site.
+import { readData, getLocales, locate, currentLang, localize, t } from "../lib/site-data.mjs";
+const site = readData("site.yaml");
+const locales = getLocales(site);
+const baseUrl = import.meta.env.BASE_URL;
+const current = currentLang(Astro, locales, baseUrl);
+const { logicalPath } = locate(Astro.url.pathname, locales, baseUrl);
+const urlFor = (code: string) => localize(logicalPath, code, locales, baseUrl);
+const label = t(site.locales?.label, current, locales) ?? "Language";
 ---
-<div class="langswitch" role="group" aria-label="Language">
-  {locales.map((l) => (
+{locales.list.length > 1 && (
+<div class="langswitch" role="group" aria-label={label}>
+  {locales.list.map((l) => (
     <a
       href={urlFor(l.code)}
       hreflang={l.code}
@@ -24,6 +24,7 @@ const urlFor = (code: string) => (code === "en" ? path : `/${code}${path}`);
     >{l.label}</a>
   ))}
 </div>
+)}
 
 <style>
   .langswitch { display: inline-flex; align-items: center; gap: 0.15rem; margin-left: 0.4rem; }

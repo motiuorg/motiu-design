@@ -1,0 +1,17 @@
+# Footer.astro. The blurb falls back to `legalNote` in site.yaml. Text may be
+# a string or a per-language map; links starting with "/" stay on this site and
+# take the current language prefix.
+columns:
+  - label: Surfaces
+    links:
+      - { label: bioregioning.earth, url: "https://bioregioning.earth" }
+      - { label: Regenerant Catalunya, url: "https://regenerant-catalunya.refibcn.cat" }
+      - { label: Design system, url: /design-system/ }
+  - label: Contact
+    links:
+      - { label: hello@motiu.org, url: "mailto:hello@motiu.org" }
+      - { label: Telegram, url: "https://t.me/+j4zOWZGsITwxNmY8" }
+      - { label: GitHub, url: "https://github.com/motiuorg" }
+meta:
+  - Code · MIT
+  - Content · CC BY-SA 4.0

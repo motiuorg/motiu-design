@@ -1,23 +1,20 @@
 ---
-import fs from "node:fs";
-import path from "node:path";
-import yaml from "js-yaml";
-const data = yaml.load(
-    fs.readFileSync(
-        path.join(process.cwd(), "src/data/sibling-surfaces.yaml"),
-        "utf8",
-    ),
-) as {
-    siblings: { label: string; url: string }[];
-    contact: { label: string; url: string }[];
+import { readData, getLocales, currentLang, localize, t, isInternal } from "../lib/site-data.mjs";
+// Content comes from the consuming site: identity from site.yaml, the rest
+// from footer.yaml ({ blurb?, columns: [{ label, links: [{ label, url }] }], meta?: [] }).
+// Any text may be a per-language map; internal links take the current language.
+type Text = string | Record<string, string>;
+const site = readData("site.yaml") as { name: string; legalNote?: Text; url: string };
+const footer = readData("footer.yaml") as {
+    blurb?: Text;
+    columns: { label: Text; links: { label: Text; url: string }[] }[];
+    meta?: Text[];
 };
-const site = yaml.load(
-    fs.readFileSync(path.join(process.cwd(), "src/data/site.yaml"), "utf8"),
-) as {
-    name: string;
-    legalNote: string;
-    url: string;
-};
+const locales = getLocales(readData("site.yaml"));
+const baseUrl = import.meta.env.BASE_URL;
+const loc = currentLang(Astro, locales, baseUrl);
+const hrefOf = (url: string) => (isInternal(url) ? localize(url, loc, locales, baseUrl) : url);
+const blurb = t(footer.blurb ?? site.legalNote, loc, locales);
 const siteHost = new URL(site.url).host;
 const year = new Date().getFullYear();
 ---
@@ -26,37 +23,29 @@ const year = new Date().getFullYear();
     <div class="cols">
         <div class="col col--name">
             <span class="lockup">{site.name}</span>
-            <p>{site.legalNote}</p>
+            {blurb && <p>{blurb}</p>}
         </div>
         <div class="col-group">
-            <div class="col">
-                <span class="eyebrow">Surfaces</span><ul>
-                    {
-                        data.siblings.map((s) => (
-                            <li>
-                                <a href={s.url}>{s.label}</a>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
-            <div class="col">
-                <span class="eyebrow">Contact</span><ul>
-                    {
-                        data.contact.map((s) => (
-                            <li>
-                                <a href={s.url}>{s.label}</a>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
+            {
+                footer.columns.map((c) => (
+                    <div class="col">
+                        <span class="eyebrow">{t(c.label, loc, locales)}</span><ul>
+                            {
+                                c.links.map((s) => (
+                                    <li>
+                                        <a href={hrefOf(s.url)}>{t(s.label, loc, locales)}</a>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    </div>
+                ))
+            }
         </div>
     </div>
     <div class="meta">
         <span>{site.name} · {siteHost} · {year}</span>
-        <span>Code · MIT</span>
-        <span>Content · CC BY-SA 4.0</span>
+        {(footer.meta ?? []).map((m) => <span>{t(m, loc, locales)}</span>)}
     </div>
 </footer>
 <style>

@@ -17,3 +17,13 @@ description: >-
   Catalonia and beyond.
 email: hello@motiu.org
 ogImage: /assets/og-image.png
+favicon: /assets/favicons.png
+locales:
+  default: en
+  label: Language
+  list:
+    - { code: en, label: EN }
+    - { code: ca, label: CA }
+    - { code: es, label: ES }
+ogImageWidth: 1920
+ogImageHeight: 1078
