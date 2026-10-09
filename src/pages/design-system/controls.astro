@@ -23,15 +23,16 @@ import Tab from "../../components/tabs/Tab.astro";
 
     <h3 style="margin-top: var(--space-8);">Second level</h3>
     <p>A tab that holds its own views gets a second row of the <em>same</em> tabs, one step smaller
-      (<code>size="sm"</code>): the same mono caps and the same underline, a smaller type size and a finer line, no
-      hairline of its own. The parent's line and the child's underline are the same language, so it reads as a
+      (<code>size="sm"</code>): the same mono caps and the same underline, a smaller type size and a finer line, with its
+      own light hairline that runs only as wide as its tabs (the page tabs' line spans the full width). Keep it close
+      under the parent row. The parent's line and the child's underline are the same language, so it reads as a
       level inside the tab above, not a different control. Used for the simulator's Supuestos tab.</p>
     <Tabs label="Example page tabs">
       <Tab>Fincas</Tab>
       <Tab>Crédito</Tab>
       <Tab selected>Supuestos</Tab>
     </Tabs>
-    <Tabs label="Example second-level tabs" size="sm" rule={false} style="margin-top: var(--space-4);">
+    <Tabs label="Example second-level tabs" size="sm" style="margin-top: var(--space-3);">
       <Tab selected>What matters most</Tab>
       <Tab>All assumptions</Tab>
       <Tab>Reference data</Tab>
