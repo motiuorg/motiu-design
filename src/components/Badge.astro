@@ -13,7 +13,10 @@
 type Tone =
   | "neutral"
   | "tissue" | "neural" | "flow"
-  | "success" | "info" | "warning" | "danger";
+  | "success" | "info" | "warning" | "danger"
+  // Category hues, from the theme's colour library: for telling the values of a taxonomy apart
+  // (work areas, topics) where no one colour means anything. Status tones keep their meaning.
+  | "ocean" | "teal" | "green" | "yellow" | "orange" | "red" | "pink" | "purple" | "gris";
 
 interface Props {
   tone?: Tone;
@@ -101,5 +104,24 @@ const { tone = "neutral", size = "md", shape = "pill", dot = false, icon } = Ast
     color: var(--status-danger-dark);
     border-color: color-mix(in srgb, var(--status-danger-mid) 55%, transparent);
     background: color-mix(in srgb, var(--status-danger-light) 45%, var(--paper));
+  }
+
+  /* Category hues — the same light-tint formula, driven by one --hue per tone (a library colour):
+     the hue at 16% over paper for the background, at 55% for the border, and a darkened hue for
+     the text so it stays readable on its own tint. */
+  .badge--ocean  { --hue: var(--lib-ocean); }
+  .badge--teal   { --hue: var(--lib-blue); }
+  .badge--green  { --hue: var(--lib-green); }
+  .badge--yellow { --hue: var(--lib-yellow); }
+  .badge--orange { --hue: var(--lib-orange); }
+  .badge--red    { --hue: var(--lib-red); }
+  .badge--pink   { --hue: var(--lib-pink); }
+  .badge--purple { --hue: var(--lib-purple); }
+  .badge--gris   { --hue: var(--lib-gris); }
+  .badge--ocean, .badge--teal, .badge--green, .badge--yellow, .badge--orange,
+  .badge--red, .badge--pink, .badge--purple, .badge--gris {
+    color: color-mix(in srgb, var(--hue) 42%, black);
+    border-color: color-mix(in srgb, var(--hue) 55%, transparent);
+    background: color-mix(in srgb, var(--hue) 16%, var(--paper));
   }
 </style>
