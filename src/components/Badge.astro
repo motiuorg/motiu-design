@@ -14,9 +14,10 @@ type Tone =
   | "neutral"
   | "tissue" | "neural" | "flow"
   | "success" | "info" | "warning" | "danger"
-  // Category hues, from the theme's colour library: for telling the values of a taxonomy apart
-  // (work areas, topics) where no one colour means anything. Status tones keep their meaning.
-  | "ocean" | "teal" | "green" | "yellow" | "orange" | "red" | "pink" | "purple" | "gris";
+  // Category hues, from the Color Library (the same Light / Core / Shade steps as the pillars): for telling the
+  // values of a taxonomy apart where no one colour means anything. The pillar tones work for this too.
+  // Status tones keep their meaning. Gray is deliberately not offered.
+  | "red" | "yellow" | "green" | "blue" | "purple" | "pink";
 
 interface Props {
   tone?: Tone;

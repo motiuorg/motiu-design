@@ -305,23 +305,37 @@ h4.display, h5.display, h6.display {
     background: color-mix(in srgb, var(--status-danger-light) 45%, var(--paper));
   }
 
-  /* Category hues — the same light-tint formula, driven by one --hue per tone (a library colour):
-     the hue at 16% over paper for the background, at 55% for the border, and a darkened hue for
-     the text so it stays readable on its own tint. */
-  .badge--ocean  { --hue: var(--lib-ocean); }
-  .badge--teal   { --hue: var(--lib-blue); }
-  .badge--green  { --hue: var(--lib-green); }
-  .badge--yellow { --hue: var(--lib-yellow); }
-  .badge--orange { --hue: var(--lib-orange); }
-  .badge--red    { --hue: var(--lib-red); }
-  .badge--pink   { --hue: var(--lib-pink); }
-  .badge--purple { --hue: var(--lib-purple); }
-  .badge--gris   { --hue: var(--lib-gris); }
-  .badge--ocean, .badge--teal, .badge--green, .badge--yellow, .badge--orange,
-  .badge--red, .badge--pink, .badge--purple, .badge--gris {
-    color: color-mix(in srgb, var(--hue) 42%, black);
-    border-color: color-mix(in srgb, var(--hue) 55%, transparent);
-    background: color-mix(in srgb, var(--hue) 16%, var(--paper));
+  /* Category hues — the same formula as the pillar and status tones: a light tint of the family for the
+     background, its Core step (at reduced opacity) for the border, its Shade step for the text. */
+  .badge--red {
+    color: var(--hue-red-dark);
+    border-color: color-mix(in srgb, var(--hue-red-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--hue-red-light) 45%, var(--paper));
+  }
+  .badge--yellow {
+    color: var(--hue-yellow-dark);
+    border-color: color-mix(in srgb, var(--hue-yellow-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--hue-yellow-light) 45%, var(--paper));
+  }
+  .badge--green {
+    color: var(--hue-green-dark);
+    border-color: color-mix(in srgb, var(--hue-green-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--hue-green-light) 45%, var(--paper));
+  }
+  .badge--blue {
+    color: var(--hue-blue-dark);
+    border-color: color-mix(in srgb, var(--hue-blue-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--hue-blue-light) 45%, var(--paper));
+  }
+  .badge--purple {
+    color: var(--hue-purple-dark);
+    border-color: color-mix(in srgb, var(--hue-purple-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--hue-purple-light) 45%, var(--paper));
+  }
+  .badge--pink {
+    color: var(--hue-pink-dark);
+    border-color: color-mix(in srgb, var(--hue-pink-mid) 55%, transparent);
+    background: color-mix(in srgb, var(--hue-pink-light) 45%, var(--paper));
   }
 
 

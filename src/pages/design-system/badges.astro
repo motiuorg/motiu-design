@@ -67,21 +67,23 @@ import Badge from "../../components/Badge.astro";
     </div>
     <p class="lab-source">Top row: pillars (lime/cyan/orange). Bottom row: status (green/blue/yellow/red) — same shape, visibly different hues, not the top row repeated.</p>
     <h3 style="margin-top: var(--space-6);">Category hues</h3>
-    <p>For telling the values of a taxonomy apart — work areas, topics — where no single colour means
-      anything: <code>ocean</code>, <code>teal</code>, <code>green</code>, <code>yellow</code>,
-      <code>orange</code>, <code>red</code>, <code>pink</code>, <code>purple</code>, <code>gris</code>. They come
-      from the Color Library (<code>--lib-*</code>) with the same light-tint formula. Give each value of a
-      taxonomy its own hue and keep it fixed; use the status tones only for status.</p>
+    <p>For telling the values of a taxonomy apart — work areas, topics — where no single colour means anything.
+      Nine distinct colours are available: the three pillar tones (<code>tissue</code>, <code>neural</code>,
+      <code>flow</code>) and six more from the Color Library (<code>red</code>, <code>yellow</code>, <code>green</code>,
+      <code>blue</code>, <code>purple</code>, <code>pink</code>). They use the same three steps as the pillar tones —
+      Light for the tint, Core for the border, Shade for the text — so they are as saturated as the rest. Give each
+      value of a taxonomy its own hue and keep it fixed. Use the status tones only for status, and remember that red
+      and green carry meaning in figures (loss and gain). Gray is deliberately not offered: it is not a colour.</p>
     <div class="lab-row">
-      <Badge tone="ocean">Ocean</Badge>
-      <Badge tone="teal">Teal</Badge>
-      <Badge tone="green">Green</Badge>
-      <Badge tone="yellow">Yellow</Badge>
-      <Badge tone="orange">Orange</Badge>
+      <Badge tone="tissue">Tissue</Badge>
+      <Badge tone="neural">Neural</Badge>
+      <Badge tone="flow">Flow</Badge>
       <Badge tone="red">Red</Badge>
-      <Badge tone="pink">Pink</Badge>
+      <Badge tone="yellow">Yellow</Badge>
+      <Badge tone="green">Green</Badge>
+      <Badge tone="blue">Blue</Badge>
       <Badge tone="purple">Purple</Badge>
-      <Badge tone="gris">Gris</Badge>
+      <Badge tone="pink">Pink</Badge>
     </div>
   </div>
 

@@ -57,6 +57,17 @@
   --lib-green: #39A659; --lib-yellow: #D5AD1C; --lib-orange: #DC7221;
   --lib-red: #CC4727; --lib-pink: #DC697F; --lib-purple: #8161BF;
 
+  /* Category hues for badges — the Color Library families the pillars don't already cover, with the
+   * same three steps the pillar badges use: Light (tint), Core (border), Shade (text). The pillars are
+   * themselves category-capable: tissue is the library's lime, neural its cyan, flow its orange. Gray is
+   * not offered: it is not a colour. See src/pages/design-system/colors.astro for the full ramps. */
+  --hue-red-light: #FFA8A8;    --hue-red-mid: #E60000;    --hue-red-dark: #5C0000;
+  --hue-yellow-light: #FFF67A; --hue-yellow-mid: #E6D400; --hue-yellow-dark: #5C5400;
+  --hue-green-light: #94FFC7;  --hue-green-mid: #00B86B;  --hue-green-dark: #00502E;
+  --hue-blue-light: #C2C8FF;   --hue-blue-mid: #5B62F0;   --hue-blue-dark: #1F1D80;
+  --hue-purple-light: #E5BBFF; --hue-purple-mid: #A62FFF; --hue-purple-dark: #3D0870;
+  --hue-pink-light: #FFB0DE;   --hue-pink-mid: #FF1E9C;   --hue-pink-dark: #6E0040;
+
   /* Data colours — what a colour means in a chart or a figure. Steps from the Color Library
    * (src/pages/design-system/colors.astro). Red is a loss or a shortfall, green a gain, blue a supporting
    * quantity or an information block; the second blue is a second supporting series. Orange is not a data
