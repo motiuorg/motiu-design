@@ -23,6 +23,24 @@ import Tab from "../../components/tabs/Tab.astro";
   </div>
 
   <div class="lab-section">
+    <span class="lab-status lab-status--live">live — first version</span>
+    <h2>Select and caret</h2>
+    <p>One arrow everywhere: a filled triangle, drawn in CSS so it looks the same in every font. <code>.select</code>
+      is a dropdown with the same outline and height as a chip or an input, using that triangle as its arrow, with
+      room between the arrow and the right edge. <code>.caret</code> is the same triangle for anything that opens and
+      closes: it points down by default, <code>.caret--right</code> points right for a collapsed disclosure and turns
+      down when its control is open (<code>aria-expanded="true"</code> or an <code>.is-open</code> ancestor).</p>
+    <div style="display: flex; gap: var(--space-6); align-items: center; flex-wrap: wrap;">
+      <select class="select" aria-label="Example select" style="min-width: 14rem;">
+        <option>Almendro secano</option>
+        <option>Olivar</option>
+      </select>
+      <span style="display: inline-flex; align-items: center; gap: var(--space-2);"><span class="caret caret--right" aria-hidden="true"></span> collapsed</span>
+      <span style="display: inline-flex; align-items: center; gap: var(--space-2);"><span class="caret" aria-hidden="true"></span> open</span>
+    </div>
+  </div>
+
+  <div class="lab-section">
     <span class="lab-status lab-status--gap">doesn't exist — sketch only</span>
     <h2>Segmented view toggle</h2>
     <p>A two-or-more-way view switch (e.g. map/gallery) — square, umber-bordered, filled solid <code>--umber</code>
