@@ -1,11 +1,16 @@
 ---
-// CardEyebrow — a small mono-caps line: a place, a theme, a category.
+// CardEyebrow — a small mono-caps line: a place, a theme, a category. `tracking="wide"` is the
+// global .eyebrow rhythm (roles, labels); the default is a touch tighter.
+interface Props { tracking?: "normal" | "wide"; class?: string; [attr: string]: unknown }
+const { tracking = "normal", class: className, ...rest } = Astro.props;
 ---
-<p class="card-eyebrow"><slot /></p>
+<p class:list={["card-eyebrow", `card-eyebrow--${tracking}`, className]} {...rest}><slot /></p>
 
 <style>
   .card-eyebrow {
     font-family: var(--mono); font-size: var(--text-xs); text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--text-muted); margin: 0;
+    color: var(--text-muted); margin: 0;
   }
+  .card-eyebrow--normal { letter-spacing: 0.06em; }
+  .card-eyebrow--wide { letter-spacing: 0.1em; line-height: var(--leading-ui); }
 </style>

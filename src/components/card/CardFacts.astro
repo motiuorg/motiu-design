@@ -2,10 +2,10 @@
 // CardFacts — a list of labelled properties under a hairline. Fill it with <CardFact>.
 // layout="inline": label left, value right (default). layout="stack": label above value,
 // for narrow cards.
-interface Props { layout?: "inline" | "stack"; rule?: boolean }
-const { layout = "inline", rule = true } = Astro.props;
+interface Props { layout?: "inline" | "stack"; rule?: boolean; class?: string; [attr: string]: unknown }
+const { layout = "inline", rule = true, class: className, ...rest } = Astro.props;
 ---
-<dl class:list={["card-facts", `card-facts--${layout}`, { "card-facts--rule": rule }]}><slot /></dl>
+<dl class:list={["card-facts", `card-facts--${layout}`, { "card-facts--rule": rule }, className]} {...rest}><slot /></dl>
 
 <style>
   .card-facts { margin: 0; display: flex; flex-direction: column; gap: var(--space-3); }

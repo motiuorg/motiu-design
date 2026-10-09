@@ -1,10 +1,10 @@
 ---
 // CardFact — one labelled property. The slot is the value: text, a number (`mono`), a row of
 // <Badge shape="square" /> tags, a status <Badge />. `empty` shows a quiet dash.
-interface Props { label: string; mono?: boolean; empty?: boolean }
-const { label, mono = false, empty = false } = Astro.props;
+interface Props { label: string; mono?: boolean; empty?: boolean; class?: string; [attr: string]: unknown }
+const { label, mono = false, empty = false, class: className, ...rest } = Astro.props;
 ---
-<div class="card-fact">
+<div class:list={["card-fact", className]} {...rest}>
   <dt>{label}</dt>
   <dd class:list={{ "card-fact__mono": mono, "card-fact__empty": empty }}>{empty ? "—" : <slot />}</dd>
 </div>

@@ -1,8 +1,10 @@
 ---
 // CardBadges — a wrapping row for <Badge /> pills and tags.
+interface Props { class?: string; [attr: string]: unknown }
+const { class: className, ...rest } = Astro.props;
 ---
-<div class="card-badges"><slot /></div>
+<div class:list={["card-badges", className]} {...rest}><slot /></div>
 
 <style>
-  .card-badges { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .card-badges { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-2); }
 </style>

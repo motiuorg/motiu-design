@@ -18,102 +18,7 @@ import CardLink from "../../components/card/CardLink.astro";
 import Badge from "../../components/Badge.astro";
 ---
 <LabShell title="Cards" current="cards"
-  intro="ProjectCard (one component, three shapes — marketing grid, cohort grid, and featured) and the
-  .case-card mini card it pairs with on the Services page. See Divider lists for the row/column patterns
-  .case-card and others like it belong to — those aren't cards, so they live on their own page now.">
-
-  <div class="lab-section">
-    <span class="lab-status lab-status--live">live</span>
-    <h2>Project cards</h2>
-    <p><code>ProjectCard</code> was two separate things until this pass: a <code>.project-tile</code>
-      markup+CSS block pasted identically into <code>index.astro</code> and <code>projects.astro</code>
-      (marketing variant, left), plus an unrelated, broken <code>ProjectCard.astro</code> that
-      <code>NetworkSection</code> called with the wrong props (<code>project</code>/<code>networkMeta</code>
-      instead of the <code>title</code>/<code>body</code> it actually read) — every card on the network
-      pages rendered blank. Now one component with a named <code>badges</code> slot, mapped two ways:
-      the marketing shape (<code>heading/name/excerpt</code> + <code>PillarBadge</code>) and the
-      Regenerant Catalunya cohort shape (<code>name/locality·theme/summary</code> + a status pill,
-      middle) — the first real use of the generic <code>.badge</code> pattern from the Badges page,
-      previously defined but unused anywhere. Link falls back through
-      <code>links.web → links.rc_page → links.karma</code> for the cohort variant; a project with
-      none of the three just renders without a footer link.
-      Alongside it, the smaller <code>.case-card</code> (right) — sized to its own content here rather
-      than stretched to match the taller project cards. On the real page it's paired with a
-      <code>.pillar-service</code> divider row; see <a class="link" href="/design-system/divider-lists/">Divider
-      lists</a> for that pairing.</p>
-    <p class="lab-source">Used in: index.astro (#projects), projects.astro (full grid), NetworkSection.astro
-      → projects/regenerant-catalunya (index + article, both networks), what-we-do.astro (case-card)</p>
-    <div class="lab-grid">
-      <ProjectCard image="/images/projects/mixite.png" title="Project heading" subtitle="Theme / category"
-        body="Excerpt copy, trimmed to the first paragraph of the case-study body or a hand-curated line from landing.yaml."
-        href="#">
-        <Fragment slot="badges"><PillarBadge pillar="tissue" /></Fragment>
-      </ProjectCard>
-      <ProjectCard image={null} title="Cooperativa Exemple" subtitle="Sant Cugat · agroecology"
-        body="One- or two-sentence project summary from the cohort data." href="#"
-        external linkLabel="Visit site ↗" mediaPillar="flow">
-        <span slot="badges" class="badge badge--success">Confirmed</span>
-      </ProjectCard>
-      <a class="case-card" href="#">
-        <div class="case-card__media">
-          <Aurora pillar="tissue" opacity={0.7} />
-        </div>
-        <div class="case-card__body">
-          <div class="case-card__head">
-            <span class="case-card__label">Case study</span>
-            <span class="case-card__arrow" aria-hidden="true">↗</span>
-          </div>
-          <span class="case-card__title">Case title</span>
-          <p class="case-card__excerpt">Short excerpt of the linked case study.</p>
-        </div>
-      </a>
-    </div>
-    <p class="lab-source" style="margin-top: var(--space-6);"><code>featured</code> variant — image
-      left, content right, larger heading. Replaces the deleted <code>FeatureGrid</code>'s
-      <code>.feat--lg</code> layout; used for the first card in <code>NetworkSection</code>'s grid (see
-      Content sections). Same card, same visual language (paper/radius/shadow) — only the layout and
-      heading size change. No <code>.display</code>/Averia here: that face is reserved for hero and
-      page-opening moments, not card titles, however large — see Typography.</p>
-    <ProjectCard featured image="/images/projects/laurel-31.png" title="Featured project heading" subtitle="Theme / category"
-      body="Excerpt copy for the featured slot — same fields as the grid variant, just laid out wider with a bigger heading."
-      href="#">
-      <Fragment slot="badges"><PillarBadge pillar="flow" /></Fragment>
-    </ProjectCard>
-  </div>
-
-  <div class="lab-section">
-    <span class="lab-status lab-status--live">live — fixed</span>
-    <h2>TeamCard</h2>
-    <p>Redesigned 2026-08-12: was a 21/9 cinematic-banner crop — built for the abstract Aurora
-      placeholder, before real portraits existed — in a flat-bordered, square-cornered shell that
-      predated <code>ProjectCard</code>/<code>.case-card</code>'s rounded, shadowed card language. Both
-      real portraits on file (Giulio, Luiz) are square source images, so the visual is now
-      <code>1/1</code> — the shape that actually fits what this card holds, not just a stylistic pick —
-      and the shell matches <code>ProjectCard</code>'s radius, shadow, and hover lift. The two examples
-      below have no photo, so they still show the Averia-monogram-over-Aurora fallback at the new
-      square ratio.</p>
-    <p class="lab-source">Used in: about.astro and index.astro (team roster)</p>
-    <div class="lab-grid">
-      <TeamCard name="Jane Doe" role="Coordination" pillar="tissue" bio="Short bio line, one or two sentences." />
-      <TeamCard name="Alex Roig" role="Finance" pillar="flow" />
-    </div>
-  </div>
-
-  <div class="lab-note">
-    <strong>Done this pass:</strong> <code>ProjectCard</code> now <em>is</em> the real <code>.project-tile</code>
-    pattern (index.astro and projects.astro both use it), and its second real caller, <code>NetworkSection</code>,
-    was fixed to pass matching props instead of silently rendering blank cards — and restyled featured-first
-    (see Content sections), using a new <code>featured</code> variant on this same component rather than
-    reviving <code>FeatureGrid</code>'s separate card family. <code>ServiceCard</code> and
-    <code>FeatureGrid</code> — both dead code, zero real callers — have been deleted. Divider-row patterns
-    (<code>.pillar-service</code>, <code>.audiences</code>, <code>.theory</code>, <code>ProcessStrip</code>)
-    moved to their own <a class="link" href="/design-system/divider-lists/">Divider lists</a> page — they aren't
-    cards, and were crowding this one. <code>Tile</code> moved to <a class="link" href="/design-system/sections/">Content
-    sections</a> — closer in kind to the other organisms there than to these card molecules.
-    <code>TeamCard</code> was reshot from a 21/9 flat-bordered banner to a 1/1 rounded, shadowed tile
-    matching <code>ProjectCard</code>'s card language — the aspect ratio now fits the square portraits
-    actually on file instead of a crop chosen for the abstract placeholder.
-  </div>
+  intro="Cards are composed, not picked: Card is the surface, and media, badges, title, text, facts, footer and link are separate parts you arrange inside it. ProjectCard and TeamCard further down are specific cards assembled from the same parts.">
 
   <div class="lab-section">
     <span class="lab-status lab-status--live">live</span>
@@ -125,6 +30,17 @@ import Badge from "../../components/Badge.astro";
       of card is a new arrangement, not a new component. Data attributes and classes pass straight through to the
       surface, so a page's filter script can read them. Tags are <code>Badge shape="square"</code>; status
       pills are <code>Badge</code> with a status tone.</p>
+
+    <pre class="lab-code"><code>{`<Card>
+  <CardMedia src="…" />
+  <CardBody>
+    <CardBadges>…</CardBadges>
+    <CardTitle>…</CardTitle>
+    <CardEyebrow>…</CardEyebrow>
+    <CardText>…</CardText>
+    <CardFooter><CardLink href="…">…</CardLink></CardFooter>
+  </CardBody>
+</Card>`}</code></pre>
 
     <div class="lab-grid">
       <Card>
@@ -182,9 +98,97 @@ import Badge from "../../components/Badge.astro";
       </CardBody>
     </Card>
   </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Example: ProjectCard</h2>
+    <p>A project summary: <code>CardMedia</code> (image, or an <code>Aurora</code> when there is none), then
+      <code>CardBody</code> with <code>CardBadges</code>, <code>CardTitle</code>, <code>CardEyebrow</code>,
+      <code>CardText</code> and a <code>CardFooter</code> holding a <code>CardLink</code>. The link falls back
+      through <code>links.web → links.rc_page → links.karma</code> for the cohort variant, and a project with none
+      of them simply renders without a footer. <code>featured</code> switches to the row layout — image left,
+      content right, larger title — which is just <code>Card layout="row"</code> and
+      <code>CardTitle size="lg"</code>. The smaller <code>.case-card</code> next to it is a different pattern
+      (see <a class="link" href="/design-system/divider-lists/">Divider lists</a>).</p>
+    <p class="lab-source">Used in: index.astro (#projects), projects.astro (full grid), NetworkSection.astro
+      → projects/regenerant-catalunya (index + article, both networks), what-we-do.astro (case-card)</p>
+    <div class="lab-grid">
+      <ProjectCard image="/images/projects/mixite.png" title="Project heading" subtitle="Theme / category"
+        body="Excerpt copy, trimmed to the first paragraph of the case-study body or a hand-curated line from landing.yaml."
+        href="#">
+        <Fragment slot="badges"><PillarBadge pillar="tissue" /></Fragment>
+      </ProjectCard>
+      <ProjectCard image={null} title="Cooperativa Exemple" subtitle="Sant Cugat · agroecology"
+        body="One- or two-sentence project summary from the cohort data." href="#"
+        external linkLabel="Visit site ↗" mediaPillar="flow">
+        <span slot="badges" class="badge badge--success">Confirmed</span>
+      </ProjectCard>
+      <a class="case-card" href="#">
+        <div class="case-card__media">
+          <Aurora pillar="tissue" opacity={0.7} />
+        </div>
+        <div class="case-card__body">
+          <div class="case-card__head">
+            <span class="case-card__label">Case study</span>
+            <span class="case-card__arrow" aria-hidden="true">↗</span>
+          </div>
+          <span class="case-card__title">Case title</span>
+          <p class="case-card__excerpt">Short excerpt of the linked case study.</p>
+        </div>
+      </a>
+    </div>
+    <p class="lab-source" style="margin-top: var(--space-6);"><code>featured</code> variant — image
+      left, content right, larger heading. Replaces the deleted <code>FeatureGrid</code>'s
+      <code>.feat--lg</code> layout; used for the first card in <code>NetworkSection</code>'s grid (see
+      Content sections). Same card, same visual language (paper/radius/shadow) — only the layout and
+      heading size change. No <code>.display</code>/Averia here: that face is reserved for hero and
+      page-opening moments, not card titles, however large — see Typography.</p>
+    <ProjectCard featured image="/images/projects/laurel-31.png" title="Featured project heading" subtitle="Theme / category"
+      body="Excerpt copy for the featured slot — same fields as the grid variant, just laid out wider with a bigger heading."
+      href="#">
+      <Fragment slot="badges"><PillarBadge pillar="flow" /></Fragment>
+    </ProjectCard>
+  </div>
+
+  <div class="lab-section">
+    <span class="lab-status lab-status--live">live</span>
+    <h2>Example: TeamCard</h2>
+    <p>A member tile: a square <code>CardMedia</code> (the portrait, or an Averia monogram over an
+      <code>Aurora</code> when there is none), then <code>CardBody</code> with <code>CardTitle</code>, a
+      wide-tracked <code>CardEyebrow</code> for the role and <code>CardText</code> for the bio. The two examples
+      below have no photo, so they show the monogram fallback.</p>
+    <p class="lab-source">Used in: about.astro and index.astro (team roster)</p>
+    <div class="lab-grid">
+      <TeamCard name="Jane Doe" role="Coordination" pillar="tissue" bio="Short bio line, one or two sentences." />
+      <TeamCard name="Alex Roig" role="Finance" pillar="flow" />
+    </div>
+  </div>
+
+  <div class="lab-note">
+    <strong>Done this pass:</strong> <code>ProjectCard</code> now <em>is</em> the real <code>.project-tile</code>
+    pattern (index.astro and projects.astro both use it), and its second real caller, <code>NetworkSection</code>,
+    was fixed to pass matching props instead of silently rendering blank cards — and restyled featured-first
+    (see Content sections), using a new <code>featured</code> variant on this same component rather than
+    reviving <code>FeatureGrid</code>'s separate card family. <code>ServiceCard</code> and
+    <code>FeatureGrid</code> — both dead code, zero real callers — have been deleted. Divider-row patterns
+    (<code>.pillar-service</code>, <code>.audiences</code>, <code>.theory</code>, <code>ProcessStrip</code>)
+    moved to their own <a class="link" href="/design-system/divider-lists/">Divider lists</a> page — they aren't
+    cards, and were crowding this one. <code>Tile</code> moved to <a class="link" href="/design-system/sections/">Content
+    sections</a> — closer in kind to the other organisms there than to these card molecules.
+    <code>TeamCard</code> was reshot from a 21/9 flat-bordered banner to a 1/1 rounded, shadowed tile
+    matching <code>ProjectCard</code>'s card language — the aspect ratio now fits the square portraits
+    actually on file instead of a crop chosen for the abstract placeholder.
+  </div>
+
 </LabShell>
 
 <style>
+  .lab-code {
+    background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: 0.5rem;
+    padding: var(--space-4) var(--space-6); overflow: auto; margin: var(--space-4) 0 var(--space-6);
+    font-family: var(--mono); font-size: var(--text-sm); line-height: 1.6; color: var(--text-primary);
+  }
+  .lab-code code { font: inherit; }
   /* .case-card — from what-we-do.astro, paired there with a .pillar-service row (see Divider lists). */
   .case-card {
     display: grid;

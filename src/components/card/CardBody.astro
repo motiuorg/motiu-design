@@ -1,13 +1,14 @@
 ---
 // CardBody — padded, vertically stacked content area. Everything but media goes inside it.
 // The footer is pushed to the bottom, so cards in a grid line up.
-interface Props { padding?: "md" | "lg" }
-const { padding = "md" } = Astro.props;
+interface Props { padding?: "md" | "lg"; gap?: "sm" | "md"; class?: string; [attr: string]: unknown }
+const { padding = "md", gap = "md", class: className, ...rest } = Astro.props;
 ---
-<div class:list={["card-body", `card-body--${padding}`]}><slot /></div>
+<div class:list={["card-body", `card-body--${padding}`, `card-body--gap-${gap}`, className]} {...rest}><slot /></div>
 
 <style>
   .card-body { display: flex; flex-direction: column; gap: var(--space-2); flex: 1; min-width: 0; }
+  .card-body--gap-sm { gap: var(--space-1); }
   .card-body--md { padding: var(--space-6); }
   .card-body--lg { padding: var(--space-8); justify-content: center; }
 </style>

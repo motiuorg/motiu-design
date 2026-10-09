@@ -1,10 +1,11 @@
 ---
-// CardMedia — the picture area of a card. Pass `src`, or put anything (an <Aurora />, an
-// illustration) in the slot. In a row card it takes the left half.
-interface Props { src?: string | null; alt?: string; ratio?: string }
-const { src, alt = "", ratio = "16 / 10" } = Astro.props;
+// CardMedia — the picture area of a card. Pass `src`, or put anything (an <Aurora />, a portrait
+// with a monogram) in the slot. In a row card it takes the left half; `minHeight` sets how tall
+// it stands then.
+interface Props { src?: string | null; alt?: string; ratio?: string; minHeight?: string; class?: string; [attr: string]: unknown }
+const { src, alt = "", ratio = "16 / 10", minHeight = "16rem", class: className, ...rest } = Astro.props;
 ---
-<div class="card-media" style={`aspect-ratio: ${ratio};`}>
+<div class:list={["card-media", className]} style={`aspect-ratio: ${ratio}; --card-media-min: ${minHeight};`} {...rest}>
   {src ? <img src={src} alt={alt} loading="lazy" /> : <slot />}
 </div>
 
@@ -12,5 +13,7 @@ const { src, alt = "", ratio = "16 / 10" } = Astro.props;
   .card-media { background: var(--surface-2); min-height: 0; position: relative; flex-shrink: 0; }
   .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .card-media :global(.aurora) { position: absolute; inset: 0; }
-  :global(.card--row) > .card-media { flex: 1.1; aspect-ratio: auto !important; min-height: 16rem; }
+  @media (min-width: 821px) {
+    :global(.card--row) > .card-media { flex: 1.1; aspect-ratio: auto !important; min-height: var(--card-media-min); }
+  }
 </style>
