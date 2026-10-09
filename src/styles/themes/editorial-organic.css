@@ -61,9 +61,6 @@
   --bg: var(--paper);
   --surface-1: var(--bone);
   --surface-2: var(--ivory);
-  /* A darker, neutral paper (5% umber over paper) for table headers, group rows and wells. The bone and
-   * ivory surfaces are warm and light; this one reads as a shade of the page, not a tint. */
-  --surface-sunken: color-mix(in srgb, var(--umber) 5%, var(--paper));
   --text-primary: var(--umber);
   --text-muted: var(--rule);
   /* Outline of anything you can act on (inputs, selects, chips, secondary buttons). Kept clearly darker
@@ -151,7 +148,6 @@
   --bg: var(--umber);
   --surface-1: color-mix(in srgb, var(--umber) 85%, white 15%);
   --surface-2: color-mix(in srgb, var(--umber) 70%, white 30%);
-  --surface-sunken: color-mix(in srgb, black 20%, var(--umber));
   --text-primary: var(--paper);
   --text-muted: color-mix(in srgb, var(--paper) 65%, var(--umber) 35%);
   --border-default: color-mix(in srgb, var(--paper) 35%, transparent);

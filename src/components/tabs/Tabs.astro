@@ -10,17 +10,16 @@
 //   </Tabs>
 interface Props {
   label: string;      // accessible name of the tab list
-  // underline: page-level tabs — a line under the row, the active tab underlined on it (default).
-  // outline:   a quiet second level — small boxed tabs, only the active one gets an outline.
-  // segmented: a connected group — the active segment is filled (the same look as a chip group).
-  variant?: "underline" | "outline" | "segmented";
-  rule?: boolean;     // underline variant only: hairline under the row (default true)
+  // md: page-level tabs. sm: a second level inside a tab — the same underline tabs, one step smaller
+  // and lighter, so the two read as one family at two levels.
+  size?: "md" | "sm";
+  rule?: boolean;     // hairline under the row (default true)
   class?: string;
   [attr: string]: unknown;
 }
-const { label, variant = "underline", rule = true, class: className, ...rest } = Astro.props;
+const { label, size = "md", rule = true, class: className, ...rest } = Astro.props;
 ---
-<div class:list={["tabs", `tabs--${variant}`, { "tabs--rule": rule && variant === "underline" }, className]} role="tablist" aria-label={label} {...rest}><slot /></div>
+<div class:list={["tabs", `tabs--${size}`, { "tabs--rule": rule }, className]} role="tablist" aria-label={label} {...rest}><slot /></div>
 
 <style>
   .tabs { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-2); min-width: 0; }

@@ -22,25 +22,20 @@ import Tab from "../../components/tabs/Tab.astro";
     </Tabs>
 
     <h3 style="margin-top: var(--space-8);">Second level</h3>
-    <p>When a tab holds its own set of views, the second level has to look like a different thing, not the same
-      component twice. Three options, all <code>variant</code> on <code>Tabs</code>:</p>
-    <p class="lab-source"><strong>outline</strong> — small tabs, boxed only when active. Quiet, so it reads as
-      "inside" the page tab above it. This is what the simulator's Supuestos tab uses.</p>
-    <Tabs label="Example second-level tabs, outline" variant="outline">
+    <p>A tab that holds its own views gets a second row of the <em>same</em> tabs, one step smaller
+      (<code>size="sm"</code>): the same mono caps and the same underline, a smaller type size and a finer line, no
+      hairline of its own. The parent's line and the child's underline are the same language, so it reads as a
+      level inside the tab above, not a different control. Used for the simulator's Supuestos tab.</p>
+    <Tabs label="Example page tabs">
+      <Tab>Fincas</Tab>
+      <Tab>Crédito</Tab>
+      <Tab selected>Supuestos</Tab>
+    </Tabs>
+    <Tabs label="Example second-level tabs" size="sm" rule={false} style="margin-top: var(--space-4);">
       <Tab selected>What matters most</Tab>
       <Tab>All assumptions</Tab>
       <Tab>Reference data</Tab>
     </Tabs>
-    <p class="lab-source" style="margin-top: var(--space-6);"><strong>segmented</strong> — a connected group with the
-      active segment filled, the same look as the chip groups. Heavier; better for a choice of <em>view</em>
-      than for navigation.</p>
-    <Tabs label="Example second-level tabs, segmented" variant="segmented">
-      <Tab selected>What matters most</Tab>
-      <Tab>All assumptions</Tab>
-      <Tab>Reference data</Tab>
-    </Tabs>
-    <p class="lab-source" style="margin-top: var(--space-6);"><strong>underline</strong> (the default, used above)
-      stays for the top level only.</p>
   </div>
 
   <div class="lab-section">

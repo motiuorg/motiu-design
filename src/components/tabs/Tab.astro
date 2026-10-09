@@ -33,25 +33,9 @@ const { value, selected = false, disabled = false, class: className, ...rest } =
   .tab:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
   .tab:disabled { opacity: 0.4; cursor: default; }
 
-  /* outline — a quiet second level: small tabs, boxed only when active (or hovered). */
-  :global(.tabs--outline) .tab {
-    min-height: 2rem; padding: 0 var(--space-3); margin-bottom: 0;
-    border: 1px solid transparent;
+  /* sm — the second level: the same tab, one step smaller, with a finer underline. */
+  :global(.tabs--sm) .tab {
+    font-size: var(--text-2xs); padding: var(--space-2) var(--space-3);
+    border-bottom-width: 1px;
   }
-  :global(.tabs--outline) .tab:hover:not(:disabled) { border-color: var(--border-default); }
-  :global(.tabs--outline) .tab[aria-selected="true"] { border-color: var(--text-primary); }
-  :global(.tabs--outline) .tab:focus-visible { outline-offset: 2px; }
-
-  /* segmented — connected boxes; the active one is filled, like a chip group. */
-  :global(.tabs--segmented) { gap: 0; }
-  :global(.tabs--segmented) .tab {
-    min-height: var(--control-h); padding: 0 var(--space-3); margin-bottom: 0; margin-left: -1px;
-    border: 1px solid var(--border-default);
-  }
-  :global(.tabs--segmented) .tab:first-child { margin-left: 0; }
-  :global(.tabs--segmented) .tab[aria-selected="true"] {
-    background: var(--text-primary); border-color: var(--text-primary); color: var(--bg);
-    position: relative;
-  }
-  :global(.tabs--segmented) .tab:focus-visible { outline-offset: 2px; }
 </style>
